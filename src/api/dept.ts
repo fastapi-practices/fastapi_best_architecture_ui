@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'query-string';
 
-export interface SysDeptTreeRes {
+export interface SysDeptRes {
   id: number;
   name: string;
   sort: number;
@@ -10,6 +10,9 @@ export interface SysDeptTreeRes {
   email?: string;
   status: 0 | 1;
   created_time: string;
+}
+
+export interface SysDeptTreeRes extends SysDeptRes {
   children?: SysDeptTreeRes[];
 }
 

@@ -13,6 +13,16 @@ const SYSTEM: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'sys-user',
+      name: 'SysUser',
+      component: () => import('@/views/admin/user/index.vue'),
+      meta: {
+        locale: 'menu.system.sysUser',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+    {
       path: 'sys-dept',
       name: 'SysDept',
       component: () => import('@/views/admin/dept/index.vue'),

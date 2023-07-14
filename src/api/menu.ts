@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'query-string';
 
-export interface SysMenuTreeRes {
+export interface SysMenuRes {
   id: number;
   title: string;
   name: string;
@@ -17,6 +17,9 @@ export interface SysMenuTreeRes {
   cache: 0 | 1;
   remark?: string;
   created_time: string;
+}
+
+export interface SysMenuTreeRes extends SysMenuRes {
   children?: SysMenuTreeRes[];
 }
 
@@ -38,7 +41,7 @@ export interface SysMenuReq {
 
 export interface SysMenuTreeParams {
   title?: string;
-  status?: boolean;
+  status?: number;
 }
 
 export function querySysMenuTree(

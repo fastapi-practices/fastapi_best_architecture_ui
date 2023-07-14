@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
-import {
-  CaptchaRes,
-  getCaptcha,
-  getUserInfo,
-  login as userLogin,
-  LoginData,
-  logout as userLogout,
-} from '@/api/user';
+import { getUserInfo } from '@/api/user';
 import { clearToken, setToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from '@/store/modules/user/types';
+import {
+  CaptchaRes,
+  getCaptcha,
+  login as userLogin,
+  LoginData,
+  logout as userLogout,
+} from '@/api/auth';
 import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
@@ -17,6 +17,7 @@ const useUserStore = defineStore('user', {
     username: undefined,
     nickname: undefined,
     avatar: undefined,
+    is_superuser: false,
     roles: '',
   }),
 

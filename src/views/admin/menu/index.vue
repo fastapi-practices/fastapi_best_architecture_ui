@@ -167,6 +167,7 @@
             :allow-search="true"
             :data="treeSelectData"
             :field-names="selectTreeFieldNames"
+            :loading="loading"
             :placeholder="$t('admin.menu.form.parent_id.placeholder')"
           ></a-tree-select>
         </a-form-item>
@@ -517,7 +518,6 @@
   const beforeSubmit = async (done: any) => {
     const res = await formRef.value?.validate();
     if (!res) {
-      // 关闭对话框
       done(true);
     }
     done(false);

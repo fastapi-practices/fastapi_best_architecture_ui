@@ -89,7 +89,7 @@
   import { useStorage } from '@vueuse/core';
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
-  import type { LoginData } from '@/api/user';
+  import type { LoginData } from '@/api/auth';
   import type { HttpError } from '@/api/interceptor';
 
   const router = useRouter();
