@@ -1,5 +1,5 @@
 <template>
-  <router-view v-slot="{ Component, route }">
+  <router-view v-slot="{ Component, route }" :key="key">
     <transition appear mode="out-in" name="fade">
       <component
         :is="Component"
@@ -16,8 +16,13 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
   import { useTabBarStore } from '@/store';
+  import { useRoute } from 'vue-router';
 
   const tabBarStore = useTabBarStore();
+  const useRoure = useRoute();
+  const key = computed(() => {
+    return useRoure.path + Math.random();
+  });
 
   const cacheList = computed(() => tabBarStore.getCacheList);
 </script>

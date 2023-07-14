@@ -3,30 +3,38 @@ import { Notification } from '@arco-design/web-vue';
 import type { NotificationReturn } from '@arco-design/web-vue/es/notification/interface';
 import defaultSettings from '@/config/settings.json';
 import { getUserMenuList } from '@/api/user';
-import convertToCamelCase from '@/utils/string';
-import { AppState, MenuItem, MenuState } from './types';
+import convertToCamelCase, { convertToKebabCase } from '@/utils/string';
+import { WHITE_LIST } from '@/router/constants';
+import { AppRouteRecordRaw } from '@/router/routes/types';
+import { RouteRecordNormalized } from 'vue-router';
+import { AppState, MenuItem } from './types';
 
-export function generateMenu(data: MenuItem[], parentName?: string) {
-  const menuData: MenuState[] = [];
+function generateMenu(
+  data: MenuItem[],
+  parentName?: string
+): AppRouteRecordRaw[] {
+  const menuData: AppRouteRecordRaw[] = [];
   const views = import.meta.glob('@/views/**/*.vue');
 
   data.forEach((menu) => {
     const localeName = convertToCamelCase(menu.name);
-    const menuItem: MenuState = {
-      title: menu.title,
+    const menuItem: AppRouteRecordRaw = {
+      path: !menu.path ? `/${convertToKebabCase(menu.name)}` : menu.path,
       name: menu.name,
-      path: !menu.path ? `/${localeName}` : menu.path,
       component: !menu.component
         ? () => import('@/views/not-found/index.vue')
         : views[`/src/views${menu.component}`],
       children: [],
+      fullPath: menu.path,
       meta: {
+        title: menu.title,
+        // roles: menu.perms ? menu.perms.split(',') : [],
+        roles: ['*'],
+        requiresAuth: WHITE_LIST.some((item) => item.name === menu.name),
         icon: menu.icon,
         hideInMenu: menu.show === 0,
         ignoreCache: menu.cache === 0,
         order: menu.sort,
-        // roles: menu.perms ? menu.perms.split(',') : [],
-        roles: ['*'],
         locale: parentName
           ? `menu.${parentName}.${localeName}`
           : `menu.${localeName}`,
@@ -53,8 +61,8 @@ const useAppStore = defineStore('app', {
     appDevice(state: AppState) {
       return state.device;
     },
-    appAsyncMenus(state: AppState): MenuState[] {
-      return state.serverMenu as unknown as MenuState[];
+    appAsyncMenus(state: AppState): RouteRecordNormalized[] {
+      return state.serverMenu as unknown as RouteRecordNormalized[];
     },
   },
 
@@ -90,7 +98,9 @@ const useAppStore = defineStore('app', {
           closable: true,
         });
         const data = await getUserMenuList();
-        this.serverMenu = generateMenu(data);
+        this.serverMenu = generateMenu(
+          data
+        ) as unknown as RouteRecordNormalized[];
         notifyInstance = Notification.success({
           id: 'menuNotice',
           content: 'success',

@@ -1,13 +1,12 @@
 import { useUserStore } from '@/store';
 import { RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
-import { MenuState } from '@/store/modules/app/types';
 
 export default function usePermission() {
   const userStore = useUserStore();
   return {
-    accessRouter(route: RouteLocationNormalized | RouteRecordRaw | MenuState) {
+    accessRouter(route: RouteLocationNormalized | RouteRecordRaw) {
       return (
-        // !route.meta?.requiresAuth ||
+        !route.meta?.requiresAuth ||
         !route.meta?.roles ||
         route.meta?.roles?.includes('*') ||
         route.meta?.roles?.includes(userStore.roles)
