@@ -30,10 +30,9 @@ export default function useMenuTree() {
         }
 
         // leaf node
-        // if (element.meta?.hideChildrenInMenu || !element.children) {
-        if (!element.children) {
+        if (element.meta?.hideInMenu || !element.children) {
           element.children = [];
-          return element;
+          return null;
         }
 
         // route filter hideInMenu true
