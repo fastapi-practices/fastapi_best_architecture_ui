@@ -1,0 +1,15 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "codeLogin": "Code Login",
+    "qrcodeLogin": "Qr Code Login",
+    "forgetPassword": "Forget Password",
+    "captchaPlaceholder": "Please input captcha",
+    "captchaRequired": "Captcha is required"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "workspace": "Workspace"
+  }
+}
