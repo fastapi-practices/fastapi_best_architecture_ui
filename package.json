@@ -1,0 +1,85 @@
+{
+  "name": "fba_ui",
+  "version": "0.0.1",
+  "description": "FastAPI Best Architecture UI",
+  "private": false,
+  "license": "MIT",
+  "author": "FastAPI Practices",
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
+    "build:analyze": "turbo build:analyze",
+    "build:antd": "pnpm run build --filter=@vben/web-antd",
+    "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type",
+    "check:circular": "vsh check-circular",
+    "check:dep": "vsh check-dep",
+    "check:type": "turbo run typecheck",
+    "clean": "node ./scripts/clean.mjs",
+    "commit": "czg",
+    "dev": "turbo-run dev",
+    "dev:antd": "pnpm -F @vben/web-antd run dev",
+    "format": "vsh lint --format",
+    "lint": "vsh lint",
+    "postinstall": "pnpm -r run stub --if-present",
+    "preinstall": "npx only-allow pnpm",
+    "preview": "turbo-run preview",
+    "publint": "vsh publint",
+    "reinstall": "pnpm clean --del-lock && pnpm install",
+    "test:unit": "vitest run --dom",
+    "test:e2e": "turbo run test:e2e",
+    "update:deps": "npx taze -r -w"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vben/commitlint-config": "workspace:*",
+    "@vben/eslint-config": "workspace:*",
+    "@vben/prettier-config": "workspace:*",
+    "@vben/stylelint-config": "workspace:*",
+    "@vben/tailwind-config": "workspace:*",
+    "@vben/tsconfig": "workspace:*",
+    "@vben/turbo-run": "workspace:*",
+    "@vben/vite-config": "workspace:*",
+    "@vben/vsh": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "autoprefixer": "catalog:",
+    "cross-env": "catalog:",
+    "happy-dom": "catalog:",
+    "is-ci": "catalog:",
+    "lint-staged": "catalog:",
+    "playwright": "catalog:",
+    "rimraf": "catalog:",
+    "tailwindcss": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "unbuild": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=9.12.0"
+  },
+  "packageManager": "pnpm@9.15.1",
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint": "*"
+      }
+    },
+    "overrides": {
+      "@ast-grep/napi": "catalog:",
+      "@ctrl/tinycolor": "catalog:",
+      "clsx": "catalog:",
+      "esbuild": "0.24.0",
+      "pinia": "catalog:",
+      "vue": "catalog:"
+    },
+    "neverBuiltDependencies": [
+      "canvas",
+      "node-gyp"
+    ]
+  }
+}

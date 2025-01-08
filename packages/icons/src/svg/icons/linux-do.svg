@@ -1,0 +1,35 @@
+<svg width="120" height="120" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- 定义一个遮罩(842x822) -->
+        <mask id="mask" x="0" y="0" width="100%" height="100%">
+            <!-- 遮盖: 方形 -->
+            <rect x="0" y="0" width="100%" height="100%" fill="black"/>
+            <!-- 透过: 圆形 -->
+            <circle cx="421" cy="411" r="411" fill="white"/>
+        </mask>
+
+        <!-- 定义滤镜，添加阴影效果 -->
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="black" flood-opacity="0.25"/>
+        </filter>
+    </defs>
+
+    <!-- 背景圆角矩形 -->
+    <rect x="0" y="0" width="1024" height="1024" rx="229" fill="none"/>
+    <!-- 添加阴影 -->
+    <g filter="url(#shadow)">
+        <!-- 将内侧所有图形放在一个组中(842x822)，移动至中心并应用遮罩 -->
+        <g transform="translate(91, 101)" mask="url(#mask)">
+            <!-- 上部黑色部分 -->
+            <rect x="0" y="0" width="842" height="411" fill="#1C1C1E"/>
+            <!-- 下部橙色部分 -->
+            <rect x="0" y="411" width="842" height="411" fill="#FFB003"/>
+            <!-- 中间白色部分 -->
+            <rect x="0" y="233" width="842" height="376" fill="#F0F0F0"/>
+        </g>
+        <!-- 外侧白色圆环 -->
+        <circle cx="512" cy="512" r="428" stroke="#F0F0F0" stroke-width="38" fill="transparent"/>
+        <!-- 外侧黑色描边 -->
+        <circle cx="512" cy="512" r="447" stroke="#1C1C1E" stroke-width="2" fill="transparent"/>
+    </g>
+</svg>
