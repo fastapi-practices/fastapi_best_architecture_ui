@@ -38,10 +38,12 @@ const BUILT_IN_THEME_PRESETS: BuiltinThemePreset[] = [
     primaryColor: 'hsl(240 5.9% 10%)',
     type: 'zinc',
   },
+
   {
     color: 'hsl(181 84% 32%)',
     type: 'deep-green',
   },
+
   {
     color: 'hsl(211 91% 39%)',
     type: 'deep-blue',
@@ -54,6 +56,7 @@ const BUILT_IN_THEME_PRESETS: BuiltinThemePreset[] = [
     color: 'hsl(0 75% 42%)',
     type: 'rose',
   },
+
   {
     color: 'hsl(0 0% 25%)',
     darkPrimaryColor: 'hsl(0 0% 98%)',

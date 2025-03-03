@@ -9,7 +9,7 @@ describe('requestClient', () => {
   let requestClient: RequestClient;
 
   beforeEach(() => {
-    mock = new MockAdapter(axios as any);
+    mock = new MockAdapter(axios);
     requestClient = new RequestClient();
   });
 

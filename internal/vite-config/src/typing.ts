@@ -16,6 +16,23 @@ interface PrintPluginOptions {
   infoMap?: Record<string, string | undefined>;
 }
 
+interface NitroMockPluginOptions {
+  /**
+   * mock server 包名
+   */
+  mockServerPackage?: string;
+
+  /**
+   * mock 服务端口
+   */
+  port?: number;
+
+  /**
+   * mock 日志是否打印
+   */
+  verbose?: boolean;
+}
+
 interface ArchiverPluginOptions {
   /**
    * 输出文件名
@@ -94,6 +111,10 @@ interface ApplicationPluginOptions extends CommonPluginOptions {
   injectGlobalScss?: boolean;
   /** 是否注入版权信息 */
   license?: boolean;
+  /** 是否开启nitro mock */
+  nitroMock?: boolean;
+  /** nitro mock 插件配置 */
+  nitroMockOptions?: NitroMockPluginOptions;
   /** 开启控制台自定义打印 */
   print?: boolean;
   /** 打印插件配置 */
@@ -138,5 +159,6 @@ export type {
   IImportMap,
   ImportmapPluginOptions,
   LibraryPluginOptions,
+  NitroMockPluginOptions,
   PrintPluginOptions,
 };

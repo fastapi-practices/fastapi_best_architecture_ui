@@ -5,12 +5,14 @@
   "private": false,
   "license": "MIT",
   "author": "FastAPI Practices",
+  "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
     "build:analyze": "turbo build:analyze",
     "build:antd": "pnpm run build --filter=@vben/web-antd",
-    "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type",
+    "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type && pnpm check:cspell",
     "check:circular": "vsh check-circular",
+    "check:cspell": "cspell lint **/*.ts **/README.md .changeset/*.md --no-progress",
     "check:dep": "vsh check-dep",
     "check:type": "turbo run typecheck",
     "clean": "node ./scripts/clean.mjs",
@@ -21,12 +23,14 @@
     "lint": "vsh lint",
     "postinstall": "pnpm -r run stub --if-present",
     "preinstall": "npx only-allow pnpm",
+    "prepare": "is-ci || husky",
     "preview": "turbo-run preview",
     "publint": "vsh publint",
     "reinstall": "pnpm clean --del-lock && pnpm install",
     "test:unit": "vitest run --dom",
     "test:e2e": "turbo run test:e2e",
-    "update:deps": "npx taze -r -w"
+    "update:deps": "npx taze -r -w",
+    "version": "pnpm exec changeset version && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
     "@types/node": "catalog:",
@@ -44,7 +48,9 @@
     "@vue/test-utils": "catalog:",
     "autoprefixer": "catalog:",
     "cross-env": "catalog:",
+    "cspell": "catalog:",
     "happy-dom": "catalog:",
+    "husky": "catalog:",
     "is-ci": "catalog:",
     "lint-staged": "catalog:",
     "playwright": "catalog:",
@@ -62,7 +68,7 @@
     "node": ">=20.10.0",
     "pnpm": ">=9.12.0"
   },
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@9.15.6",
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {

@@ -71,7 +71,7 @@ const getFactorRef = computed(() => {
   }
 
   if (minDegree === maxDegree) {
-    return Math.floor(1 + Math.random()) / 10 + 1;
+    return Math.floor(1 + Math.random() * 1) / 10 + 1;
   }
   return 1;
 });
