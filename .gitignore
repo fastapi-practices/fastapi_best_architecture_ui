@@ -42,10 +42,24 @@ vite.config.ts.*
 
 # Editor directories and files
 .idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 .history
+
+# 升级vben时需要删除的文件
+.vscode
+.changeset
+.github
+backend-mock
+web-ele
+web-naive
+docs
+playground
+.gitpod.yml
+README.*.md
+tea.yaml
+vben-admin.code-workspace
+scripts/deploy

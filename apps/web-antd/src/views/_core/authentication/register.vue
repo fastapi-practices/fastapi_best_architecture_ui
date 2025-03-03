@@ -74,7 +74,7 @@ const formSchema = computed((): VbenFormSchema[] => {
             ),
           ]),
       }),
-      rules: z.boolean().refine((value) => value, {
+      rules: z.boolean().refine((value) => !!value, {
         message: $t('authentication.agreeTip'),
       }),
     },

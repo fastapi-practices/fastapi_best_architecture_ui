@@ -4,10 +4,11 @@ import type { AboutProps, DescriptionItem } from './about';
 import { h } from 'vue';
 
 import {
-  FBA_UI_DOC_URL,
-  FBA_UI_GITHUB_URL,
-  FBA_UI_PREVIEW_URL,
+  VBEN_DOC_URL,
+  VBEN_GITHUB_URL,
+  VBEN_PREVIEW_URL,
 } from '@vben/constants';
+
 import { VbenRenderContent } from '@vben-core/shadcn-ui';
 
 import { Page } from '../../components';
@@ -79,15 +80,15 @@ const vbenDescriptionItems: DescriptionItem[] = [
     title: '主页',
   },
   {
-    content: renderLink(FBA_UI_DOC_URL, '点击查看'),
+    content: renderLink(VBEN_DOC_URL, '点击查看'),
     title: '文档地址',
   },
   {
-    content: renderLink(FBA_UI_PREVIEW_URL, '点击查看'),
+    content: renderLink(VBEN_PREVIEW_URL, '点击查看'),
     title: '预览地址',
   },
   {
-    content: renderLink(FBA_UI_GITHUB_URL, '点击查看'),
+    content: renderLink(VBEN_GITHUB_URL, '点击查看'),
     title: 'Github',
   },
   {
@@ -114,7 +115,7 @@ const devDependenciesItems = Object.keys(devDependencies).map((key) => ({
   <Page :title="title">
     <template #description>
       <p class="text-foreground mt-3 text-sm leading-6">
-        <a :href="FBA_UI_GITHUB_URL" class="vben-link" target="_blank">
+        <a :href="VBEN_GITHUB_URL" class="vben-link" target="_blank">
           {{ name }}
         </a>
         {{ description }}

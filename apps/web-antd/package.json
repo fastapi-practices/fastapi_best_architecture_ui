@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
+  "type": "module",
   "imports": {
     "#/*": "./src/*"
   },

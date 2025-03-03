@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-  MdiGithub,
-  MdiGoogle,
-  MdiQqchat,
-  MdiWechat,
-  SvgLinuxDoIcon,
-} from '@vben/icons';
+import { MdiGithub, MdiGoogle, MdiQqchat, MdiWechat } from '@vben/icons';
 import { $t } from '@vben/locales';
+
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
 defineOptions({
@@ -24,10 +19,7 @@ defineOptions({
       <span class="border-input w-[35%] border-b dark:border-gray-600"></span>
     </div>
 
-    <div class="mt-5 flex flex-wrap justify-center">
-      <VbenIconButton class="mb-3">
-        <SvgLinuxDoIcon />
-      </VbenIconButton>
+    <div class="mt-4 flex flex-wrap justify-center">
       <VbenIconButton class="mb-3">
         <MdiWechat />
       </VbenIconButton>
