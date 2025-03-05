@@ -1,5 +1,7 @@
 import type { UserInfo } from '@vben/types';
 
+import type { AuthApi } from '#/api';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -9,7 +11,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { getCaptchaApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -20,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
   const loginLoading = ref(false);
 
   async function captcha() {
-    const res: CaptchaResult = await getCaptchaApi();
+    const res: AuthApi.CaptchaResult = await getCaptchaApi();
     return res.image;
   }
 
@@ -45,22 +47,16 @@ export const useAuthStore = defineStore('auth', () => {
         accessStore.setAccessToken(access_token);
 
         // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
-
-        userInfo = fetchUserInfoResult;
+        userInfo = await Promise.resolve(fetchUserInfo());
 
         userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
         } else {
           onSuccess
             ? await onSuccess?.()
-            : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+            : await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
         }
 
         if (userInfo?.nickname) {

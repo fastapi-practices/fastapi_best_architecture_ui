@@ -1,15 +1,19 @@
 import { baseRequestClient, requestClient } from '#/api/request';
 
 export namespace AuthApi {
-  /** 登录接口参数 */
-  export interface LoginParams {
-    password?: string;
-    username?: string;
+  export interface CaptchaResult {
+    image: string;
+    image_type: string;
   }
 
-  /** 登录接口返回值 */
+  export interface LoginParams {
+    username: string;
+    password: string;
+    captcha: string;
+  }
+
   export interface LoginResult {
-    accessToken: string;
+    access_token: string;
   }
 
   export interface RefreshTokenResult {
@@ -19,28 +23,31 @@ export namespace AuthApi {
 }
 
 /**
+ * 登录验证码
+ */
+export function getCaptchaApi() {
+  return requestClient.get<AuthApi.CaptchaResult>('/v1/auth/captcha');
+}
+
+/**
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data);
+  return requestClient.post<AuthApi.LoginResult>('/v1/auth/login', data);
 }
 
 /**
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh', {
-    withCredentials: true,
-  });
+  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh');
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/auth/logout', {
-    withCredentials: true,
-  });
+  return requestClient.post('/v1/auth/logout');
 }
 
 /**

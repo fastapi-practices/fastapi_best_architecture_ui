@@ -4,7 +4,6 @@ import type { NotificationItem } from '@vben/layouts';
 import { computed, ref, watch } from 'vue';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
-import { FBA_UI_DOC_URL, FBA_UI_GITHUB_URL } from '@vben/constants';
 import { useWatermark } from '@vben/hooks';
 import { BookOpenText, CircleHelp, MdiGithub } from '@vben/icons';
 import {
@@ -63,27 +62,36 @@ const showDot = computed(() =>
 const menus = computed(() => [
   {
     handler: () => {
-      openWindow(FBA_UI_DOC_URL, {
-        target: '_blank',
-      });
+      openWindow(
+        'https://fastapi-practices.github.io/fastapi_best_architecture_docs/',
+        {
+          target: '_blank',
+        },
+      );
     },
     icon: BookOpenText,
     text: $t('ui.widgets.document'),
   },
   {
     handler: () => {
-      openWindow(FBA_UI_GITHUB_URL, {
-        target: '_blank',
-      });
+      openWindow(
+        'https://github.com/fastapi-practices/fastapi_best_architecture',
+        {
+          target: '_blank',
+        },
+      );
     },
     icon: MdiGithub,
     text: 'GitHub',
   },
   {
     handler: () => {
-      openWindow(`${FBA_UI_GITHUB_URL}/issues`, {
-        target: '_blank',
-      });
+      openWindow(
+        `https://github.com/fastapi-practices/fastapi_best_architecture/issues`,
+        {
+          target: '_blank',
+        },
+      );
     },
     icon: CircleHelp,
     text: $t('ui.widgets.qa'),
