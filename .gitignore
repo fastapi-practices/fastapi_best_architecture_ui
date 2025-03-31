@@ -49,3 +49,17 @@ vite.config.ts.*
 *.sln
 *.sw?
 .history
+
+# 升级 vben 时需要删除的文件
+.changeset
+.github
+backend-mock
+web-ele
+web-naive
+docs
+playground
+scripts/deploy
+.gitpod.yml
+README.*.md
+tea.yaml
+vben-admin.code-workspace
