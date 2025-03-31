@@ -1,4 +1,6 @@
-import type { Recordable, UserInfo } from '@vben/types';
+import type { UserInfo } from '@vben/types';
+
+import type { CaptchaResult } from '#/api';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -9,7 +11,13 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getCaptchaApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+} from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -19,24 +27,30 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loginLoading = ref(false);
 
+  /** 登陆验证码 */
+  async function captcha() {
+    const res: CaptchaResult = await getCaptchaApi();
+    return res.image;
+  }
+
   /**
    * 异步处理登录操作
    * Asynchronously handle the login process
    * @param params 登录表单数据
    */
   async function authLogin(
-    params: Recordable<any>,
+    params: any,
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { access_token } = await loginApi(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
+      if (access_token) {
+        accessStore.setAccessToken(access_token);
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
@@ -57,9 +71,9 @@ export const useAuthStore = defineStore('auth', () => {
             : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
         }
 
-        if (userInfo?.realName) {
+        if (userInfo?.nickname) {
           notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.nickname}`,
             duration: 3,
             message: $t('authentication.loginSuccess'),
           });
@@ -107,6 +121,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     $reset,
+    captcha,
     authLogin,
     fetchUserInfo,
     loginLoading,
