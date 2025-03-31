@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "captchaPlaceholder": "Please enter the captcha",
+    "captchaRequired": "The captcha is required",
+    "codeLogin": "Code Login",
+    "forgetPassword": "Forget Password",
+    "login": "Login",
+    "qrcodeLogin": "Qr Code Login",
+    "register": "Register"
+  },
+  "dashboard": {
+    "analytics": "Analytics",
+    "title": "Dashboard",
+    "workspace": "Workspace"
+  }
+}
