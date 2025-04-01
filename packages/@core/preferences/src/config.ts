@@ -2,7 +2,7 @@ import type { Preferences } from './types';
 
 const defaultPreferences: Preferences = {
   app: {
-    accessMode: 'frontend',
+    accessMode: 'backend',
     authPageLayout: 'panel-right',
     checkUpdatesInterval: 1,
     colorGrayMode: false,
@@ -19,7 +19,7 @@ const defaultPreferences: Preferences = {
     layout: 'sidebar-nav',
     locale: 'zh-CN',
     loginExpiredMode: 'page',
-    name: 'FBA UI',
+    name: 'Vben Admin',
     preferencesButtonPosition: 'auto',
     watermark: false,
   },
@@ -31,17 +31,17 @@ const defaultPreferences: Preferences = {
     styleType: 'normal',
   },
   copyright: {
-    companyName: 'FastAPI Practices',
-    companySiteLink: 'https://github.com/fastapi-practices',
-    date: '2025',
+    companyName: 'Vben',
+    companySiteLink: 'https://www.vben.pro',
+    date: '2024',
     enable: true,
     icp: '',
     icpLink: '',
     settingShow: true,
   },
   footer: {
-    enable: true,
-    fixed: true,
+    enable: false,
+    fixed: false,
   },
   header: {
     enable: true,
@@ -51,7 +51,7 @@ const defaultPreferences: Preferences = {
   },
   logo: {
     enable: true,
-    source: 'https://wu-clan.github.io/picx-images-hosting/logo/fba.png',
+    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
   },
   navigation: {
     accordion: true,
@@ -97,7 +97,7 @@ const defaultPreferences: Preferences = {
     colorPrimary: 'hsl(212 100% 45%)',
     colorSuccess: 'hsl(144 57% 58%)',
     colorWarning: 'hsl(42 84% 61%)',
-    mode: 'auto',
+    mode: 'dark',
     radius: '0.5',
     semiDarkHeader: false,
     semiDarkSidebar: false,

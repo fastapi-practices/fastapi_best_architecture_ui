@@ -4,13 +4,13 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
+    name: 'dashboard',
+    path: '/dashboard',
     meta: {
       icon: 'lucide:layout-dashboard',
       order: -1,
       title: $t('page.dashboard.title'),
     },
-    name: 'Dashboard',
-    path: '/dashboard',
     children: [
       {
         name: 'Analytics',

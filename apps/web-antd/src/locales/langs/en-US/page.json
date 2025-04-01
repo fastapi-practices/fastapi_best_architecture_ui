@@ -12,5 +12,22 @@
     "analytics": "Analytics",
     "title": "Dashboard",
     "workspace": "Workspace"
+  },
+  "menu": {
+    "admin": "System Admin",
+    "automation": "System Auto",
+    "codeGenerator": "Code Generator",
+    "log": "System Log",
+    "login": "Login Log",
+    "monitor": "System Monitor",
+    "opera": "Opera Log",
+    "redis": "Redis",
+    "server": "Server",
+    "sysApi": "System API",
+    "sysDataRule": "System Data Rule",
+    "sysDept": "System Dept",
+    "sysMenu": "System User",
+    "sysRole": "System Role",
+    "sysUser": "System User"
   }
 }
