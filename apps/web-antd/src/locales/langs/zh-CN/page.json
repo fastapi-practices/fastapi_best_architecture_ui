@@ -12,5 +12,22 @@
     "analytics": "分析页",
     "title": "概览",
     "workspace": "工作台"
+  },
+  "menu": {
+    "admin": "系统管理",
+    "automation": "系统自动化",
+    "codeGenerator": "代码生成",
+    "log": "系统日志",
+    "login": "登录日志",
+    "monitor": "系统监控",
+    "opera": "操作日志",
+    "redis": "Redis",
+    "server": "服务器",
+    "sysApi": "系统 API",
+    "sysDataRule": "系统数据规则",
+    "sysDept": "系统部门",
+    "sysMenu": "系统菜单",
+    "sysRole": "系统角色",
+    "sysUser": "系统角色"
   }
 }

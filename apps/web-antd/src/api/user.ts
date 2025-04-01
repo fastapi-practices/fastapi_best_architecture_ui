@@ -1,4 +1,4 @@
-import type { UserInfo } from '@vben/types';
+import type { MyUserInfo } from '#/types';
 
 import { requestClient } from '#/api/request';
 
@@ -6,5 +6,5 @@ import { requestClient } from '#/api/request';
  * 获取用户信息
  */
 export async function getUserInfoApi() {
-  return requestClient.get<UserInfo>('/api/v1/sys/users/me');
+  return requestClient.get<MyUserInfo>('/api/v1/sys/users/me');
 }

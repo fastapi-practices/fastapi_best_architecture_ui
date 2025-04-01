@@ -1,23 +1,22 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-interface BasicUserInfo {
-  [key: string]: any;
+interface MyBasicUserInfo {
   /**
    * 头像
    */
   avatar: string;
   /**
+   * 用户id
+   */
+  id: string;
+  /**
    * 用户昵称
    */
-  realName: string;
+  nickname: string;
   /**
    * 用户角色
    */
   roles?: string[];
-  /**
-   * 用户id
-   */
-  userId: string;
   /**
    * 用户名
    */
@@ -28,7 +27,7 @@ interface AccessState {
   /**
    * 用户信息
    */
-  userInfo: BasicUserInfo | null;
+  userInfo: MyBasicUserInfo | null;
   /**
    * 用户角色
    */
@@ -36,11 +35,11 @@ interface AccessState {
 }
 
 /**
- * @zh_CN 用户信息相关
+ * @zh_CN 重写用户信息相关
  */
-export const useUserStore = defineStore('core-user', {
+export const myUseUserStore = defineStore('core-user', {
   actions: {
-    setUserInfo(userInfo: BasicUserInfo | null) {
+    setUserInfo(userInfo: MyBasicUserInfo | null) {
       // 设置用户信息
       this.userInfo = userInfo;
       // 设置角色信息
@@ -60,5 +59,7 @@ export const useUserStore = defineStore('core-user', {
 // 解决热更新问题
 const hot = import.meta.hot;
 if (hot) {
-  hot.accept(acceptHMRUpdate(useUserStore, hot));
+  hot.accept(acceptHMRUpdate(myUseUserStore, hot));
 }
+
+export type { MyBasicUserInfo };

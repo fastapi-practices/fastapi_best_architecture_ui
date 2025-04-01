@@ -1,7 +1,6 @@
 # FastAPI Best Architecture UI
 
-Front-end Implementation of
-the [FastAPI Best Architecture](https://github.com/fastapi-practices/fastapi_best_architecture)
+Front-end Implementation of the [FastAPI Best Architecture](https://github.com/fastapi-practices/fastapi_best_architecture)
 
 ## Run
 
@@ -30,10 +29,8 @@ pnpm build
 
 ## Sponsor us
 
-If this program has helped you, you can sponsor us with some coffee
-beans: [:coffee: Sponsor :coffee:](https://wu-clan.github.io/sponsor/)
+If this program has helped you, you can sponsor us with some coffee beans: [:coffee: Sponsor :coffee:](https://wu-clan.github.io/sponsor/)
 
 ## License
 
-This project is licensed under the terms of
-the [MIT](https://github.com/fastapi-practices/fba_ui/blob/master/LICENSE) license
+This project is licensed under the terms of the [MIT](https://github.com/fastapi-practices/fba_ui/blob/master/LICENSE) license
