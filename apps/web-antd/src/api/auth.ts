@@ -1,4 +1,8 @@
-import { baseRequestClient, requestClient } from '#/api/request';
+import {
+  authRequestClient,
+  baseRequestClient,
+  requestClient,
+} from '#/api/request';
 
 export interface CaptchaResult {
   image: string;
@@ -15,10 +19,7 @@ export interface LoginResult {
   access_token: string;
 }
 
-export interface RefreshTokenResult {
-  data: string;
-  status: number;
-}
+export type RefreshTokenResult = LoginResult;
 
 /**
  * 登录验证码
@@ -38,16 +39,19 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new', {
-    withCredentials: true,
-  });
+  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new');
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/api/v1/auth/logout', {
-    withCredentials: true,
-  });
+  return authRequestClient.post('/api/v1/auth/logout');
+}
+
+/**
+ * 获取用户权限码
+ */
+export async function getAccessCodesApi() {
+  return [];
 }

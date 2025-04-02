@@ -1,7 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { IFrameView } from '#/layouts';
-import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -9,23 +8,23 @@ const routes: RouteRecordRaw[] = [
       badgeType: 'dot',
       icon: 'https://wu-clan.github.io/picx-images-hosting/logo/fba.png',
       order: 9998,
-      title: $t('demos.vben.title'),
+      title: '项目',
     },
     name: 'VbenProject',
     path: '/fba-admin',
     children: [
       {
-        name: 'VbenDocument',
+        name: 'Document',
         path: '/fba-admin/document',
         component: IFrameView,
         meta: {
           icon: 'lucide:book-open-text',
           link: 'https://fastapi-practices.github.io/fastapi_best_architecture_docs',
-          title: $t('demos.vben.document'),
+          title: '文档',
         },
       },
       {
-        name: 'VbenGithub',
+        name: 'Github',
         path: '/fba-admin/github',
         component: IFrameView,
         meta: {
@@ -42,7 +41,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('#/views/_core/about/index.vue'),
     meta: {
       icon: 'lucide:copyright',
-      title: $t('demos.vben.about'),
+      title: '关于项目',
       order: 9999,
     },
   },

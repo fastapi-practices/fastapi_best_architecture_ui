@@ -21,6 +21,10 @@ import { refreshTokenApi } from '.';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
+function formatToken(token: null | string) {
+  return token ? `Bearer ${token}` : null;
+}
+
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
     ...options,
@@ -51,13 +55,9 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   async function doRefreshToken() {
     const accessStore = useAccessStore();
     const resp = await refreshTokenApi();
-    const newToken = resp.data;
+    const newToken = resp.access_token;
     accessStore.setAccessToken(newToken);
     return newToken;
-  }
-
-  function formatToken(token: null | string) {
-    return token ? `Bearer ${token}` : null;
   }
 
   // 请求头处理
@@ -95,7 +95,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   client.addResponseInterceptor(
     errorMessageResponseInterceptor((msg: string, error) => {
       const responseData = error?.response?.data ?? {};
-      const errorMessage = responseData?.msg ?? '';
+      const errorMessage = responseData?.error ?? responseData?.msg ?? '';
       // 如果没有错误信息，则会根据状态码进行提示
       message.error(errorMessage || msg);
     }),
@@ -104,8 +104,40 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   return client;
 }
 
+function createAuthRequestClient(
+  baseURL: string,
+  options?: RequestClientOptions,
+) {
+  const client = new RequestClient({
+    ...options,
+    baseURL,
+  });
+
+  // 请求头处理
+  client.addRequestInterceptor({
+    fulfilled: async (config) => {
+      const accessStore = useAccessStore();
+
+      config.headers.Authorization = formatToken(accessStore.accessToken);
+      config.headers['Accept-Language'] = preferences.app.locale;
+      return config;
+    },
+  });
+
+  return client;
+}
+
 export const requestClient = createRequestClient(apiURL, {
   responseReturn: 'data',
 });
 
-export const baseRequestClient = new RequestClient({ baseURL: apiURL });
+export const authRequestClient = createAuthRequestClient(apiURL, {
+  withCredentials: true,
+  responseReturn: 'data',
+});
+
+export const baseRequestClient = new RequestClient({
+  baseURL: apiURL,
+  withCredentials: true,
+  responseReturn: 'data',
+});
