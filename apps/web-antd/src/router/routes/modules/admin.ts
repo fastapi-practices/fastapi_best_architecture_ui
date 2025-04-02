@@ -4,7 +4,7 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'admin',
+    name: 'Admin',
     path: '/admin',
     meta: {
       title: $t('page.menu.admin'),
