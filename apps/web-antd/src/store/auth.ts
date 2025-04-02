@@ -1,28 +1,33 @@
-import type { CaptchaResult } from '#/api';
-import type { MyUserInfo } from '#/types';
+import type { CaptchaResult, LoginParams, MyUserInfo } from '#/api';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
-import { resetAllStores, useAccessStore } from '@vben/stores';
+import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getCaptchaApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getCaptchaApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+} from '#/api';
 import { $t } from '#/locales';
-
-import { myUseUserStore } from '.';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
-  const userStore = myUseUserStore();
+  const userStore = useUserStore();
   const router = useRouter();
 
   const loginLoading = ref(false);
 
-  /** 登陆验证码 */
+  /**
+   * 登陆验证码
+   */
   async function captcha() {
     const res: CaptchaResult = await getCaptchaApi();
     return res.image;
@@ -34,7 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
    * @param params 登录表单数据
    */
   async function authLogin(
-    params: any,
+    params: LoginParams,
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
@@ -48,9 +53,15 @@ export const useAuthStore = defineStore('auth', () => {
         accessStore.setAccessToken(access_token);
 
         // 获取用户信息并存储到 accessStore 中
-        userInfo = userInfo = await Promise.resolve(fetchUserInfo());
+        const [fetchUserInfoResult, accessCodes] = await Promise.all([
+          fetchUserInfo(),
+          getAccessCodesApi(),
+        ]);
+
+        userInfo = fetchUserInfoResult;
 
         userStore.setUserInfo(userInfo);
+        accessStore.setAccessCodes(accessCodes);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
