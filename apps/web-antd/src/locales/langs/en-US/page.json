@@ -13,6 +13,11 @@
     "title": "Dashboard",
     "workspace": "Workspace"
   },
+  "form": {
+    "query": "Query",
+    "select": "Please select",
+    "status": "Status"
+  },
   "menu": {
     "admin": "System Admin",
     "automation": "System Auto",
@@ -29,5 +34,11 @@
     "sysMenu": "System User",
     "sysRole": "System Role",
     "sysUser": "System User"
+  },
+  "table": {
+    "created_time": "Create Time",
+    "id": "ID",
+    "mark": "Mark",
+    "operation": "Operation"
   }
 }
