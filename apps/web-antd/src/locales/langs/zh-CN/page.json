@@ -13,6 +13,11 @@
     "title": "概览",
     "workspace": "工作台"
   },
+  "form": {
+    "query": "查询",
+    "select": "请选择",
+    "status": "状态"
+  },
   "menu": {
     "admin": "系统管理",
     "automation": "系统自动化",
@@ -29,5 +34,11 @@
     "sysMenu": "系统菜单",
     "sysRole": "系统角色",
     "sysUser": "系统角色"
+  },
+  "table": {
+    "created_time": "创建时间",
+    "id": "序号",
+    "mark": "备注",
+    "operation": "操作"
   }
 }
