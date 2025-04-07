@@ -39,6 +39,7 @@
     "created_time": "Create Time",
     "id": "ID",
     "mark": "Mark",
-    "operation": "Operation"
+    "operation": "Operation",
+    "updated_time": "Update time"
   }
 }

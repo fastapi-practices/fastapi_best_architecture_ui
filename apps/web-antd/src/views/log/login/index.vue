@@ -80,7 +80,7 @@ const [Grid] = useVbenVxeGrid({
       { field: 'username', title: '用户名' },
       {
         field: 'status',
-        title: '登录状态',
+        title: '状态',
         cellRender: {
           name: 'CellTag',
           options: [
