@@ -97,7 +97,7 @@ const [Grid] = useVbenVxeGrid({
       { field: 'path', title: '请求路径', width: 150 },
       {
         field: 'status',
-        title: '操作状态',
+        title: '状态',
         cellRender: {
           name: 'CellTag',
           options: [
