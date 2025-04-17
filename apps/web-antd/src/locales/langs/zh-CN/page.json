@@ -41,5 +41,25 @@
     "mark": "备注",
     "operation": "操作",
     "updated_time": "更新时间"
+  },
+  "monitor": {
+    "redis": {
+      "desc": {
+        "title": "基本信息"
+      },
+      "cards": {
+        "commands": {
+          "title": "命令统计"
+        },
+        "memory": {
+          "title": "内存情况"
+        }
+      },
+      "stats": {
+        "title": {
+          "used_memory": "已使用内存"
+        }
+      }
+    }
   }
 }
