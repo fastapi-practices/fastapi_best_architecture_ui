@@ -9,12 +9,15 @@ import '@vben/styles';
 import '@vben/styles/antd';
 
 import { useTitle } from '@vueuse/core';
+import Antd from 'ant-design-vue';
 
 import { $t, setupI18n } from '#/locales';
 
 import { initComponentAdapter } from './adapter/component';
 import App from './app.vue';
 import { router } from './router';
+
+import 'ant-design-vue/dist/reset.css';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -48,6 +51,9 @@ async function bootstrap(namespace: string) {
 
   // 初始化 tippy
   initTippy(app);
+
+  // 全局加载 antdv
+  app.use(Antd);
 
   // 配置路由及路由守卫
   app.use(router);
