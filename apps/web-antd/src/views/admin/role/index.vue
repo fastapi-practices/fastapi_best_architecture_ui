@@ -85,7 +85,7 @@ const [Grid] = useVbenVxeGrid({
         width: 168,
       },
       {
-        field: 'created_time',
+        field: 'updated_time',
         title: $t('page.table.updated_time'),
         width: 168,
       },
