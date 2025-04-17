@@ -44,6 +44,17 @@
   },
   "monitor": {
     "redis": {
+      "desc": {
+        "title": "Basic Information"
+      },
+      "cards": {
+        "commands": {
+          "title": "Command Statistics"
+        },
+        "memory": {
+          "title": "Memory Status"
+        }
+      },
       "stats": {
         "title": {
           "used_memory": "Used Memory"

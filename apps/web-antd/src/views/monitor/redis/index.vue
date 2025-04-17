@@ -41,7 +41,11 @@ watch(redisInfo, (val) => {
 
 <template>
   <div>
-    <a-card title="基本信息" :loading="loading" class="info-card">
+    <a-card
+      :title="$t('page.monitor.redis.desc.title')"
+      :loading="loading"
+      class="info-card"
+    >
       <a-descriptions>
         <a-descriptions-item label="Test">123</a-descriptions-item>
       </a-descriptions>
@@ -49,12 +53,20 @@ watch(redisInfo, (val) => {
     <a-space style="padding-top: 22px" />
     <a-row :gutter="20">
       <a-col :span="12">
-        <a-card title="命令统计" :loading="loading" class="info-card">
+        <a-card
+          :title="$t('page.monitor.redis.cards.commands.title')"
+          :loading="loading"
+          class="info-card"
+        >
           <CommandsSeries :stats="redisStats" />
         </a-card>
       </a-col>
       <a-col :span="12">
-        <a-card title="已使用内存" :loading="loading" class="info-card">
+        <a-card
+          :title="$t('page.monitor.redis.cards.memory.title')"
+          :loading="loading"
+          class="info-card"
+        >
           <ActiveSeries :memory="redisUsedMemory" />
         </a-card>
       </a-col>
