@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
+import { $t } from '@vben/locales';
+
 import { Card, Col, Descriptions, Row, Space } from 'ant-design-vue';
 
 import { getRedisMonitor } from '#/api';
@@ -10,11 +12,10 @@ import CommandsSeries from '#/views/monitor/redis/components/commands-series.vue
 const loading = ref<boolean>(false);
 const redisInfo = ref<Record<string, any>>({});
 const redisStats = ref<Record<string, any>[]>([]);
-
 const usedMemory = ref<number>(0);
 const redisUsedMemory = computed(() => [
   {
-    name: '已使用内存',
+    name: $t('page.monitor.redis.stats.title.used_memory'),
     value: usedMemory.value,
   },
 ]);

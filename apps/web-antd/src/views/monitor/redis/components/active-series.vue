@@ -5,7 +5,6 @@ import type { EchartsUIType } from '@vben/plugins/echarts';
 
 import { onMounted, ref } from 'vue';
 
-import { $t } from '@vben/locales';
 import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 
 const props = defineProps({
@@ -26,7 +25,6 @@ onMounted(() => {
     },
     series: [
       {
-        name: $t('page.monitor.redis.stats.title.used_memory'),
         type: 'gauge',
         data: props.memory,
         axisLine: {
