@@ -59,6 +59,24 @@
         "title": {
           "used_memory": "已使用内存"
         }
+      },
+      "info": {
+        "title": "基础信息",
+        "version": "版本",
+        "mode": "模式",
+        "os": "操作系统",
+        "arch": "架构",
+        "uptime": "运行时间",
+        "clients": "连接数",
+        "memory_human": "已分配内存",
+        "connections_received": "可接受连接数",
+        "commands_processed": "已执行命令",
+        "rejected_connections": "已拒绝连接",
+        "keys_command_stats": "查询次数",
+        "role": "角色",
+        "used_cpu": "CPU 消耗",
+        "used_cpu_children": "后台 CPU 占用",
+        "keys_num": "Keys 数量"
       }
     }
   }

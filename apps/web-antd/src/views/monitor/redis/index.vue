@@ -32,6 +32,71 @@ const fetchRedisData = async () => {
 };
 fetchRedisData();
 
+const redisDescriptionItems = computed(() => [
+  {
+    label: $t('page.monitor.redis.info.version'),
+    value: redisInfo.value?.redis_version,
+  },
+  {
+    label: $t('page.monitor.redis.info.os'),
+    value: redisInfo.value?.os,
+  },
+  {
+    label: $t('page.monitor.redis.info.arch'),
+    value: redisInfo.value?.arch_bits,
+  },
+  {
+    label: $t('page.monitor.redis.info.mode'),
+    value: redisInfo.value?.redis_mode,
+  },
+  {
+    label: $t('page.monitor.redis.info.role'),
+    value: redisInfo.value?.role,
+  },
+  {
+    label: $t('page.monitor.redis.info.memory_human'),
+    value: redisInfo.value?.used_memory_human,
+  },
+  {
+    label: $t('page.monitor.redis.info.connections_received'),
+    value: redisInfo.value?.total_connections_received,
+  },
+  {
+    label: $t('page.monitor.redis.info.clients'),
+    value: redisInfo.value?.blocked_clients,
+  },
+  {
+    label: $t('page.monitor.redis.info.rejected_connections'),
+    value: redisInfo.value?.rejected_connections,
+  },
+  {
+    label: $t('page.monitor.redis.info.commands_processed'),
+    value: redisInfo.value?.total_commands_processed,
+  },
+  {
+    label: $t('page.monitor.redis.info.keys_command_stats'),
+    value:
+      Number(redisInfo.value?.keyspace_hits) +
+      Number(redisInfo.value?.keyspace_misses),
+  },
+  {
+    label: $t('page.monitor.redis.info.keys_num'),
+    value: redisInfo.value?.keys_num,
+  },
+  {
+    label: $t('page.monitor.redis.info.used_cpu'),
+    value: redisInfo.value?.used_cpu_sys,
+  },
+  {
+    label: $t('page.monitor.redis.info.used_cpu_children'),
+    value: redisInfo.value?.used_cpu_sys_children,
+  },
+  {
+    label: $t('page.monitor.redis.info.uptime'),
+    value: redisInfo.value?.uptime_in_seconds,
+  },
+]);
+
 watch(redisInfo, (val) => {
   usedMemory.value = Number.parseFloat(
     (Number(val.used_memory) / 1024 / 1024).toFixed(2),
@@ -40,36 +105,37 @@ watch(redisInfo, (val) => {
 </script>
 
 <template>
-  <div>
-    <a-card
-      :title="$t('page.monitor.redis.desc.title')"
-      :loading="loading"
-      class="info-card"
-    >
-      <a-descriptions>
-        <a-descriptions-item label="Test">123</a-descriptions-item>
-      </a-descriptions>
-    </a-card>
-    <a-space style="padding-top: 22px" />
-    <a-row :gutter="20">
-      <a-col :span="12">
+  <div class="container mx-auto p-4">
+    <div class="mb-2 rounded-lg p-2 shadow-md">
+      <a-card :title="$t('page.monitor.redis.desc.title')" :loading="loading">
+        <a-descriptions>
+          <a-descriptions-item
+            v-for="item in redisDescriptionItems"
+            :label="item.label"
+            :key="item.label"
+          >
+            {{ item.value }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </a-card>
+    </div>
+    <div class="flex flex-col gap-2 md:flex-row">
+      <div class="rounded-lg p-2 shadow-md md:w-1/2">
         <a-card
           :title="$t('page.monitor.redis.cards.commands.title')"
           :loading="loading"
-          class="info-card"
         >
           <CommandsSeries :stats="redisStats" />
         </a-card>
-      </a-col>
-      <a-col :span="12">
+      </div>
+      <div class="rounded-lg p-2 shadow-md md:w-1/2">
         <a-card
           :title="$t('page.monitor.redis.cards.memory.title')"
           :loading="loading"
-          class="info-card"
         >
           <ActiveSeries :memory="redisUsedMemory" />
         </a-card>
-      </a-col>
-    </a-row>
+      </div>
+    </div>
   </div>
 </template>
