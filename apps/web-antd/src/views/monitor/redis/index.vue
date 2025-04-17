@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
+import { Card, Col, Descriptions, Row, Space } from 'ant-design-vue';
+
 import { getRedisMonitor } from '#/api';
 import ActiveSeries from '#/views/monitor/redis/components/active-series.vue';
 import CommandsSeries from '#/views/monitor/redis/components/commands-series.vue';
@@ -23,8 +25,8 @@ const fetchRedisData = async () => {
     const res = await getRedisMonitor();
     redisInfo.value = res.info;
     redisStats.value = res.stats;
-  } catch {
-    // console.error(err);
+  } catch (error) {
+    console.error(error);
   } finally {
     loading.value = false;
   }
@@ -39,22 +41,24 @@ watch(redisInfo, (val) => {
 </script>
 
 <template>
-  <a-card title="基本信息" :loading="loading" class="info-card">
-    <a-descriptions>
-      <a-descriptions-item label="Test">123</a-descriptions-item>
-    </a-descriptions>
-  </a-card>
-  <a-space style="padding-top: 22px" />
-  <a-row :gutter="20">
-    <a-col :span="12">
-      <a-card title="命令统计" :loading="loading" class="info-card">
-        <CommandsSeries :stats="redisStats" />
-      </a-card>
-    </a-col>
-    <a-col :span="12">
-      <a-card title="已使用内存" :loading="loading" class="info-card">
-        <ActiveSeries :memory="redisUsedMemory" />
-      </a-card>
-    </a-col>
-  </a-row>
+  <div>
+    <Card title="基本信息" :loading="loading" class="info-card">
+      <Descriptions>
+        <Descriptions.Item label="Test">123</Descriptions.Item>
+      </Descriptions>
+    </Card>
+    <Space style="padding-top: 22px" />
+    <Row :gutter="20">
+      <Col :span="12">
+        <Card title="命令统计" :loading="loading" class="info-card">
+          <CommandsSeries :stats="redisStats" />
+        </Card>
+      </Col>
+      <Col :span="12">
+        <Card title="已使用内存" :loading="loading" class="info-card">
+          <ActiveSeries :memory="redisUsedMemory" />
+        </Card>
+      </Col>
+    </Row>
+  </div>
 </template>

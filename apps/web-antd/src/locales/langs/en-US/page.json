@@ -41,5 +41,14 @@
     "mark": "Mark",
     "operation": "Operation",
     "updated_time": "Update time"
+  },
+  "monitor": {
+    "redis": {
+      "stats": {
+        "title": {
+          "used_memory": "Used Memory"
+        }
+      }
+    }
   }
 }

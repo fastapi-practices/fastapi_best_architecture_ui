@@ -41,5 +41,14 @@
     "mark": "备注",
     "operation": "操作",
     "updated_time": "更新时间"
+  },
+  "monitor": {
+    "redis": {
+      "stats": {
+        "title": {
+          "used_memory": "已使用内存"
+        }
+      }
+    }
   }
 }

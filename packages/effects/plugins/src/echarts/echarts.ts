@@ -12,7 +12,13 @@ import type {
 } from 'echarts/components';
 import type { ComposeOption } from 'echarts/core';
 
-import { BarChart, LineChart, PieChart, RadarChart } from 'echarts/charts';
+import {
+  BarChart,
+  GaugeChart,
+  LineChart,
+  PieChart,
+  RadarChart,
+} from 'echarts/charts';
 import {
   // 数据集组件
   DatasetComponent,
@@ -54,6 +60,7 @@ echarts.use([
   CanvasRenderer,
   LegendComponent,
   ToolboxComponent,
+  GaugeChart,
 ]);
 
 export default echarts;
