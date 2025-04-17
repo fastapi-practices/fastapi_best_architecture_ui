@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 
 import type { EchartsUIType } from '@vben/plugins/echarts';
 
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 import { usePreferences } from '@vben/preferences';
@@ -20,7 +20,11 @@ const { isDark } = usePreferences();
 const chartRef = ref<EchartsUIType>();
 const { renderEcharts } = useEcharts(chartRef);
 
-onMounted(() => {
+const labelColor = computed(() =>
+  isDark.value ? 'rgba(255, 255, 255, 0.7)' : '#1F2329',
+);
+
+const renderChart = () => {
   renderEcharts({
     series: [
       {
@@ -29,7 +33,7 @@ onMounted(() => {
         label: {
           formatter: '{b}: {d}%',
           fontSize: 14,
-          color: isDark.value ? 'rgba(255, 255, 255, 0.7)' : '#1F2329',
+          color: labelColor.value,
         },
         emphasis: {
           itemStyle: {
@@ -45,7 +49,19 @@ onMounted(() => {
       formatter: '{a} <br/>{b}: {c} ({d}%)',
     },
   });
+};
+
+onMounted(() => {
+  renderChart();
 });
+
+watch(
+  [isDark, () => props.stats],
+  () => {
+    renderChart();
+  },
+  { deep: false },
+);
 </script>
 
 <template>
