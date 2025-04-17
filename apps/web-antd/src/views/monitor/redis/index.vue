@@ -3,8 +3,6 @@ import { computed, ref, watch } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { Card, Col, Descriptions, Row, Space } from 'ant-design-vue';
-
 import { getRedisMonitor } from '#/api';
 import ActiveSeries from '#/views/monitor/redis/components/active-series.vue';
 import CommandsSeries from '#/views/monitor/redis/components/commands-series.vue';
@@ -43,23 +41,23 @@ watch(redisInfo, (val) => {
 
 <template>
   <div>
-    <Card title="基本信息" :loading="loading" class="info-card">
-      <Descriptions>
-        <Descriptions.Item label="Test">123</Descriptions.Item>
-      </Descriptions>
-    </Card>
-    <Space style="padding-top: 22px" />
-    <Row :gutter="20">
-      <Col :span="12">
-        <Card title="命令统计" :loading="loading" class="info-card">
+    <a-card title="基本信息" :loading="loading" class="info-card">
+      <a-descriptions>
+        <a-descriptions-item label="Test">123</a-descriptions-item>
+      </a-descriptions>
+    </a-card>
+    <a-space style="padding-top: 22px" />
+    <a-row :gutter="20">
+      <a-col :span="12">
+        <a-card title="命令统计" :loading="loading" class="info-card">
           <CommandsSeries :stats="redisStats" />
-        </Card>
-      </Col>
-      <Col :span="12">
-        <Card title="已使用内存" :loading="loading" class="info-card">
+        </a-card>
+      </a-col>
+      <a-col :span="12">
+        <a-card title="已使用内存" :loading="loading" class="info-card">
           <ActiveSeries :memory="redisUsedMemory" />
-        </Card>
-      </Col>
-    </Row>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
