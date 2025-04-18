@@ -59,6 +59,24 @@
         "title": {
           "used_memory": "Used Memory"
         }
+      },
+      "info": {
+        "title": "Basic Info",
+        "version": "Version",
+        "mode": "Mode",
+        "os": "OS",
+        "arch": "Arch",
+        "uptime": "Uptime",
+        "clients": "Connections",
+        "memory_human": "Allocated Memory",
+        "connections_received": "Connections Received",
+        "commands_processed": "Commands Processed",
+        "rejected_connections": "Rejected Connections",
+        "keys_command_stats": "Keys Stats",
+        "role": "Role",
+        "used_cpu": "Used CPU",
+        "used_cpu_children": "Used CPU Children",
+        "keys_num": "Keys Num"
       }
     }
   }
