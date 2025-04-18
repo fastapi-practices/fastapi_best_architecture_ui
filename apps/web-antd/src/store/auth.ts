@@ -1,3 +1,5 @@
+import type { Recordable } from '@vben/types';
+
 import type { CaptchaResult, LoginParams, MyUserInfo } from '#/api';
 
 import { ref } from 'vue';
@@ -39,14 +41,14 @@ export const useAuthStore = defineStore('auth', () => {
    * @param params 登录表单数据
    */
   async function authLogin(
-    params: LoginParams,
+    params: Recordable<any>,
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
     let userInfo: MyUserInfo | null = null;
     try {
       loginLoading.value = true;
-      const { access_token } = await loginApi(params);
+      const { access_token } = await loginApi(params as LoginParams);
 
       // 如果成功获取到 accessToken
       if (access_token) {
