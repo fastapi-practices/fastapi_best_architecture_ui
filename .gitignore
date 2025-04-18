@@ -53,7 +53,6 @@ vite.config.ts.*
 # 升级 vben 时需要删除的文件
 .vscode
 .changeset
-.github
 backend-mock
 web-ele
 web-naive
