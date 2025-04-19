@@ -35,18 +35,8 @@
     "sysRole": "System Role",
     "sysUser": "System User"
   },
-  "table": {
-    "created_time": "Create Time",
-    "id": "ID",
-    "mark": "Mark",
-    "operation": "Operation",
-    "updated_time": "Update time"
-  },
   "monitor": {
     "redis": {
-      "desc": {
-        "title": "Basic Information"
-      },
       "cards": {
         "commands": {
           "title": "Command Statistics"
@@ -55,29 +45,66 @@
           "title": "Memory Status"
         }
       },
+      "desc": {
+        "title": "Basic Information"
+      },
+      "info": {
+        "arch": "Arch",
+        "clients": "Connections",
+        "commands_processed": "Commands Processed",
+        "connections_received": "Connections Received",
+        "keys_command_stats": "Keys Stats",
+        "keys_num": "Keys Num",
+        "memory_human": "Allocated Memory",
+        "mode": "Mode",
+        "os": "OS",
+        "rejected_connections": "Rejected Connections",
+        "role": "Role",
+        "title": "Basic Info",
+        "uptime": "Uptime",
+        "used_cpu": "Used CPU",
+        "used_cpu_children": "Used CPU Children",
+        "version": "Version"
+      },
       "stats": {
         "title": {
           "used_memory": "Used Memory"
         }
-      },
-      "info": {
-        "title": "Basic Info",
-        "version": "Version",
-        "mode": "Mode",
-        "os": "OS",
-        "arch": "Arch",
-        "uptime": "Uptime",
-        "clients": "Connections",
-        "memory_human": "Allocated Memory",
-        "connections_received": "Connections Received",
-        "commands_processed": "Commands Processed",
-        "rejected_connections": "Rejected Connections",
-        "keys_command_stats": "Keys Stats",
-        "role": "Role",
-        "used_cpu": "Used CPU",
-        "used_cpu_children": "Used CPU Children",
-        "keys_num": "Keys Num"
       }
+    },
+    "server": {
+      "cpu": {
+        "current_freq": "Current Freq",
+        "logical_num": "Logical Num",
+        "physical_num": "Physical Num",
+        "usage": "Usage"
+      },
+      "disk": {
+        "device": "Device",
+        "dir": "Dir",
+        "free": "Free",
+        "title": "Disk",
+        "total": "Total",
+        "type": "Type",
+        "usage": "Usage",
+        "used": "Used"
+      },
+      "memory": {
+        "free": "Free",
+        "title": "Memory",
+        "total": "Total",
+        "usage": "Usage",
+        "used": "Used"
+      },
+      "service": "Service",
+      "system": "System"
     }
+  },
+  "table": {
+    "created_time": "Created Time",
+    "id": "ID",
+    "mark": "Mark",
+    "operation": "Operation",
+    "updated_time": "Updated time"
   }
 }
