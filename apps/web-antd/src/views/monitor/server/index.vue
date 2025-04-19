@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 
+import { $t } from '@vben/locales';
+
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getServerMonitor } from '#/api';
 
@@ -91,13 +93,13 @@ const fetchServerData = async () => {
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
     columns: [
-      { field: 'dir', title: '路径' },
-      { field: 'type', title: '类型' },
-      { field: 'device', title: '设备' },
-      { field: 'total', title: '总计' },
-      { field: 'free', title: '空闲' },
-      { field: 'used', title: '已使用' },
-      { field: 'usage', title: '使用率' },
+      { field: 'dir', title: $t('page.monitor.server.disk.dir') },
+      { field: 'type', title: $t('page.monitor.server.disk.type') },
+      { field: 'device', title: $t('page.monitor.server.disk.device') },
+      { field: 'total', title: $t('page.monitor.server.disk.total') },
+      { field: 'free', title: $t('page.monitor.server.disk.free') },
+      { field: 'used', title: $t('page.monitor.server.disk.used') },
+      { field: 'usage', title: $t('page.monitor.server.disk.usage') },
     ],
     stripe: true,
     pagerConfig: {
@@ -120,7 +122,7 @@ onMounted(async () => {
           <div class="mt-6 flex w-full space-x-6 px-6">
             <div class="flex-1">
               <a-statistic
-                title="使用率"
+                :title="$t('page.monitor.server.cpu.usage')"
                 :value="cpuData.usage"
                 :value-style="usageStyle('cpu')"
                 suffix=" %"
@@ -128,35 +130,56 @@ onMounted(async () => {
             </div>
             <div class="flex-1">
               <a-statistic
-                title="当前频率"
+                :title="$t('page.monitor.server.cpu.current_freq')"
                 :value="cpuData.current_freq"
                 suffix=" MHz"
               />
             </div>
             <div class="flex-1">
-              <a-statistic title="逻辑核心数" :value="cpuData.logical_num" />
+              <a-statistic
+                :title="$t('page.monitor.server.cpu.logical_num')"
+                :value="cpuData.logical_num"
+              />
             </div>
             <div class="flex-1">
-              <a-statistic title="物理核心数" :value="cpuData.physical_num" />
+              <a-statistic
+                :title="$t('page.monitor.server.cpu.physical_num')"
+                :value="cpuData.physical_num"
+              />
             </div>
           </div>
         </a-card>
       </div>
       <div class="flex-1">
-        <a-card :loading="loading" title="内存">
+        <a-card
+          :loading="loading"
+          :title="$t('page.monitor.server.memory.title')"
+        >
           <div class="mt-6 flex w-full space-x-6 px-6">
             <div class="flex-1">
-              <a-statistic title="总量" :value="memData.total" suffix=" GB" />
-            </div>
-            <div class="flex-1">
-              <a-statistic title="已使用" :value="memData.used" suffix=" GB" />
-            </div>
-            <div class="flex-1">
-              <a-statistic title="空闲" :value="memData.free" suffix=" GB" />
+              <a-statistic
+                :title="$t('page.monitor.server.memory.total')"
+                :value="memData.total"
+                suffix=" GB"
+              />
             </div>
             <div class="flex-1">
               <a-statistic
-                title="使用率"
+                :title="$t('page.monitor.server.memory.used')"
+                :value="memData.used"
+                suffix=" GB"
+              />
+            </div>
+            <div class="flex-1">
+              <a-statistic
+                :title="$t('page.monitor.server.memory.free')"
+                :value="memData.free"
+                suffix=" GB"
+              />
+            </div>
+            <div class="flex-1">
+              <a-statistic
+                :title="$t('page.monitor.server.memory.usage')"
                 :value="memData.usage"
                 :value-style="usageStyle('memory')"
                 suffix=" %"
@@ -167,7 +190,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="mt-6 w-full space-y-6">
-      <a-card :loading="loading" title="服务">
+      <a-card :loading="loading" :title="$t('page.monitor.server.service')">
         <a-descriptions>
           <a-descriptions-item
             v-for="item in serviceData"
@@ -178,7 +201,7 @@ onMounted(async () => {
           </a-descriptions-item>
         </a-descriptions>
       </a-card>
-      <a-card :loading="loading" title="系统">
+      <a-card :loading="loading" :title="$t('page.monitor.server.system')">
         <a-descriptions size="middle" :column="4">
           <a-descriptions-item
             v-for="item in osData"
@@ -189,7 +212,7 @@ onMounted(async () => {
           </a-descriptions-item>
         </a-descriptions>
       </a-card>
-      <a-card :loading="loading" title="磁盘">
+      <a-card :loading="loading" :title="$t('page.monitor.server.disk.title')">
         <Grid />
       </a-card>
     </div>
