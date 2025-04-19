@@ -105,8 +105,8 @@ watch(redisInfo, (val) => {
 </script>
 
 <template>
-  <div class="container mx-auto p-4">
-    <div class="mb-2 rounded-lg p-2 shadow-md">
+  <div class="flex flex-col items-center px-4">
+    <div class="mt-4 w-full">
       <a-card :title="$t('page.monitor.redis.desc.title')" :loading="loading">
         <a-descriptions>
           <a-descriptions-item
@@ -119,8 +119,8 @@ watch(redisInfo, (val) => {
         </a-descriptions>
       </a-card>
     </div>
-    <div class="flex flex-col gap-2 md:flex-row">
-      <div class="rounded-lg p-2 shadow-md md:w-1/2">
+    <div class="mt-4 flex w-full space-x-4">
+      <div class="flex-1">
         <a-card
           :title="$t('page.monitor.redis.cards.commands.title')"
           :loading="loading"
@@ -128,7 +128,7 @@ watch(redisInfo, (val) => {
           <CommandsSeries :stats="redisStats" />
         </a-card>
       </div>
-      <div class="rounded-lg p-2 shadow-md md:w-1/2">
+      <div class="flex-1">
         <a-card
           :title="$t('page.monitor.redis.cards.memory.title')"
           :loading="loading"
