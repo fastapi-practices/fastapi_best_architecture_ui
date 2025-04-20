@@ -13,10 +13,10 @@ export interface RedisMonitorResult {
   stats: Record<string, any>[];
 }
 
-export function getServerMonitor() {
+export async function getServerMonitor() {
   return requestClient.get<ServerMonitorResult>('/api/v1/monitors/server');
 }
 
-export function getRedisMonitor() {
+export async function getRedisMonitor() {
   return requestClient.get<RedisMonitorResult>('/api/v1/monitors/redis');
 }

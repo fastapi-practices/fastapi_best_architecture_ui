@@ -13,7 +13,7 @@ export interface LoginLogParams {
 export interface LoginLogResult {
   id: number;
   username: string;
-  status: 0 | 1;
+  status: number;
   ip: string;
   country?: string;
   region?: string;
@@ -39,17 +39,17 @@ export interface OperaLogResult {
   browser?: string;
   device?: string;
   args?: JSON;
-  status: 0 | 1;
+  status: number;
   code: string;
   msg: string;
   cost_time: number;
   opera_time: string;
 }
 
-export function getLoginLogListApi(params: LoginLogParams) {
+export async function getLoginLogListApi(params: LoginLogParams) {
   return requestClient.get<PaginationResult>('/api/v1/logs/login', { params });
 }
 
-export function getOperaLogListApi(params: OperaLogParams) {
+export async function getOperaLogListApi(params: OperaLogParams) {
   return requestClient.get<PaginationResult>('/api/v1/logs/opera', { params });
 }
