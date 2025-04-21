@@ -21,6 +21,6 @@ export interface SysApiResult {
 /**
  * 获取系统 API 列表
  */
-export function getSysApiList(params: SysApiParams) {
+export async function getSysApiList(params: SysApiParams) {
   return requestClient.get<PaginationResult>('/api/v1/sys/apis', { params });
 }

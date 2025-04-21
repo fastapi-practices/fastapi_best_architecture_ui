@@ -22,6 +22,6 @@ export interface SysRoleResult {
 /**
  * 获取系统角色列表
  */
-export function getSysRoleList(params: SysRoleParams) {
+export async function getSysRoleList(params: SysRoleParams) {
   return requestClient.get<SysRoleResult>('/api/v1/sys/roles', { params });
 }

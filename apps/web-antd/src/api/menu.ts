@@ -12,9 +12,9 @@ export interface SysMenuResult {
   type: number;
   component?: string;
   perms?: string;
-  status: 0 | 1;
-  display: 0 | 1;
-  cache: 0 | 1;
+  status: number;
+  display: number;
+  cache: number;
   remark?: string;
   parent_id?: number;
   created_time: string;

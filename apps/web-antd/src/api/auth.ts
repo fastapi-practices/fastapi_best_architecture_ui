@@ -24,7 +24,7 @@ export type RefreshTokenResult = LoginResult;
 /**
  * 登录验证码
  */
-export function getCaptchaApi() {
+export async function getCaptchaApi() {
   return requestClient.get<CaptchaResult>('/api/v1/auth/captcha');
 }
 
