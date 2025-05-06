@@ -1,16 +1,16 @@
 {
   "auth": {
-    "captchaPlaceholder": "请输入验证码",
-    "captchaRequired": "验证码是必须的",
-    "codeLogin": "验证码登录",
-    "forgetPassword": "忘记密码",
     "login": "登录",
+    "register": "注册",
+    "codeLogin": "验证码登录",
     "qrcodeLogin": "二维码登录",
-    "register": "注册"
+    "forgetPassword": "忘记密码",
+    "captchaPlaceholder": "请输入验证码",
+    "captchaRequired": "验证码是必须的"
   },
   "dashboard": {
-    "analytics": "分析页",
     "title": "概览",
+    "analytics": "分析页",
     "workspace": "工作台"
   },
   "form": {

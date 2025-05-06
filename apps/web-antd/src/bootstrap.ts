@@ -1,8 +1,7 @@
 import { createApp, watchEffect } from 'vue';
 
 import { registerAccessDirective } from '@vben/access';
-import { initTippy, registerLoadingDirective } from '@vben/common-ui';
-import { MotionPlugin } from '@vben/plugins/motion';
+import { registerLoadingDirective } from '@vben/common-ui/es/loading';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
@@ -50,6 +49,7 @@ async function bootstrap(namespace: string) {
   registerAccessDirective(app);
 
   // 初始化 tippy
+  const { initTippy } = await import('@vben/common-ui/es/tippy');
   initTippy(app);
 
   // 全局加载 antdv
@@ -59,6 +59,7 @@ async function bootstrap(namespace: string) {
   app.use(router);
 
   // 配置Motion插件
+  const { MotionPlugin } = await import('@vben/plugins/motion');
   app.use(MotionPlugin);
 
   // 动态更新标题

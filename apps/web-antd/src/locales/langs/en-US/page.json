@@ -1,16 +1,16 @@
 {
   "auth": {
-    "captchaPlaceholder": "Please enter the captcha",
-    "captchaRequired": "The captcha is required",
-    "codeLogin": "Code Login",
-    "forgetPassword": "Forget Password",
     "login": "Login",
+    "register": "Register",
+    "codeLogin": "Code Login",
     "qrcodeLogin": "Qr Code Login",
-    "register": "Register"
+    "forgetPassword": "Forget Password",
+    "captchaPlaceholder": "Please enter the captcha",
+    "captchaRequired": "The captcha is required"
   },
   "dashboard": {
-    "analytics": "Analytics",
     "title": "Dashboard",
+    "analytics": "Analytics",
     "workspace": "Workspace"
   },
   "form": {
