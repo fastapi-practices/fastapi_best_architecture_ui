@@ -45,19 +45,11 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        name: 'SysApi',
-        path: 'sys-api',
-        component: () => import('#/views/admin/api/index.vue'),
+        name: 'SysPermission',
+        path: 'sys-data-permission',
+        component: () => import('#/views/admin/data-permission/index.vue'),
         meta: {
-          title: $t('page.menu.sysApi'),
-        },
-      },
-      {
-        name: 'SysDataRule',
-        path: 'sys-data-rule',
-        component: () => import('#/views/admin/data-rule/index.vue'),
-        meta: {
-          title: $t('page.menu.sysDataRule'),
+          title: $t('page.menu.sysDataPermission'),
         },
       },
     ],
