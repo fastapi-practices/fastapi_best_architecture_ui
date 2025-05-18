@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     path: '/admin',
     meta: {
       title: $t('page.menu.admin'),
-      icon: 'icon-settings',
+      icon: 'eos-icons:admin',
       order: 1,
     },
     children: [
@@ -45,11 +45,19 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        name: 'SysPermission',
+        name: 'SysDataPermission',
         path: 'sys-data-permission',
         component: () => import('#/views/admin/data-permission/index.vue'),
         meta: {
           title: $t('page.menu.sysDataPermission'),
+        },
+      },
+      {
+        name: 'SysPlugin',
+        path: 'sys-plugin',
+        component: () => import('#/views/admin/plugin/index.vue'),
+        meta: {
+          title: $t('page.menu.SysPlugin'),
         },
       },
     ],

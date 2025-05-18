@@ -262,7 +262,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateSysDept(formData.value.id, data)
           : createSysDept(data));
-        modalApi.close();
+        await modalApi.close();
         onRefresh();
       } finally {
         modalApi.unlock();

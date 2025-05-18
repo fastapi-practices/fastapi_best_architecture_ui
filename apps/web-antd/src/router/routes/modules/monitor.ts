@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     path: '/monitor',
     meta: {
       title: $t('page.menu.monitor'),
-      icon: 'icon-computer',
+      icon: 'mdi:monitor-eye',
       order: 4,
     },
     children: [

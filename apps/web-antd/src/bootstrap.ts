@@ -10,6 +10,7 @@ import '@vben/styles/antd';
 import { useTitle } from '@vueuse/core';
 import Antd from 'ant-design-vue';
 
+import { initVbenForm } from '#/adapter/form';
 import { $t, setupI18n } from '#/locales';
 
 import { initComponentAdapter } from './adapter/component';
@@ -19,6 +20,7 @@ import { router } from './router';
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
   await initComponentAdapter();
+  await initVbenForm();
 
   // // 设置弹窗的默认配置
   // setDefaultModalProps({
