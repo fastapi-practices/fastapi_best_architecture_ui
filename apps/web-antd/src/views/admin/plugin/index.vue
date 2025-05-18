@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { UploadFile } from 'ant-design-vue';
-
 import type { PluginResult } from '#/api/plugin';
 
-import { h, ref } from 'vue';
+import { ref } from 'vue';
 
 import {
   confirm,
@@ -12,8 +10,6 @@ import {
   useVbenModal,
   VbenButton,
 } from '@vben/common-ui';
-
-import { Button } from 'ant-design-vue';
 
 import {
   getPluginChangedApi,
@@ -43,7 +39,8 @@ const fetchPlugin = async () => {
 };
 fetchPlugin();
 
-const pluginZipFile = ref<string>();
+const fileList = ref<any[]>([]);
+
 const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
   wrapperClass: 'mt-8',
@@ -69,9 +66,7 @@ const [Form, formApi] = useVbenForm({
     {
       component: 'Upload',
       dependencies: {
-        if(values) {
-          return values.installType === 0;
-        },
+        show: (values) => values && values.installType === 0,
         triggerFields: ['installType'],
       },
       componentProps: {
@@ -80,31 +75,33 @@ const [Form, formApi] = useVbenForm({
         maxCount: 1,
         multiple: false,
         directory: false,
-        beforeUpload: (file: UploadFile) => {
-          pluginZipFile.value = file;
-          formApi.setValues({ file });
+        fileList: fileList.value,
+        beforeUpload: (file: any) => {
+          fileList.value = [
+            {
+              uid: '-1',
+              name: file.name,
+              status: 'done',
+              originFileObj: file,
+            },
+          ];
+          formApi.setValues({
+            zipFile: file,
+          });
           return false;
         },
-      },
-      renderComponentContent: (values) => ({
-        default: () => {
-          const hasFile = values && values.file;
-          if (hasFile) {
-            return h('p', values.file.name);
-          }
-          return h(Button, {}, { default: () => 'Upload' });
+        onRemove: () => {
+          fileList.value = [];
+          formApi.setValues({ zipFile: undefined });
         },
-      }),
-      fieldName: 'file',
+      },
+      fieldName: 'uploadField',
       label: 'ZIP 压缩包',
-      rules: 'required',
     },
     {
       component: 'Input',
       dependencies: {
-        if(values) {
-          return values.installType === 1;
-        },
+        show: (values) => values && values.installType === 1,
         triggerFields: ['installType'],
       },
       fieldName: 'repo_url',
@@ -123,29 +120,24 @@ function showIconConfirm() {
 
 const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
-    const { valid } = await formApi.validate();
-    if (valid) {
+    try {
+      const { valid } = await formApi.validate();
+      if (!valid) return;
+
       modalApi.lock();
-      if (formApi.form.values.installType === 0) {
-        try {
-          await InstallZipPlugin(formApi.form.values.file);
-          await modalApi.close();
-        } catch (error) {
-          console.error(error);
-        } finally {
-          modalApi.unlock();
-        }
-      } else {
-        try {
-          await InstallGitPlugin(formApi.form.values.repo_url);
-          await modalApi.close();
-        } catch (error) {
-          console.error(error);
-        } finally {
-          modalApi.unlock();
-        }
-      }
+
+      formApi.form.values.installType === 0
+        ? await InstallZipPlugin(formApi.form.values.zipFile)
+        : await InstallGitPlugin(formApi.form.values.repo_url);
+
+      await modalApi.close();
+      fileList.value = [];
+      await formApi.resetForm();
       await fetchPlugin();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      modalApi.unlock();
     }
   },
 });
