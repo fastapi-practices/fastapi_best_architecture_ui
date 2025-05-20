@@ -10,14 +10,18 @@ import {
   useVbenModal,
   VbenButton,
 } from '@vben/common-ui';
+import { downloadFileFromBlobPart } from '@vben/utils';
 
 import { Button } from 'ant-design-vue';
 
 import {
+  buildPluginApi,
   getPluginChangedApi,
   getPluginListApi,
-  InstallGitPlugin,
-  InstallZipPlugin,
+  installGitPluginApi,
+  installZipPluginApi,
+  uninstallPluginApi,
+  updatePluginStatus,
 } from '#/api/plugin';
 
 const pluginChanged = ref<boolean>(false);
@@ -109,10 +113,30 @@ const [Form, formApi] = useVbenForm({
   ],
 });
 
-function showIconConfirm() {
+function downloadConfirm(plugin: string) {
+  confirm({
+    content: '确认打包并下载此插件吗？',
+    icon: 'success',
+  }).then(async () => {
+    try {
+      const res = await buildPluginApi(plugin);
+      downloadFileFromBlobPart({ fileName: `${plugin}.zip`, source: res });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
+
+function deleteConfirm(plugin: string) {
   confirm({
     content: '确认删除此插件吗？',
-    icon: 'warning',
+    icon: 'error',
+  }).then(async () => {
+    try {
+      await uninstallPluginApi(plugin);
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
 
@@ -123,8 +147,8 @@ const [Modal, modalApi] = useVbenModal({
       if (!valid) return;
       modalApi.lock();
       formApi.form.values.installType === 0
-        ? await InstallZipPlugin(fileList.value[0])
-        : await InstallGitPlugin(formApi.form.values.repo_url);
+        ? await installZipPluginApi(fileList.value[0])
+        : await installGitPluginApi(formApi.form.values.repo_url);
       await modalApi.close();
       fileList.value = [];
       await formApi.resetForm();
@@ -137,6 +161,15 @@ const [Modal, modalApi] = useVbenModal({
     }
   },
 });
+
+const editPluginStatus = async (plugin: string) => {
+  try {
+    await updatePluginStatus(plugin);
+    await fetchPlugin();
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
@@ -160,22 +193,31 @@ const [Modal, modalApi] = useVbenModal({
         <a-card v-for="info in pluginInfo" :key="info.plugin.name">
           <template #title>
             {{ info.plugin.summary }}
-            <span class="ml-1 text-sm text-gray-500">
-              {{ info.plugin.name }}
+            <span class="text-sm text-gray-500">
+              @{{ info.plugin.author }}
             </span>
           </template>
           <p>{{ info.plugin.description }}</p>
           <br />
           <template #extra>
-            <span
-              class="icon-[material-symbols--delete] cursor-pointer text-red-500 hover:opacity-80"
-              @click="showIconConfirm"
-            ></span>
+            <a-switch
+              v-model:checked="info.plugin.enable"
+              checked-value="1"
+              @click="editPluginStatus(info.plugin.name)"
+            />
           </template>
           <template #actions>
-            <p class="text-sm text-gray-500">@{{ info.plugin.author }}</p>
-            <p class="text-sm text-gray-500">{{ info.plugin.version }}</p>
-            <a-switch v-model:checked="info.plugin.enable" checked-value="1" />
+            <p class="text-sm text-gray-500">
+              {{ info.plugin.version }}
+            </p>
+            <span
+              class="icon-[material-symbols--download] cursor-pointer text-green-500 hover:opacity-80"
+              @click="downloadConfirm(info.plugin.name)"
+            ></span>
+            <span
+              class="icon-[material-symbols--delete] cursor-pointer text-red-500 hover:opacity-80"
+              @click="deleteConfirm(info.plugin.name)"
+            ></span>
           </template>
         </a-card>
       </div>
