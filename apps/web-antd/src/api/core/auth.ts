@@ -1,8 +1,4 @@
-import {
-  authRequestClient,
-  baseRequestClient,
-  requestClient,
-} from '#/api/request';
+import { baseRequestClient, requestClient } from '#/api/request';
 
 export interface CaptchaResult {
   image: string;
@@ -46,7 +42,7 @@ export async function refreshTokenApi() {
  * 退出登录
  */
 export async function logoutApi() {
-  return authRequestClient.post('/api/v1/auth/logout');
+  return requestClient.post('/api/v1/auth/logout');
 }
 
 /**

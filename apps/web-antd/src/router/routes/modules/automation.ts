@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     path: '/automation',
     meta: {
       title: $t('page.menu.automation'),
-      icon: 'icon-code-square',
+      icon: 'material-symbols:automation',
       order: 2,
     },
     children: [

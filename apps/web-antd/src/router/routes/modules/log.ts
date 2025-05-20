@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     path: '/log',
     meta: {
       title: $t('page.menu.log'),
-      icon: 'icon-bug',
+      icon: 'carbon:cloud-logging',
       order: 3,
     },
     children: [
