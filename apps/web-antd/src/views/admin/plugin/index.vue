@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PluginResult } from '#/api/plugin';
 
-import { ref } from 'vue';
+import { h, ref } from 'vue';
 
 import {
   confirm,
@@ -10,6 +10,8 @@ import {
   useVbenModal,
   VbenButton,
 } from '@vben/common-ui';
+
+import { Button } from 'ant-design-vue';
 
 import {
   getPluginChangedApi,
@@ -77,26 +79,22 @@ const [Form, formApi] = useVbenForm({
         directory: false,
         fileList: fileList.value,
         beforeUpload: (file: any) => {
-          fileList.value = [
-            {
-              uid: '-1',
-              name: file.name,
-              status: 'done',
-              originFileObj: file,
-            },
-          ];
-          formApi.setValues({
-            zipFile: file,
-          });
+          fileList.value = [file];
           return false;
         },
         onRemove: () => {
           fileList.value = [];
-          formApi.setValues({ zipFile: undefined });
         },
       },
+      renderComponentContent: () => ({
+        default: () => {
+          return h(Button, {}, { default: () => 'Upload' });
+        },
+      }),
       fieldName: 'uploadField',
       label: 'ZIP 压缩包',
+      rules: 'required',
+      help: '仅能上传一个 zip 压缩包文件，支持重新上传',
     },
     {
       component: 'Input',
@@ -123,17 +121,15 @@ const [Modal, modalApi] = useVbenModal({
     try {
       const { valid } = await formApi.validate();
       if (!valid) return;
-
       modalApi.lock();
-
       formApi.form.values.installType === 0
-        ? await InstallZipPlugin(formApi.form.values.zipFile)
+        ? await InstallZipPlugin(fileList.value[0])
         : await InstallGitPlugin(formApi.form.values.repo_url);
-
       await modalApi.close();
       fileList.value = [];
       await formApi.resetForm();
       await fetchPlugin();
+      await fetchPluginChanged();
     } catch (error) {
       console.error(error);
     } finally {

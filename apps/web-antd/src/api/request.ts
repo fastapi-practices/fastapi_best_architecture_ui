@@ -21,10 +21,6 @@ import { refreshTokenApi } from '.';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
-function formatToken(token: null | string) {
-  return token ? `Bearer ${token}` : null;
-}
-
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
     ...options,
@@ -110,35 +106,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   return client;
 }
 
-function createAuthRequestClient(
-  baseURL: string,
-  options?: RequestClientOptions,
-) {
-  const client = new RequestClient({
-    ...options,
-    baseURL,
-  });
-
-  // 请求头处理
-  client.addRequestInterceptor({
-    fulfilled: async (config) => {
-      const accessStore = useAccessStore();
-
-      config.headers.Authorization = formatToken(accessStore.accessToken);
-      config.headers['Accept-Language'] = preferences.app.locale;
-      return config;
-    },
-  });
-
-  return client;
-}
-
 export const requestClient = createRequestClient(apiURL, {
-  responseReturn: 'data',
-});
-
-export const authRequestClient = createAuthRequestClient(apiURL, {
-  withCredentials: true,
   responseReturn: 'data',
 });
 

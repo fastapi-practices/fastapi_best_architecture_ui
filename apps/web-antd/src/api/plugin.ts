@@ -13,11 +13,17 @@ export async function getPluginChangedApi() {
 }
 
 export async function InstallZipPlugin(file: File) {
-  return await requestClient.post('/api/v1/sys/plugin/install/zip', { file });
+  return await requestClient.upload(
+    '/api/v1/sys/plugin/install/zip',
+    { file },
+    { timeout: 60_000 },
+  );
 }
 
 export async function InstallGitPlugin(repo_url: string) {
-  return await requestClient.post('/api/v1/sys/plugin/install/git', {
-    repo_url,
-  });
+  return await requestClient.post(
+    '/api/v1/sys/plugin/install/git',
+    {},
+    { params: { repo_url } },
+  );
 }
