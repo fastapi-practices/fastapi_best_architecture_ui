@@ -21,10 +21,10 @@ import { message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
-  createSysDept,
-  deleteSysDept,
-  getSysDeptTree,
-  updateSysDept,
+  createSysDeptApi,
+  deleteSysDeptApi,
+  getSysDeptTreeApi,
+  updateSysDeptApi,
 } from '#/api';
 
 const [Grid, gridApi] = useVbenVxeGrid({
@@ -149,7 +149,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async (_, formValues) => {
-          return await getSysDeptTree({ ...formValues });
+          return await getSysDeptTreeApi({ ...formValues });
         },
       },
     },
@@ -185,7 +185,7 @@ const [Form, formApi] = useVbenForm({
       component: 'ApiTreeSelect',
       componentProps: {
         allowClear: true,
-        api: getSysDeptTree,
+        api: getSysDeptTreeApi,
         class: 'w-full',
         labelField: 'name',
         valueField: 'id',
@@ -260,8 +260,8 @@ const [Modal, modalApi] = useVbenModal({
       const data = await formApi.getValues<SysDeptParams>();
       try {
         await (formData.value?.id
-          ? updateSysDept(formData.value.id, data)
-          : createSysDept(data));
+          ? updateSysDeptApi(formData.value.id, data)
+          : createSysDeptApi(data));
         await modalApi.close();
         onRefresh();
       } finally {
@@ -290,7 +290,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysDeptTreeResult>) {
       break;
     }
     case 'delete': {
-      deleteSysDept(row.id).then(() => {
+      deleteSysDeptApi(row.id).then(() => {
         message.success({
           content: $t('ui.actionMessage.deleteSuccess', [row.name]),
           key: 'action_process_msg',

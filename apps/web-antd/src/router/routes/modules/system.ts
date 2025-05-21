@@ -4,18 +4,18 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'Admin',
-    path: '/admin',
+    name: 'System',
+    path: '/system',
     meta: {
-      title: $t('page.menu.admin'),
-      icon: 'eos-icons:admin',
+      title: $t('page.menu.system'),
+      icon: 'grommet-icons:system',
       order: 1,
     },
     children: [
       {
         name: 'SysDept',
         path: 'sys-dept',
-        component: () => import('#/views/admin/dept/index.vue'),
+        component: () => import('#/views/system/dept/index.vue'),
         meta: {
           title: $t('page.menu.sysDept'),
         },
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysUser',
         path: 'sys-user',
-        component: () => import('#/views/admin/user/index.vue'),
+        component: () => import('#/views/system/user/index.vue'),
         meta: {
           title: $t('page.menu.sysUser'),
         },
@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysRole',
         path: 'sys-role',
-        component: () => import('#/views/admin/role/index.vue'),
+        component: () => import('#/views/system/role/index.vue'),
         meta: {
           title: $t('page.menu.sysRole'),
         },
@@ -39,7 +39,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysMenu',
         path: 'sys-menu',
-        component: () => import('#/views/admin/menu/index.vue'),
+        component: () => import('#/views/system/menu/index.vue'),
         meta: {
           title: $t('page.menu.sysMenu'),
         },
@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysDataPermission',
         path: 'sys-data-permission',
-        component: () => import('#/views/admin/data-permission/index.vue'),
+        component: () => import('#/views/system/data-permission/index.vue'),
         meta: {
           title: $t('page.menu.sysDataPermission'),
         },
@@ -55,7 +55,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysPlugin',
         path: 'sys-plugin',
-        component: () => import('#/views/admin/plugin/index.vue'),
+        component: () => import('#/views/system/plugin/index.vue'),
         meta: {
           title: $t('page.menu.SysPlugin'),
         },
