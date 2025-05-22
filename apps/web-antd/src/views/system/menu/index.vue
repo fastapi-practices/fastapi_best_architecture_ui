@@ -15,10 +15,10 @@ import {
 } from '@vben/common-ui';
 import { AddData, IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
-import { useVbenVxeGrid } from '@vben/plugins/vxe-table';
 
 import { message } from 'ant-design-vue';
 
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   createSysMenuApi,
   deleteSysMenuApi,
@@ -208,8 +208,8 @@ const [Form, formApi] = useVbenForm({
           { label: '目录', value: 0 },
           { label: '菜单', value: 1 },
           { label: '按钮', value: 2 },
-          { label: '外链', value: 3 },
-          { label: '内嵌', value: 4 },
+          { label: '内嵌', value: 3 },
+          { label: '外链', value: 4 },
         ],
         optionType: 'button',
       },
@@ -322,7 +322,7 @@ const [Form, formApi] = useVbenForm({
         },
         triggerFields: ['type'],
       },
-      fieldName: 'perm',
+      fieldName: 'perms',
       label: '权限标识',
     },
     {
