@@ -58,7 +58,6 @@ web-ele
 web-naive
 docs
 playground
-scripts/deploy
 .gitpod.yml
 README.*.md
 tea.yaml

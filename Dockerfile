@@ -1,0 +1,18 @@
+FROM node:22.15.0-buster-slim AS build
+
+WORKDIR /fba_ui
+
+COPY . .
+
+RUN pnpm install \
+    && pnpm build
+
+FROM nginx
+
+COPY scripts/deploy/nginx.conf /etc/nginx/sites-enabled/fba.conf
+
+COPY --from=build /fba_ui/apps/web-antd/dist /var/www/fba_ui
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
