@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         name: 'Document',
-        path: '/fba-admin/document',
+        path: '/document',
         component: IFrameView,
         meta: {
           icon: 'lucide:book-open-text',
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Github',
-        path: '/fba-admin/github',
+        path: '/github',
         component: IFrameView,
         meta: {
           icon: 'mdi:github',
@@ -33,11 +33,22 @@ const routes: RouteRecordRaw[] = [
           title: 'Github',
         },
       },
+      {
+        name: 'Apifox',
+        path: '/apifox',
+        component: IFrameView,
+        meta: {
+          icon: 'simple-icons:apifox',
+          iframeSrc:
+            'https://apifox.com/apidoc/shared-28a93f02-730b-4f33-bb5e-4dad92058cc0',
+          title: 'Apifox',
+        },
+      },
     ],
   },
   {
     name: 'VbenAbout',
-    path: '/vben-admin/about',
+    path: '/about',
     component: () => import('#/views/_core/about/index.vue'),
     meta: {
       icon: 'lucide:copyright',

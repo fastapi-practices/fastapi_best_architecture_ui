@@ -19,7 +19,7 @@
     "status": "Status"
   },
   "menu": {
-    "admin": "System Admin",
+    "system": "System Admin",
     "automation": "System Auto",
     "codeGenerator": "Code Generator",
     "log": "System Log",

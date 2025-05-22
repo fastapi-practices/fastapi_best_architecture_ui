@@ -36,7 +36,7 @@ export interface SysDeptTreeParams {
 /**
  * 获取部门树
  */
-export async function getSysDeptTree(params: SysDeptTreeParams) {
+export async function getSysDeptTreeApi(params: SysDeptTreeParams) {
   return requestClient.get<SysDeptTreeResult[]>('/api/v1/sys/depts', {
     params,
   });
@@ -45,27 +45,27 @@ export async function getSysDeptTree(params: SysDeptTreeParams) {
 /**
  * 获取部门详情
  */
-export async function getSysDeptDetail(pk: number) {
+export async function getSysDeptDetailApi(pk: number) {
   return requestClient.get<SysDeptTreeResult>(`/api/v1/sys/depts/${pk}`);
 }
 
 /**
  * 创建部门
  */
-export async function createSysDept(data: SysDeptParams) {
+export async function createSysDeptApi(data: SysDeptParams) {
   return requestClient.post('/api/v1/sys/depts', data);
 }
 
 /**
  * 更新部门
  */
-export async function updateSysDept(pk: number, data: SysDeptParams) {
+export async function updateSysDeptApi(pk: number, data: SysDeptParams) {
   return requestClient.put(`/api/v1/sys/depts/${pk}`, data);
 }
 
 /**
  * 删除部门
  */
-export async function deleteSysDept(pk: number) {
+export async function deleteSysDeptApi(pk: number) {
   return requestClient.delete(`/api/v1/sys/depts/${pk}`);
 }

@@ -19,7 +19,7 @@
     "status": "状态"
   },
   "menu": {
-    "admin": "系统管理",
+    "system": "系统管理",
     "automation": "系统自动化",
     "codeGenerator": "代码生成",
     "log": "系统日志",
