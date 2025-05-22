@@ -33,7 +33,7 @@
     "sysDept": "系统部门",
     "sysMenu": "系统菜单",
     "sysRole": "系统角色",
-    "sysUser": "系统角色"
+    "sysUser": "系统用户"
   },
   "monitor": {
     "redis": {
