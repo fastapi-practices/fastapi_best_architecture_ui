@@ -18,17 +18,11 @@ const [Grid] = useVbenVxeGrid({
     schema: [
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入用户名',
-        },
         fieldName: 'username',
         label: '用户名',
       },
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入 IP',
-        },
         fieldName: 'ip',
         label: 'IP 地址',
       },
@@ -46,7 +40,6 @@ const [Grid] = useVbenVxeGrid({
               value: 0,
             },
           ],
-          placeholder: $t('page.form.select'),
         },
         fieldName: 'status',
         label: $t('page.form.status'),

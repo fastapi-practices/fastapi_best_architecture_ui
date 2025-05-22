@@ -37,9 +37,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     schema: [
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入菜单标题',
-        },
         fieldName: 'title',
         label: '菜单标题',
       },
@@ -57,7 +54,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
               value: 0,
             },
           ],
-          placeholder: $t('page.form.select'),
         },
         fieldName: 'status',
         label: $t('page.form.status'),
@@ -220,9 +216,6 @@ const [Form, formApi] = useVbenForm({
     },
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入菜单标题',
-      },
       fieldName: 'title',
       label: '菜单标题',
       rules: 'required',
@@ -242,18 +235,12 @@ const [Form, formApi] = useVbenForm({
     },
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入路由名称',
-      },
       fieldName: 'name',
       label: '菜单名称',
       rules: 'required',
     },
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入路由地址',
-      },
       dependencies: {
         show: (values) => {
           return [0, 1, 3].includes(values.type);
@@ -267,7 +254,6 @@ const [Form, formApi] = useVbenForm({
     {
       component: 'InputNumber',
       componentProps: {
-        placeholder: '请输入排序',
         defaultValue: 0,
         min: 0,
         style: { width: '100%' },
@@ -310,9 +296,6 @@ const [Form, formApi] = useVbenForm({
     },
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入按钮权限',
-      },
       dependencies: {
         rules: (values) => {
           return values.type === 2 ? 'required' : null;
