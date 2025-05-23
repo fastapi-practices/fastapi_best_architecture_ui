@@ -18,9 +18,6 @@ const [Grid] = useVbenVxeGrid({
     schema: [
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入角色名称',
-        },
         fieldName: 'name',
         label: '角色名称',
       },
@@ -38,7 +35,6 @@ const [Grid] = useVbenVxeGrid({
               value: 1,
             },
           ],
-          placeholder: $t('page.form.select'),
         },
         fieldName: 'status',
         label: $t('page.form.status'),

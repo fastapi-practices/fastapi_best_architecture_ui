@@ -37,25 +37,16 @@ const [Grid, gridApi] = useVbenVxeGrid({
     schema: [
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入部门名称',
-        },
         fieldName: 'name',
         label: '部门名称',
       },
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入负责人',
-        },
         fieldName: 'leader',
         label: '负责人',
       },
       {
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入手机号号码',
-        },
         fieldName: 'phone',
         label: '手机号码',
       },
@@ -73,7 +64,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
               value: 0,
             },
           ],
-          placeholder: $t('page.form.select'),
         },
         fieldName: 'status',
         label: $t('page.form.status'),
@@ -174,9 +164,6 @@ const [Form, formApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入部门名称',
-      },
       fieldName: 'name',
       label: '部门名称',
       rules: 'required',
@@ -196,16 +183,12 @@ const [Form, formApi] = useVbenForm({
     },
     {
       component: 'Input',
-      componentProps: {
-        placeholder: '请输入负责人名称',
-      },
       fieldName: 'leader',
       label: '负责人',
     },
     {
       component: 'Input',
       componentProps: {
-        placeholder: '请输入手机号码',
         allowClear: true,
       },
       fieldName: 'phone',
@@ -214,7 +197,6 @@ const [Form, formApi] = useVbenForm({
     {
       component: 'Input',
       componentProps: {
-        placeholder: '请输入邮箱',
         allowClear: true,
       },
       fieldName: 'email',
