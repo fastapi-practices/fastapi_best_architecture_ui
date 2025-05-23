@@ -9,7 +9,7 @@ export const overridesPreferences = defineOverridesPreferences({
   app: {
     accessMode: 'frontend',
     name: import.meta.env.VITE_APP_TITLE,
-    watermark: false,
+    enableRefreshToken: true,
   },
   copyright: {
     companyName: 'FastAPI Practices',
