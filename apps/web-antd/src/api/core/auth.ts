@@ -35,14 +35,18 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new');
+  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new', {
+    withCredentials: true,
+  });
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  return requestClient.post('/api/v1/auth/logout');
+  return baseRequestClient.post('/api/v1/auth/logout', {
+    withCredentials: true,
+  });
 }
 
 /**

@@ -17,7 +17,7 @@ import { message } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
 
-import { refreshTokenApi } from '.';
+import { refreshTokenApi } from './core';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
@@ -110,8 +110,4 @@ export const requestClient = createRequestClient(apiURL, {
   responseReturn: 'data',
 });
 
-export const baseRequestClient = new RequestClient({
-  baseURL: apiURL,
-  withCredentials: true,
-  responseReturn: 'data',
-});
+export const baseRequestClient = new RequestClient({ baseURL: apiURL });
