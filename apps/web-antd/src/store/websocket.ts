@@ -35,7 +35,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
     const accessStore = useAccessStore();
 
     // 检查登录状态
-    if (accessStore.loginExpired) {
+    if (!accessStore.accessToken) {
       console.warn('用户未登录或登录已过期，无法建立 WebSocket 连接');
       return false;
     }
@@ -102,7 +102,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
    */
   const handleConnectionError = () => {
     const accessStore = useAccessStore();
-    if (accessStore.loginExpired) {
+    if (!accessStore.accessToken) {
       disconnect();
     }
   };

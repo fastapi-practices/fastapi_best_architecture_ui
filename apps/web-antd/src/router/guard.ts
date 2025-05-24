@@ -129,9 +129,8 @@ export function setupWebSocketGuard(router: Router) {
     const accessStore = useAccessStore();
     const wsStore = useWebSocketStore();
 
-    // 检查用户是否已登录
-    if (accessStore.loginExpired && wsStore.isConnected) {
-      // 初始化 WebSocket 连接
+    // 检查 WebSocket 连接状态
+    if (accessStore.accessToken && !wsStore.isConnected) {
       wsStore.connect();
     }
 
