@@ -13,6 +13,7 @@ export interface LoginParams {
 
 export interface LoginResult {
   access_token: string;
+  session_uuid: string;
 }
 
 export type RefreshTokenResult = LoginResult;

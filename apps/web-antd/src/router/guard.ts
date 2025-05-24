@@ -7,6 +7,7 @@ import { startProgress, stopProgress } from '@vben/utils';
 
 import { accessRoutes, coreRouteNames } from '#/router/routes';
 import { useAuthStore } from '#/store';
+import { useWebSocketStore } from '#/store/websocket';
 
 import { generateAccess } from './access';
 
@@ -120,6 +121,25 @@ function setupAccessGuard(router: Router) {
 }
 
 /**
+ * WebSocket 守卫配置
+ * @param router
+ */
+export function setupWebSocketGuard(router: Router) {
+  router.beforeEach(async (_) => {
+    const accessStore = useAccessStore();
+    const wsStore = useWebSocketStore();
+
+    // 检查用户是否已登录
+    if (accessStore.loginExpired && wsStore.isConnected) {
+      // 初始化 WebSocket 连接
+      wsStore.connect();
+    }
+
+    return true;
+  });
+}
+
+/**
  * 项目守卫配置
  * @param router
  */
@@ -128,6 +148,8 @@ function createRouterGuard(router: Router) {
   setupCommonGuard(router);
   /** 权限访问 */
   setupAccessGuard(router);
+  /** WebSocket */
+  setupWebSocketGuard(router);
 }
 
 export { createRouterGuard };

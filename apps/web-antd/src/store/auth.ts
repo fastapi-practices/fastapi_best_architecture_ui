@@ -20,6 +20,7 @@ import {
   logoutApi,
 } from '#/api';
 import { $t } from '#/locales';
+import { useWebSocketStore } from '#/store/websocket';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -49,11 +50,14 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: MyUserInfo | null = null;
     try {
       loginLoading.value = true;
-      const { access_token } = await loginApi(params as LoginParams);
+      const { access_token, session_uuid } = await loginApi(
+        params as LoginParams,
+      );
 
       // 如果成功获取到 accessToken
       if (access_token) {
         accessStore.setAccessToken(access_token);
+        accessStore.setAccessSessionUuid(session_uuid);
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
@@ -75,6 +79,10 @@ export const useAuthStore = defineStore('auth', () => {
                 userInfo.homePath || preferences.app.defaultHomePath,
               );
         }
+
+        // 初始化WebSocket连接
+        const wsStore = useWebSocketStore();
+        wsStore.connect();
 
         if (userInfo?.nickname) {
           notification.success({

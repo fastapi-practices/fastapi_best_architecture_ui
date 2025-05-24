@@ -35,6 +35,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
     accessStore.setAccessToken(null);
+    accessStore.setAccessSessionUuid(null);
     if (
       preferences.app.loginExpiredMode === 'modal' &&
       accessStore.isAccessChecked
@@ -53,6 +54,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     const resp = await refreshTokenApi();
     const newToken = resp.access_token;
     accessStore.setAccessToken(newToken);
+    accessStore.setAccessSessionUuid(resp.session_uuid);
     return newToken;
   }
 

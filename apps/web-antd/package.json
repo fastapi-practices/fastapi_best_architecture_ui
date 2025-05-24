@@ -44,6 +44,7 @@
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
+    "socket.io-client": "^4.8.1",
     "vue": "catalog:",
     "vue-router": "catalog:"
   }
