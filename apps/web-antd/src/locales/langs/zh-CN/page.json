@@ -26,6 +26,7 @@
     "login": "登录日志",
     "monitor": "系统监控",
     "opera": "操作日志",
+    "online": "在线用户",
     "redis": "Redis",
     "server": "服务器",
     "sysDataPermission": "数据权限",

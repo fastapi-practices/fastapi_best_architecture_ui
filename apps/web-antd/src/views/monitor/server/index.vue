@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import { $t } from '@vben/locales';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getServerMonitor } from '#/api';
+import { getServerMonitorApi } from '#/api';
 
 const loading = ref<boolean>(false);
 
@@ -77,7 +77,7 @@ const usageStyle = (type: string) => {
 const fetchServerData = async () => {
   loading.value = true;
   try {
-    const res = await getServerMonitor();
+    const res = await getServerMonitorApi();
     setServerData.value.cpu = res.cpu;
     setServerData.value.memory = res.mem;
     setServerData.value.system = res.sys;

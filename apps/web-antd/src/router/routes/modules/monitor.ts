@@ -13,6 +13,14 @@ const routes: RouteRecordRaw[] = [
     },
     children: [
       {
+        name: 'Online',
+        path: 'online',
+        component: () => import('#/views/monitor/online/index.vue'),
+        meta: {
+          title: $t('page.menu.online'),
+        },
+      },
+      {
         name: 'Redis',
         path: 'redis',
         component: () => import('#/views/monitor/redis/index.vue'),

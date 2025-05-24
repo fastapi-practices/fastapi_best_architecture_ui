@@ -13,6 +13,7 @@ export interface LoginParams {
 
 export interface LoginResult {
   access_token: string;
+  session_uuid: string;
 }
 
 export type RefreshTokenResult = LoginResult;
@@ -35,7 +36,13 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new');
+  return baseRequestClient.post<RefreshTokenResult>(
+    '/api/v1/auth/token/new',
+    undefined,
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 /**

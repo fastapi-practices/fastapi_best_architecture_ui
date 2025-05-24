@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { getRedisMonitor } from '#/api';
+import { getRedisMonitorApi } from '#/api';
 import ActiveSeries from '#/views/monitor/redis/components/active-series.vue';
 import CommandsSeries from '#/views/monitor/redis/components/commands-series.vue';
 
@@ -21,7 +21,7 @@ const redisUsedMemory = computed(() => [
 const fetchRedisData = async () => {
   loading.value = true;
   try {
-    const res = await getRedisMonitor();
+    const res = await getRedisMonitorApi();
     redisInfo.value = res.info;
     redisStats.value = res.stats;
   } catch (error) {

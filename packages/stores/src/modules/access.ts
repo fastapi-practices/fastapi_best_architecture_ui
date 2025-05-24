@@ -20,6 +20,10 @@ interface AccessState {
    */
   accessRoutes: RouteRecordRaw[];
   /**
+   * 登录 session_uuid
+   */
+  accessSessionUuid: AccessToken;
+  /**
    * 登录 accessToken
    */
   accessToken: AccessToken;
@@ -82,6 +86,9 @@ export const useAccessStore = defineStore('core-access', {
     setAccessRoutes(routes: RouteRecordRaw[]) {
       this.accessRoutes = routes;
     },
+    setAccessSessionUuid(uuid: AccessToken) {
+      this.accessSessionUuid = uuid;
+    },
     setAccessToken(token: AccessToken) {
       this.accessToken = token;
     },
@@ -102,6 +109,7 @@ export const useAccessStore = defineStore('core-access', {
   persist: {
     // 持久化
     pick: [
+      'accessSessionUuid',
       'accessToken',
       'refreshToken',
       'accessCodes',
@@ -113,6 +121,7 @@ export const useAccessStore = defineStore('core-access', {
     accessCodes: [],
     accessMenus: [],
     accessRoutes: [],
+    accessSessionUuid: null,
     accessToken: null,
     isAccessChecked: false,
     isLockScreen: false,

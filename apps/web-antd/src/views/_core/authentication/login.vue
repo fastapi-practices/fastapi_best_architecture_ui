@@ -7,7 +7,7 @@ import { computed, h, onMounted, ref } from 'vue';
 import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Button, Image, notification } from 'ant-design-vue';
+import { Image, notification } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
 
@@ -42,23 +42,10 @@ const showNotification = () => {
           '计划于第二季度结束前完成',
           h('span', { class: 'text-gray-500 ml-1' }, '（可能延期）'),
         ]),
-        h('li', null, [
-          '获取最新进展：',
-          h(
-            Button,
-            {
-              type: 'link',
-              size: 'small',
-              href: 'https://fastapi-practices.github.io/fastapi_best_architecture_docs/frontend/intro.html',
-              class: '!p-0 !h-auto',
-            },
-            '官方文档',
-          ),
-        ]),
       ]),
     ]),
     duration: null,
-    placement: 'top',
+    placement: 'bottom',
     class: 'w-full',
   });
 };

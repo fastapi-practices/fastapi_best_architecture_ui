@@ -61,6 +61,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
     ],
   },
   gridOptions: {
+    rowConfig: {
+      keyField: 'id',
+    },
+    checkboxConfig: {
+      highlight: true,
+    },
+    height: 'auto',
     exportConfig: {},
     printConfig: {},
     toolbarConfig: {
@@ -414,7 +421,7 @@ const [Modal, modalApi] = useVbenModal({
 </script>
 
 <template>
-  <Page>
+  <Page auto-content-height>
     <Grid>
       <template #toolbar-actions>
         <VbenButton @click="() => modalApi.setData(null).open()">

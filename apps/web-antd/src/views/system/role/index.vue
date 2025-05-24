@@ -48,7 +48,7 @@ const [Grid] = useVbenVxeGrid({
     checkboxConfig: {
       highlight: true,
     },
-    minHeight: 180,
+    height: 'auto',
     exportConfig: {},
     printConfig: {},
     toolbarConfig: {
@@ -109,7 +109,7 @@ const [Grid] = useVbenVxeGrid({
 </script>
 
 <template>
-  <Page>
+  <Page auto-content-height>
     <Grid />
   </Page>
 </template>
