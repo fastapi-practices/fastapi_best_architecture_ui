@@ -20,7 +20,7 @@ import {
   logoutApi,
 } from '#/api';
 import { $t } from '#/locales';
-import { useWebSocketStore } from '#/store/websocket';
+import { useWebSocketStore } from '#/store';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
