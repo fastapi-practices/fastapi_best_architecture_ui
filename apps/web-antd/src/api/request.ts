@@ -34,6 +34,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     console.warn('Access token or refresh token is invalid or expired. ');
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
+    const oldAccessToken = accessStore.accessToken || '';
     accessStore.setAccessToken(null);
     accessStore.setAccessSessionUuid(null);
     if (
@@ -42,7 +43,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     ) {
       accessStore.setLoginExpired(true);
     } else {
-      await authStore.logout();
+      await authStore.logout(oldAccessToken);
     }
   }
 

@@ -48,8 +48,10 @@ export async function refreshTokenApi() {
 /**
  * 退出登录
  */
-export async function logoutApi() {
-  return requestClient.post('/api/v1/auth/logout');
+export async function logoutApi(access_token: string) {
+  return baseRequestClient.post('/api/v1/auth/logout', undefined, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
 }
 
 /**
