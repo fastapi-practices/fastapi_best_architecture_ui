@@ -26,6 +26,7 @@
     "login": "Login Log",
     "monitor": "System Monitor",
     "opera": "Opera Log",
+    "online": "Online User",
     "redis": "Redis",
     "server": "Server",
     "SysPermission": "Data Permission",

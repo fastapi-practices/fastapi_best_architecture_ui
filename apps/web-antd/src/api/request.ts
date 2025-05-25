@@ -17,7 +17,7 @@ import { message } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
 
-import { refreshTokenApi } from '.';
+import { refreshTokenApi } from './core';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
@@ -34,14 +34,16 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     console.warn('Access token or refresh token is invalid or expired. ');
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
+    const oldAccessToken = accessStore.accessToken || '';
     accessStore.setAccessToken(null);
+    accessStore.setAccessSessionUuid(null);
     if (
       preferences.app.loginExpiredMode === 'modal' &&
       accessStore.isAccessChecked
     ) {
       accessStore.setLoginExpired(true);
     } else {
-      await authStore.logout();
+      await authStore.logout(oldAccessToken);
     }
   }
 
@@ -53,6 +55,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     const resp = await refreshTokenApi();
     const newToken = resp.access_token;
     accessStore.setAccessToken(newToken);
+    accessStore.setAccessSessionUuid(resp.session_uuid);
     return newToken;
   }
 
@@ -110,8 +113,4 @@ export const requestClient = createRequestClient(apiURL, {
   responseReturn: 'data',
 });
 
-export const baseRequestClient = new RequestClient({
-  baseURL: apiURL,
-  withCredentials: true,
-  responseReturn: 'data',
-});
+export const baseRequestClient = new RequestClient({ baseURL: apiURL });

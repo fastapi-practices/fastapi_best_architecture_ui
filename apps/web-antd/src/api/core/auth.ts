@@ -13,6 +13,7 @@ export interface LoginParams {
 
 export interface LoginResult {
   access_token: string;
+  session_uuid: string;
 }
 
 export type RefreshTokenResult = LoginResult;
@@ -35,14 +36,22 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<RefreshTokenResult>('/api/v1/token/new');
+  return baseRequestClient.post<RefreshTokenResult>(
+    '/api/v1/auth/token/new',
+    undefined,
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 /**
  * 退出登录
  */
-export async function logoutApi() {
-  return requestClient.post('/api/v1/auth/logout');
+export async function logoutApi(access_token: string) {
+  return baseRequestClient.post('/api/v1/auth/logout', undefined, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
 }
 
 /**

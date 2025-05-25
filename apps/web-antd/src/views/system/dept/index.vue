@@ -18,6 +18,7 @@ import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
@@ -71,6 +72,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
     ],
   },
   gridOptions: {
+    rowConfig: {
+      keyField: 'id',
+    },
+    checkboxConfig: {
+      highlight: true,
+    },
+    height: 'auto',
     exportConfig: {},
     printConfig: {},
     toolbarConfig: {
@@ -107,6 +115,9 @@ const [Grid, gridApi] = useVbenVxeGrid({
         field: 'created_time',
         title: $t('page.table.created_time'),
         width: 168,
+        formatter: ({ cellValue }) => {
+          return dayjs(cellValue).format('YYYY-MM-DD HH:mm:ss');
+        },
       },
       {
         field: 'operation',
@@ -290,7 +301,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysDeptTreeResult>) {
 </script>
 
 <template>
-  <Page>
+  <Page auto-content-height>
     <Grid>
       <template #toolbar-actions>
         <VbenButton @click="() => modalApi.setData(null).open()">
