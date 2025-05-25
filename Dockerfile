@@ -1,4 +1,4 @@
-FROM node:22.15.0-buster-slim AS build
+FROM guergeiro/pnpm:lts-latest-slim AS build
 
 WORKDIR /fba_ui
 
@@ -9,7 +9,7 @@ RUN pnpm install \
 
 FROM nginx
 
-COPY scripts/deploy/nginx.conf /etc/nginx/sites-enabled/fba.conf
+COPY scripts/deploy/nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build /fba_ui/apps/web-antd/dist /var/www/fba_ui
 

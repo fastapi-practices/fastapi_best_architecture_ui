@@ -1,9 +1,13 @@
 networks:
   fba_network:
+#    name: fba_network
+#    driver: bridge
     external: true
 
 volumes:
   fba_static:
+    external: true
+  fba_static_upload:
     external: true
 
 services:
