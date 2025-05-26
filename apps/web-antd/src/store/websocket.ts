@@ -205,7 +205,12 @@ export const useWebSocketStore = defineStore('websocket', () => {
     return isConnected.value ? 'connected' : 'connecting';
   });
 
+  function $reset() {
+    disconnect();
+  }
+
   return {
+    $reset,
     socket,
     isConnected,
     connectionStatus,

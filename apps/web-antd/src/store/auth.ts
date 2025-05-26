@@ -101,7 +101,7 @@ export const useAuthStore = defineStore('auth', () => {
     };
   }
 
-  async function logout(access_token: string, redirect: boolean = true) {
+  async function logout(access_token: null | string, redirect: boolean = true) {
     try {
       await logoutApi(access_token);
     } catch {

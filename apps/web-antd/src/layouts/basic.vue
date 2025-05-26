@@ -95,7 +95,7 @@ const avatar = computed(() => {
 });
 
 async function handleLogout() {
-  await authStore.logout(false);
+  await authStore.logout(accessStore.accessToken, false);
 }
 
 function handleNoticeClear() {
