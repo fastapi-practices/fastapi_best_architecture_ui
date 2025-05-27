@@ -33,7 +33,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
   gridOptions: {
     rowConfig: {
-      keyField: 'id',
+      keyField: 'session_uuid',
     },
     virtualYConfig: {
       enabled: true,
@@ -140,7 +140,7 @@ function onRefresh() {
       <template #toolbar-actions>
         <div class="mr-1 pl-1 text-[1rem]">
           <div>
-            当前在线人数：
+            当前已登录人数：
             <span class="text-primary font-bold">{{ onlineCount }}</span>
           </div>
         </div>
