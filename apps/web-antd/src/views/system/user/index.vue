@@ -3,23 +3,30 @@ import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type { SysDeptTreeResult, SysRoleResult, SysUserResult } from '#/api';
+import type {
+  SysDeptTreeResult,
+  SysRoleResult,
+  SysUpdateUserParams,
+  SysUserResult,
+} from '#/api';
 
 import { onMounted, ref } from 'vue';
 
-import { ColPage, VbenButton } from '@vben/common-ui';
+import { ColPage, useVbenModal, VbenButton, z } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 
 import { message } from 'ant-design-vue';
 
+import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   deleteSysUserApi,
   getAllSysRoleApi,
   getSysDeptTreeApi,
   getSysUserListApi,
+  updateSysUserApi,
   updateSysUserMultiApi,
   updateSysUserStaffApi,
   updateSysUserStatusApi,
@@ -103,22 +110,29 @@ const [Grid, gridApi] = useVbenVxeGrid({
       custom: true,
       zoom: true,
     },
+    tooltipConfig: {
+      contentMethod: ({ column, row }) => {
+        if (column.field === 'roles' && row.roles.length > 0) {
+          return row.roles.map((item) => item.name).join('、');
+        }
+        return null;
+      },
+    },
     columns: [
-      { field: 'uuid', title: 'UUID', width: 150 },
+      { field: 'username', title: '用户名', width: 100 },
+      { field: 'nickname', title: '昵称', width: 100 },
       {
         field: 'avatar',
         title: '头像',
         width: 80,
         slots: { default: 'avatar' },
       },
-      { field: 'username', title: '用户名', width: 100 },
-      { field: 'nickname', title: '昵称', width: 100 },
       {
         field: 'dept',
         title: '部门',
         width: 100,
         formatter({ cellValue }) {
-          return cellValue || '未绑定';
+          return cellValue.name || '未绑定';
         },
       },
       {
@@ -249,7 +263,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
         },
       },
     },
-  } as VxeTableGridOptions<SysUserResult[]>,
+  } as VxeTableGridOptions<SysUserResult>,
 });
 
 function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
@@ -265,6 +279,8 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
       break;
     }
     case 'edit': {
+      editUser.value = row.username;
+      modalApi.setData(row).open();
       break;
     }
   }
@@ -290,6 +306,100 @@ const fetchAllSysRole = async () => {
     console.error(error);
   }
 };
+
+const [EditForm, formApi] = useVbenForm({
+  showDefaultActions: false,
+  schema: [
+    {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        allowClear: true,
+        api: getSysDeptTreeApi,
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      fieldName: 'dept_id',
+      label: '部门',
+    },
+    {
+      component: 'Input',
+      fieldName: 'username',
+      label: '用户名',
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'nickname',
+      label: '昵称',
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'avatar',
+      label: '头像地址',
+    },
+    {
+      component: 'Input',
+      fieldName: 'email',
+      label: '邮箱',
+      rules: z.string().email({ message: '无效的邮箱地址' }).optional(),
+    },
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: '手机号',
+    },
+    {
+      component: 'Select',
+      componentProps: {
+        class: 'w-full',
+        mode: 'multiple',
+        options: roleSelectOptions,
+        fieldNames: { label: 'name', value: 'id' },
+        filterOption: (input: string, option: SysRoleResult) => {
+          return (
+            option.name?.toLowerCase()?.includes(input.toLowerCase()) ?? false
+          );
+        },
+      },
+      fieldName: 'roles',
+      label: '角色',
+      rules: 'selectRequired',
+    },
+  ],
+});
+
+const editUser = ref<string>('');
+
+const [editModal, modalApi] = useVbenModal({
+  destroyOnClose: true,
+  async onConfirm() {
+    const { valid } = await formApi.validate();
+    if (valid) {
+      modalApi.lock();
+      const data = await formApi.getValues<SysUpdateUserParams>();
+      try {
+        await updateSysUserApi(editUser.value, data);
+        await modalApi.close();
+        onRefresh();
+      } finally {
+        modalApi.unlock();
+      }
+    }
+  },
+  onOpenChange(isOpen) {
+    if (isOpen) {
+      const data = modalApi.getData<any>();
+      formApi.resetForm();
+      if (data) {
+        data.roles = data.roles.map((item: SysRoleResult) => item.id);
+        formApi.setValues(data);
+      }
+    }
+  },
+});
 
 onMounted(() => {
   fetchDeptTree(undefined);
@@ -352,11 +462,16 @@ onMounted(() => {
         <a-avatar :src="row.avatar || preferences.app.defaultAvatar" />
       </template>
       <template #roles="{ row }">
-        <a-tooltip v-if="row.roles.length > 0">
-          <a-tag v-for="role in row.roles" :key="role">{{ role }}</a-tag>
-        </a-tooltip>
-        <a-tooltip v-else>未绑定</a-tooltip>
+        <span v-if="row.roles.length > 0">
+          <a-tag v-for="role in row.roles" :key="role.name">
+            {{ role.name }}
+          </a-tag>
+        </span>
+        <span v-else>未绑定</span>
       </template>
     </Grid>
+    <editModal title="修改用户">
+      <EditForm />
+    </editModal>
   </ColPage>
 </template>

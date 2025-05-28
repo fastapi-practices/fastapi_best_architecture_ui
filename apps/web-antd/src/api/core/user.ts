@@ -37,6 +37,16 @@ export interface SysUserParams {
   size?: number;
 }
 
+export interface SysUpdateUserParams {
+  dept_id?: number;
+  username: string;
+  nickname: string;
+  avatar?: string;
+  email: string;
+  phone?: string;
+  roles: number[];
+}
+
 /**
  * 获取用户信息
  */
@@ -46,6 +56,13 @@ export async function getUserInfoApi() {
 
 export async function getSysUserListApi(params: SysUserParams) {
   return requestClient.get<SysUserResult>('/api/v1/sys/users', { params });
+}
+
+export async function updateSysUserApi(
+  username: string,
+  data: SysUpdateUserParams,
+) {
+  return requestClient.put(`/api/v1/sys/users/${username}`, data);
 }
 
 export async function updateSysUserStatusApi(pk: number) {
