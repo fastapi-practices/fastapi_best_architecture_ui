@@ -98,9 +98,9 @@ setupVbenVxeTable({
         const loadingKey = `__loading_${column.field}`;
         const finallyProps = {
           checkedChildren: $t('common.enabled'),
-          checkedValue: 1,
+          checkedValue: props?.checkedValue || 1,
           unCheckedChildren: $t('common.disabled'),
-          unCheckedValue: 0,
+          unCheckedValue: props?.unCheckedValue || 0,
           ...props,
           checked: row[column.field],
           loading: row[loadingKey] ?? false,
@@ -112,6 +112,7 @@ setupVbenVxeTable({
             const result = await attrs?.beforeChange?.(newVal, row);
             if (result !== false) {
               row[column.field] = newVal;
+              attrs?.onChange?.({ row });
             }
           } finally {
             row[loadingKey] = false;
@@ -212,10 +213,12 @@ setupVbenVxeTable({
             {
               getPopupContainer(el) {
                 return (
+                  el.closest('.fixed-right--wrapper')?.querySelector('tbody') ||
                   el
                     .closest('.vxe-table--viewport-wrapper')
                     ?.querySelector('.vxe-table--main-wrapper')
-                    ?.querySelector('tbody') || document.body
+                    ?.querySelector('tbody') ||
+                  document.body
                 );
               },
               placement: 'topLeft',

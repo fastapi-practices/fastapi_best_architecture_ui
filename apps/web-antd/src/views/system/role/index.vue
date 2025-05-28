@@ -6,7 +6,7 @@ import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getSysRoleList } from '#/api';
+import { getSysRoleListApi } from '#/api';
 
 const [Grid] = useVbenVxeGrid({
   formOptions: {
@@ -32,7 +32,7 @@ const [Grid] = useVbenVxeGrid({
             },
             {
               label: '已停用',
-              value: 1,
+              value: 0,
             },
           ],
         },
@@ -96,7 +96,7 @@ const [Grid] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await getSysRoleList({
+          return await getSysRoleListApi({
             page: page.currentPage,
             size: page.pageSize,
             ...formValues,
