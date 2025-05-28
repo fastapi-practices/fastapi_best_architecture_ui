@@ -394,8 +394,10 @@ const [editModal, modalApi] = useVbenModal({
       const data = modalApi.getData<any>();
       formApi.resetForm();
       if (data) {
-        data.roles = data.roles.map((item: SysRoleResult) => item.id);
-        formApi.setValues(data);
+        formApi.setValues({
+          ...data,
+          roles: data.roles?.map((item: SysRoleResult) => item.id) || [],
+        });
       }
     }
   },
