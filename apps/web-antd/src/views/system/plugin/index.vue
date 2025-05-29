@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { PluginResult } from '#/api/plugin';
 
-import { h, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { confirm, Page, useVbenModal, VbenButton } from '@vben/common-ui';
 import { downloadFileFromBlobPart } from '@vben/utils';
 
-import { Button } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import {
@@ -19,6 +19,8 @@ import {
   updatePluginStatus,
 } from '#/api/plugin';
 
+import { userSchema } from './data';
+
 const pluginChanged = ref<boolean>(false);
 const pluginInfo = ref<PluginResult[]>();
 
@@ -29,7 +31,6 @@ const fetchPluginChanged = async () => {
     console.error(error);
   }
 };
-fetchPluginChanged();
 
 const fetchPlugin = async () => {
   try {
@@ -38,74 +39,13 @@ const fetchPlugin = async () => {
     console.error(error);
   }
 };
-fetchPlugin();
 
 const fileList = ref<any[]>([]);
 
 const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
   wrapperClass: 'mt-8',
-  schema: [
-    {
-      component: 'RadioGroup',
-      defaultValue: 0,
-      componentProps: {
-        options: [
-          {
-            label: '压缩包',
-            value: 0,
-          },
-          {
-            label: 'GIT',
-            value: 1,
-          },
-        ],
-      },
-      fieldName: 'installType',
-      label: '安装方式',
-    },
-    {
-      component: 'Upload',
-      dependencies: {
-        show: (values) => values && values.installType === 0,
-        triggerFields: ['installType'],
-      },
-      componentProps: {
-        name: 'file',
-        accept: '.zip',
-        maxCount: 1,
-        multiple: false,
-        directory: false,
-        fileList: fileList.value,
-        beforeUpload: (file: any) => {
-          fileList.value = [file];
-          return false;
-        },
-        onRemove: () => {
-          fileList.value = [];
-        },
-      },
-      renderComponentContent: () => ({
-        default: () => {
-          return h(Button, {}, { default: () => 'Upload' });
-        },
-      }),
-      fieldName: 'uploadField',
-      label: 'ZIP 压缩包',
-      rules: 'required',
-      help: '仅能上传一个 zip 压缩包文件，支持重新上传',
-    },
-    {
-      component: 'Input',
-      dependencies: {
-        show: (values) => values && values.installType === 1,
-        triggerFields: ['installType'],
-      },
-      fieldName: 'repo_url',
-      label: 'GIT 仓库地址',
-      rules: 'required',
-    },
-  ],
+  schema: userSchema(fileList),
 });
 
 function downloadConfirm(plugin: string) {
@@ -135,6 +75,16 @@ function deleteConfirm(plugin: string) {
   });
 }
 
+const editPluginStatus = async (plugin: string) => {
+  try {
+    await updatePluginStatus(plugin);
+    await fetchPluginChanged();
+    message.success('更新插件状态成功');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     try {
@@ -157,24 +107,18 @@ const [Modal, modalApi] = useVbenModal({
   },
 });
 
-const editPluginStatus = async (plugin: string) => {
-  try {
-    await updatePluginStatus(plugin);
-    await fetchPlugin();
-  } catch (error) {
-    console.error(error);
-  }
-};
+onMounted(() => {
+  fetchPluginChanged();
+  fetchPlugin();
+});
 </script>
 
 <template>
   <Page>
-    <div>
-      <VbenButton @click="() => modalApi.open()">安装插件</VbenButton>
-      <Modal title="安装插件">
-        <Form />
-      </Modal>
-    </div>
+    <VbenButton @click="() => modalApi.open()">安装插件</VbenButton>
+    <Modal title="安装插件">
+      <Form />
+    </Modal>
     <a-alert
       v-show="pluginChanged"
       class="mt-4"
@@ -188,9 +132,7 @@ const editPluginStatus = async (plugin: string) => {
         <a-card v-for="info in pluginInfo" :key="info.plugin.name">
           <template #title>
             {{ info.plugin.summary }}
-            <span class="text-sm text-gray-500">
-              @{{ info.plugin.author }}
-            </span>
+            <span class="ml-1 text-sm"> v{{ info.plugin.version }} </span>
           </template>
           <p>{{ info.plugin.description }}</p>
           <br />
@@ -198,21 +140,25 @@ const editPluginStatus = async (plugin: string) => {
             <a-switch
               v-model:checked="info.plugin.enable"
               checked-value="1"
+              checked-children="启用"
+              un-checked-children="禁用"
               @click="editPluginStatus(info.plugin.name)"
             />
           </template>
           <template #actions>
-            <p class="text-sm text-gray-500">
-              {{ info.plugin.version }}
-            </p>
+            <p class="text-gray-500">@{{ info.plugin.author }}</p>
             <span
-              class="icon-[material-symbols--download] cursor-pointer text-green-500 hover:opacity-80"
+              class="cursor-pointer text-green-500 hover:opacity-80"
               @click="downloadConfirm(info.plugin.name)"
-            ></span>
+            >
+              打包
+            </span>
             <span
-              class="icon-[material-symbols--delete] cursor-pointer text-red-500 hover:opacity-80"
+              class="cursor-pointer text-red-500 hover:opacity-80"
               @click="deleteConfirm(info.plugin.name)"
-            ></span>
+            >
+              卸载
+            </span>
           </template>
         </a-card>
       </div>

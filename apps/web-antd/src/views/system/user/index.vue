@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type {
   OnActionClickParams,
   VxeTableGridOptions,
@@ -13,7 +15,7 @@ import type {
 
 import { onMounted, ref } from 'vue';
 
-import { ColPage, useVbenModal, VbenButton, z } from '@vben/common-ui';
+import { ColPage, useVbenModal, VbenButton } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
@@ -29,11 +31,13 @@ import {
   getSysDeptTreeApi,
   getSysUserListApi,
   updateSysUserApi,
-  updateSysUserMultiApi,
-  updateSysUserStaffApi,
-  updateSysUserStatusApi,
-  updateSysUserSuperApi,
 } from '#/api';
+import {
+  querySchema,
+  useAddSchema,
+  useColumns,
+  useEditSchema,
+} from '#/views/system/user/data';
 
 /**
  * 左侧
@@ -56,217 +60,60 @@ const searchDept = async (searchValue: string | undefined) => {
 /**
  * 右侧
  */
-const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: {
-    collapsed: true,
-    showCollapseButton: true,
-    submitButtonOptions: {
-      content: $t('page.form.query'),
-    },
-    schema: [
-      {
-        component: 'Input',
-        fieldName: 'username',
-        label: '用户名',
-      },
-      {
-        component: 'Input',
-        fieldName: 'phone',
-        label: '手机号',
-      },
-      {
-        component: 'Select',
-        componentProps: {
-          allowClear: true,
-          options: [
-            {
-              label: '正常',
-              value: 1,
-            },
-            {
-              label: '禁用',
-              value: 0,
-            },
-          ],
-          placeholder: $t('page.form.select'),
-        },
-        fieldName: 'status',
-        label: $t('page.form.status'),
-      },
-    ],
+
+const formOptions: VbenFormProps = {
+  collapsed: true,
+  showCollapseButton: true,
+  submitButtonOptions: {
+    content: $t('page.form.query'),
   },
-  gridOptions: {
-    rowConfig: {
-      keyField: 'id',
+  schema: querySchema,
+};
+
+const gridOptions: VxeTableGridOptions<SysUserResult> = {
+  rowConfig: {
+    keyField: 'id',
+  },
+  checkboxConfig: {
+    highlight: true,
+  },
+  height: 'auto',
+  exportConfig: {},
+  printConfig: {},
+  toolbarConfig: {
+    export: true,
+    print: true,
+    refresh: { code: 'query' },
+    custom: true,
+    zoom: true,
+  },
+  tooltipConfig: {
+    contentMethod: ({ column, row }) => {
+      if (column.field === 'roles' && row.roles.length > 0) {
+        return row.roles.map((item) => item.name).join('、');
+      }
+      return null;
     },
-    checkboxConfig: {
-      highlight: true,
-    },
-    height: 'auto',
-    exportConfig: {},
-    printConfig: {},
-    toolbarConfig: {
-      export: true,
-      print: true,
-      refresh: { code: 'query' },
-      custom: true,
-      zoom: true,
-    },
-    tooltipConfig: {
-      contentMethod: ({ column, row }) => {
-        if (column.field === 'roles' && row.roles.length > 0) {
-          return row.roles.map((item) => item.name).join('、');
-        }
-        return null;
-      },
-    },
-    columns: [
-      { field: 'username', title: '用户名', width: 100 },
-      { field: 'nickname', title: '昵称', width: 100 },
-      {
-        field: 'avatar',
-        title: '头像',
-        width: 80,
-        slots: { default: 'avatar' },
-      },
-      {
-        field: 'dept',
-        title: '部门',
-        width: 100,
-        formatter({ cellValue }) {
-          return cellValue.name || '未绑定';
-        },
-      },
-      {
-        field: 'roles',
-        title: '角色',
-        width: 200,
-        slots: { default: 'roles' },
-      },
-      { field: 'email', title: '邮箱', width: 150 },
-      {
-        field: 'phone',
-        title: '手机号',
-        width: 150,
-        formatter({ cellValue }) {
-          return cellValue || '暂无';
-        },
-      },
-      {
-        field: 'join_time',
-        title: '注册时间',
-        width: 168,
-      },
-      {
-        field: 'last_login_time',
-        title: '注册时间',
-        width: 168,
-      },
-      {
-        field: 'status',
-        title: '状态',
-        fixed: 'right',
-        width: 100,
-        cellRender: {
-          name: 'CellSwitch',
-          attrs: {
-            onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-              updateSysUserStatusApi(row.id);
-            },
-          },
-        },
-      },
-      {
-        field: 'is_superuser',
-        title: '超级管理员',
-        fixed: 'right',
-        width: 100,
-        cellRender: {
-          name: 'CellSwitch',
-          attrs: {
-            onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-              updateSysUserSuperApi(row.id);
-            },
-          },
-          props: {
-            checkedValue: true,
-            unCheckedValue: false,
-          },
-        },
-      },
-      {
-        field: 'is_staff',
-        title: '后台登录',
-        fixed: 'right',
-        width: 100,
-        cellRender: {
-          name: 'CellSwitch',
-          attrs: {
-            onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-              updateSysUserStaffApi(row.id);
-            },
-          },
-          props: {
-            checkedValue: true,
-            unCheckedValue: false,
-          },
-        },
-      },
-      {
-        field: 'is_multi_login',
-        title: '多点登录',
-        fixed: 'right',
-        width: 100,
-        cellRender: {
-          name: 'CellSwitch',
-          attrs: {
-            onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-              updateSysUserMultiApi(row.id);
-            },
-          },
-          props: {
-            checkedValue: true,
-            unCheckedValue: false,
-          },
-        },
-      },
-      {
-        field: 'operation',
-        title: $t('page.table.operation'),
-        align: 'center',
-        fixed: 'right',
-        width: 130,
-        cellRender: {
-          attrs: {
-            nameField: 'username',
-            onClick: onActionClick,
-          },
-          name: 'CellOperation',
-          options: [
-            'edit',
-            {
-              code: 'delete',
-              disabled: (row: SysUserResult) => {
-                return row.username === 'admin';
-              },
-            },
-          ],
-        },
-      },
-    ],
-    proxyConfig: {
-      ajax: {
-        query: async ({ page }, formValues) => {
-          return await getSysUserListApi({
-            page: page.currentPage,
-            size: page.pageSize,
-            ...formValues,
-          });
-        },
+  },
+  columns: useColumns(onActionClick),
+  proxyConfig: {
+    ajax: {
+      query: async ({ page }, formValues) => {
+        return await getSysUserListApi({
+          page: page.currentPage,
+          size: page.pageSize,
+          ...formValues,
+        });
       },
     },
-  } as VxeTableGridOptions<SysUserResult>,
-});
+  },
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({ formOptions, gridOptions });
+
+function onRefresh() {
+  gridApi.query();
+}
 
 function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
   switch (code) {
@@ -282,14 +129,10 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
     }
     case 'edit': {
       editUser.value = row.username;
-      modalApi.setData(row).open();
+      editModalApi.setData(row).open();
       break;
     }
   }
-}
-
-function onRefresh() {
-  gridApi.query();
 }
 
 const fetchSysUserListByDept = (selectedKeys: number[]) => {
@@ -311,89 +154,30 @@ const fetchAllSysRole = async () => {
 
 const [EditForm, formApi] = useVbenForm({
   showDefaultActions: false,
-  schema: [
-    {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getSysDeptTreeApi,
-        class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept_id',
-      label: '部门',
-    },
-    {
-      component: 'Input',
-      fieldName: 'username',
-      label: '用户名',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'nickname',
-      label: '昵称',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'avatar',
-      label: '头像地址',
-    },
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email({ message: '无效的邮箱地址' }).optional(),
-    },
-    {
-      component: 'Input',
-      fieldName: 'phone',
-      label: '手机号',
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        class: 'w-full',
-        mode: 'multiple',
-        options: roleSelectOptions,
-        fieldNames: { label: 'name', value: 'id' },
-        filterOption: (input: string, option: SysRoleResult) => {
-          return (
-            option.name?.toLowerCase()?.includes(input.toLowerCase()) ?? false
-          );
-        },
-      },
-      fieldName: 'roles',
-      label: '角色',
-      rules: 'selectRequired',
-    },
-  ],
+  schema: useEditSchema(roleSelectOptions),
 });
 
 const editUser = ref<string>('');
 
-const [editModal, modalApi] = useVbenModal({
+const [editModal, editModalApi] = useVbenModal({
   destroyOnClose: true,
   async onConfirm() {
     const { valid } = await formApi.validate();
     if (valid) {
-      modalApi.lock();
+      editModalApi.lock();
       const data = await formApi.getValues<SysUpdateUserParams>();
       try {
         await updateSysUserApi(editUser.value, data);
-        await modalApi.close();
+        await editModalApi.close();
         onRefresh();
       } finally {
-        modalApi.unlock();
+        editModalApi.unlock();
       }
     }
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      const data = modalApi.getData<any>();
+      const data = editModalApi.getData<any>();
       formApi.resetForm();
       if (data) {
         formApi.setValues({
@@ -407,61 +191,7 @@ const [editModal, modalApi] = useVbenModal({
 
 const [AddForm, addFormApi] = useVbenForm({
   showDefaultActions: false,
-  schema: [
-    {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getSysDeptTreeApi,
-        class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept_id',
-      label: '部门',
-    },
-    {
-      component: 'Input',
-      fieldName: 'username',
-      label: '用户名',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'nickname',
-      label: '昵称',
-    },
-    {
-      component: 'InputPassword',
-      fieldName: 'password',
-      label: '密码',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email({ message: '无效的邮箱地址' }),
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        class: 'w-full',
-        mode: 'multiple',
-        options: roleSelectOptions,
-        fieldNames: { label: 'name', value: 'id' },
-        filterOption: (input: string, option: SysRoleResult) => {
-          return (
-            option.name?.toLowerCase()?.includes(input.toLowerCase()) ?? false
-          );
-        },
-      },
-      fieldName: 'roles',
-      label: '角色',
-      rules: 'selectRequired',
-    },
-  ],
+  schema: useAddSchema(roleSelectOptions),
 });
 
 const [addModal, addModalApi] = useVbenModal({

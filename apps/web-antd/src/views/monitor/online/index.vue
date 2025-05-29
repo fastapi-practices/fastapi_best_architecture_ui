@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type {
   OnActionClickParams,
   VxeTableGridOptions,
@@ -15,104 +17,59 @@ import { message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getOnlineMonitorApi, kickOutOnlineApi } from '#/api';
 
-const onlineCount = ref<number>(0);
-const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: {
-    collapsed: true,
-    showCollapseButton: true,
-    submitButtonOptions: {
-      content: $t('page.form.query'),
-    },
-    schema: [
-      {
-        component: 'Input',
-        fieldName: 'username',
-        label: '用户名',
-      },
-    ],
+import { querySchema, useColumns } from './data';
+
+const formOptions: VbenFormProps = {
+  collapsed: true,
+  showCollapseButton: true,
+  submitButtonOptions: {
+    content: $t('page.form.query'),
   },
-  gridOptions: {
-    rowConfig: {
-      keyField: 'session_uuid',
-    },
-    virtualYConfig: {
-      enabled: true,
-      gt: 0,
-    },
-    height: 'auto',
-    exportConfig: {},
-    printConfig: {},
-    toolbarConfig: {
-      export: true,
-      print: true,
-      refresh: { code: 'query' },
-      custom: true,
-      zoom: true,
-    },
-    pagerConfig: {
-      enabled: false,
-    },
-    columns: [
-      {
-        field: 'seq',
-        title: $t('page.table.id'),
-        type: 'seq',
-        width: 50,
-      },
-      { field: 'session_uuid', title: '会话 UUID' },
-      { field: 'username', title: '用户名' },
-      { field: 'nickname', title: '昵称' },
-      { field: 'ip', title: 'IP 地址' },
-      { field: 'os', title: '操作系统' },
-      { field: 'browser', title: '浏览器' },
-      { field: 'device', title: '设备' },
-      {
-        field: 'status',
-        title: '状态',
-        cellRender: {
-          name: 'CellTag',
-          options: [
-            { color: 'success', label: '在线', value: 1 },
-            { color: 'warning', label: '离线', value: 0 },
-          ],
-        },
-      },
-      { field: 'last_login_time', title: '最后登录时间' },
-      { field: 'expire_time', title: '过期时间' },
-      {
-        field: 'operation',
-        title: $t('page.table.operation'),
-        align: 'center',
-        fixed: 'right',
-        width: 130,
-        cellRender: {
-          attrs: {
-            nameField: 'nickname',
-            onClick: onActionClick,
-          },
-          name: 'CellOperation',
-          options: [
-            {
-              code: 'delete',
-              text: '强制下线',
-            },
-          ],
-        },
-      },
-    ],
-    proxyConfig: {
-      ajax: {
-        query: async (_, formValues) => {
-          const res = await getOnlineMonitorApi({
-            ...formValues,
-          });
-          onlineCount.value = res.length;
-          return res;
-        },
+  schema: querySchema,
+};
+
+const gridOptions: VxeTableGridOptions<OnlineMonitorResult> = {
+  rowConfig: {
+    keyField: 'session_uuid',
+  },
+  virtualYConfig: {
+    enabled: true,
+    gt: 0,
+  },
+  height: 'auto',
+  exportConfig: {},
+  printConfig: {},
+  toolbarConfig: {
+    export: true,
+    print: true,
+    refresh: { code: 'query' },
+    custom: true,
+    zoom: true,
+  },
+  pagerConfig: {
+    enabled: false,
+  },
+  columns: useColumns(onActionClick),
+  proxyConfig: {
+    ajax: {
+      query: async (_, formValues) => {
+        const res = await getOnlineMonitorApi({
+          ...formValues,
+        });
+        onlineCount.value = res.length;
+        return res;
       },
     },
-  } as VxeTableGridOptions<OnlineMonitorResult[]>, // 表格数据接口（interface）
-});
+  },
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({ formOptions, gridOptions });
+
+const onlineCount = ref<number>(0);
+
+function onRefresh() {
+  gridApi.query();
+}
 
 function onActionClick({
   code,
@@ -127,10 +84,6 @@ function onActionClick({
       onRefresh();
     });
   }
-}
-
-function onRefresh() {
-  gridApi.query();
 }
 </script>
 
