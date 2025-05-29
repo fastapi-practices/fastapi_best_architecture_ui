@@ -7,19 +7,13 @@ import type { SysDeptParams, SysDeptTreeResult } from '#/api';
 
 import { computed, ref } from 'vue';
 
-import {
-  Page,
-  useVbenForm,
-  useVbenModal,
-  VbenButton,
-  z,
-} from '@vben/common-ui';
+import { Page, useVbenModal, VbenButton, z } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
-import dayjs from 'dayjs';
 
+import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   createSysDeptApi,
@@ -115,9 +109,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
         field: 'created_time',
         title: $t('page.table.created_time'),
         width: 168,
-        formatter: ({ cellValue }) => {
-          return dayjs(cellValue).format('YYYY-MM-DD HH:mm:ss');
-        },
+        formatter: 'formatDateTime',
       },
       {
         field: 'operation',

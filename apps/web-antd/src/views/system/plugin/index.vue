@@ -3,17 +3,12 @@ import type { PluginResult } from '#/api/plugin';
 
 import { h, ref } from 'vue';
 
-import {
-  confirm,
-  Page,
-  useVbenForm,
-  useVbenModal,
-  VbenButton,
-} from '@vben/common-ui';
+import { confirm, Page, useVbenModal, VbenButton } from '@vben/common-ui';
 import { downloadFileFromBlobPart } from '@vben/utils';
 
 import { Button } from 'ant-design-vue';
 
+import { useVbenForm } from '#/adapter/form';
 import {
   buildPluginApi,
   getPluginChangedApi,

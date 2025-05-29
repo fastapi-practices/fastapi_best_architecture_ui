@@ -71,7 +71,7 @@ const [Grid] = useVbenVxeGrid({
         type: 'seq',
         width: 50,
       },
-      { field: 'trace_id', title: '追踪 ID', width: 200 },
+      { field: 'trace_id', title: '追踪 ID', width: 250 },
       { field: 'username', title: '用户名', width: 100 },
       {
         field: 'method',
@@ -106,6 +106,9 @@ const [Grid] = useVbenVxeGrid({
       { field: 'os', title: '操作系统', width: 150 },
       { field: 'browser', title: '浏览器', width: 130 },
       { field: 'device', title: '设备', width: 80 },
+      { field: 'code', title: '状态码', width: 80 },
+      { field: 'cost_time', title: '耗时（ms）', width: 100 },
+      { field: 'msg', title: '消息', width: 150 },
       {
         field: 'args',
         title: '请求参数',
@@ -116,9 +119,6 @@ const [Grid] = useVbenVxeGrid({
         },
         width: 150,
       },
-      { field: 'code', title: '状态码', width: 80 },
-      { field: 'msg', title: '消息', width: 150 },
-      { field: 'cost_time', title: '耗时（ms）', width: 100 },
       { field: 'opera_time', title: '操作时间', width: 168 },
     ],
     proxyConfig: {
