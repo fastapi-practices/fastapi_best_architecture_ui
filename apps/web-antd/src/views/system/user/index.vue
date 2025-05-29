@@ -4,6 +4,7 @@ import type {
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
 import type {
+  SysAddUserParams,
   SysDeptTreeResult,
   SysRoleResult,
   SysUpdateUserParams,
@@ -22,6 +23,7 @@ import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
+  addSysUserApi,
   deleteSysUserApi,
   getAllSysRoleApi,
   getSysDeptTreeApi,
@@ -403,6 +405,92 @@ const [editModal, modalApi] = useVbenModal({
   },
 });
 
+const [AddForm, addFormApi] = useVbenForm({
+  showDefaultActions: false,
+  schema: [
+    {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        allowClear: true,
+        api: getSysDeptTreeApi,
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      fieldName: 'dept_id',
+      label: '部门',
+    },
+    {
+      component: 'Input',
+      fieldName: 'username',
+      label: '用户名',
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'nickname',
+      label: '昵称',
+    },
+    {
+      component: 'InputPassword',
+      fieldName: 'password',
+      label: '密码',
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'email',
+      label: '邮箱',
+      rules: z.string().email({ message: '无效的邮箱地址' }),
+    },
+    {
+      component: 'Select',
+      componentProps: {
+        class: 'w-full',
+        mode: 'multiple',
+        options: roleSelectOptions,
+        fieldNames: { label: 'name', value: 'id' },
+        filterOption: (input: string, option: SysRoleResult) => {
+          return (
+            option.name?.toLowerCase()?.includes(input.toLowerCase()) ?? false
+          );
+        },
+      },
+      fieldName: 'roles',
+      label: '角色',
+      rules: 'selectRequired',
+    },
+  ],
+});
+
+const [addModal, addModalApi] = useVbenModal({
+  destroyOnClose: true,
+  async onConfirm() {
+    const { valid } = await addFormApi.validate();
+    if (valid) {
+      addModalApi.lock();
+      const data = await addFormApi.getValues<SysAddUserParams>();
+      try {
+        await addSysUserApi(data);
+        await addModalApi.close();
+        onRefresh();
+      } finally {
+        addModalApi.unlock();
+      }
+    }
+  },
+  onOpenChange(isOpen) {
+    if (isOpen) {
+      const data = addModalApi.getData();
+      addFormApi.resetForm();
+      if (data) {
+        addFormApi.setValues(data);
+      }
+    }
+  },
+});
+
 onMounted(() => {
   fetchDeptTree(undefined);
   fetchAllSysRole();
@@ -455,9 +543,9 @@ onMounted(() => {
     </template>
     <Grid>
       <template #toolbar-actions>
-        <VbenButton>
+        <VbenButton @click="() => addModalApi.setData(null).open()">
           <AddData class="size-5" />
-          新增用户
+          添加用户
         </VbenButton>
       </template>
       <template #avatar="{ row }">
@@ -475,5 +563,8 @@ onMounted(() => {
     <editModal title="修改用户">
       <EditForm />
     </editModal>
+    <addModal title="添加用户">
+      <AddForm />
+    </addModal>
   </ColPage>
 </template>
