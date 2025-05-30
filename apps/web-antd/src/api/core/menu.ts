@@ -67,6 +67,6 @@ export async function updateSysMenuApi(pk: number, data: SysMenuParams) {
   return requestClient.put(`/api/v1/sys/menus/${pk}`, data);
 }
 
-export async function deleteSysMenuApi(pk: number[]) {
+export async function deleteSysMenuApi(pk: number) {
   return requestClient.delete(`/api/v1/sys/menus/${pk}`);
 }

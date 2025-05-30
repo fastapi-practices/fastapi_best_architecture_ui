@@ -212,13 +212,14 @@ setupVbenVxeTable({
             Popconfirm,
             {
               getPopupContainer(el) {
+                if (el.closest('.fixed-right--wrapper')) {
+                  return document.body;
+                }
                 return (
-                  el.closest('.fixed-right--wrapper')?.querySelector('tbody') ||
                   el
                     .closest('.vxe-table--viewport-wrapper')
                     ?.querySelector('.vxe-table--main-wrapper')
-                    ?.querySelector('tbody') ||
-                  document.body
+                    ?.querySelector('tbody') || document.body
                 );
               },
               placement: 'topLeft',

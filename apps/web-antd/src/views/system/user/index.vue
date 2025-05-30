@@ -231,8 +231,8 @@ onMounted(() => {
   <ColPage
     auto-content-height
     :resizable="false"
-    :left-width="16"
-    :right-width="84"
+    :left-width="20"
+    :right-width="80"
   >
     <template #left>
       <div class="bg-card mr-2 h-full rounded-[var(--radius)]">
