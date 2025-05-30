@@ -7,6 +7,8 @@ import type {
 } from '#/adapter/vxe-table';
 import type { SysAddRoleParams, SysRoleResult } from '#/api';
 
+import { computed, ref } from 'vue';
+
 import { Page, useVbenModal, VbenButton } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
@@ -15,7 +17,12 @@ import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { addSysRoleApi, deleteSysRoleApi, getSysRoleListApi } from '#/api';
+import {
+  addSysRoleApi,
+  deleteSysRoleApi,
+  getSysRoleListApi,
+  updateSysRoleApi,
+} from '#/api';
 
 import { querySchema, schema, useColumns } from './data';
 
@@ -78,6 +85,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysRoleResult>) {
       break;
     }
     case 'edit': {
+      modalApi.setData(row).open();
       break;
     }
     case 'perm': {
@@ -92,6 +100,18 @@ const [Form, formApi] = useVbenForm({
   schema,
 });
 
+interface formSysRoleParams extends SysAddRoleParams {
+  id?: number;
+}
+
+const formData = ref<formSysRoleParams>();
+
+const modalTitle = computed(() => {
+  return formData.value?.id
+    ? $t('ui.actionTitle.edit', ['角色'])
+    : $t('ui.actionTitle.create', ['角色']);
+});
+
 const [Modal, modalApi] = useVbenModal({
   destroyOnClose: true,
   async onConfirm() {
@@ -100,11 +120,22 @@ const [Modal, modalApi] = useVbenModal({
       modalApi.lock();
       const data = await formApi.getValues<SysAddRoleParams>();
       try {
-        await addSysRoleApi(data);
+        await (formData.value?.id
+          ? updateSysRoleApi(formData.value?.id, data)
+          : addSysRoleApi(data));
         await modalApi.close();
         onRefresh();
       } finally {
         modalApi.unlock();
+      }
+    }
+  },
+  onOpenChange(idOpen) {
+    if (idOpen) {
+      const data = modalApi.getData<formSysRoleParams>();
+      if (data) {
+        formData.value = data;
+        formApi.setValues(formData.value);
       }
     }
   },
@@ -121,7 +152,7 @@ const [Modal, modalApi] = useVbenModal({
         </VbenButton>
       </template>
     </Grid>
-    <Modal title="新增角色">
+    <Modal :title="modalTitle">
       <Form />
     </Modal>
   </Page>

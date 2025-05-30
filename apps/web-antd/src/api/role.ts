@@ -1,5 +1,3 @@
-import type { SysMenuResult } from '.';
-
 import { requestClient } from './request';
 
 export interface SysRoleParams {
@@ -16,7 +14,6 @@ export interface SysRoleResult {
   remark?: string;
   created_time: string;
   updated_time: string;
-  menus?: SysMenuResult[];
 }
 
 export interface SysAddRoleParams {
@@ -40,6 +37,13 @@ export async function addSysRoleApi(data: SysAddRoleParams) {
   return requestClient.post('/api/v1/sys/roles', data);
 }
 
+export async function updateSysRoleApi(pk: number, data: SysAddRoleParams) {
+  return requestClient.put(`/api/v1/sys/roles/${pk}`, data);
+}
+
 export async function deleteSysRoleApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/roles`, { params: { pk } });
+  return requestClient.delete(`/api/v1/sys/roles`, {
+    params: { pk },
+    paramsSerializer: 'repeat',
+  });
 }
