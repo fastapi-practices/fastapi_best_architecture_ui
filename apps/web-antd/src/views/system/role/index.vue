@@ -9,9 +9,10 @@ import type { SysAddRoleParams, SysRoleResult } from '#/api';
 
 import { computed, ref } from 'vue';
 
-import { Page, useVbenModal, VbenButton } from '@vben/common-ui';
+import { Page, useVbenDrawer, useVbenModal, VbenButton } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
+import { traverseTreeValues } from '@vben/utils';
 
 import { message } from 'ant-design-vue';
 
@@ -21,10 +22,12 @@ import {
   addSysRoleApi,
   deleteSysRoleApi,
   getSysRoleListApi,
+  getSysRoleMenuApi,
   updateSysRoleApi,
 } from '#/api';
 
 import { querySchema, schema, useColumns } from './data';
+import ExtraDrawer from './drawer.vue';
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -89,6 +92,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysRoleResult>) {
       break;
     }
     case 'perm': {
+      openDrawer(row.id);
       break;
     }
   }
@@ -140,6 +144,24 @@ const [Modal, modalApi] = useVbenModal({
     }
   },
 });
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  connectedComponent: ExtraDrawer,
+});
+
+const openDrawer = async (pk: number) => {
+  try {
+    const roleMenu = await getSysRoleMenuApi(pk);
+    drawerApi
+      .setData({
+        pk,
+        checkedRoleMenu: traverseTreeValues(roleMenu, (item: any) => item.id),
+      })
+      .open();
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
@@ -155,5 +177,6 @@ const [Modal, modalApi] = useVbenModal({
     <Modal :title="modalTitle">
       <Form />
     </Modal>
+    <Drawer />
   </Page>
 </template>

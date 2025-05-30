@@ -118,3 +118,43 @@ export const schema: VbenFormSchema[] = [
     label: '备注',
   },
 ];
+
+export const drawerQuerySchema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'title',
+    label: '菜单标题',
+  },
+];
+
+export const drawerColumns: VxeGridProps['columns'] = [
+  {
+    type: 'checkbox',
+    title: '标题',
+    align: 'left',
+    fixed: 'left',
+    treeNode: true,
+    minWidth: 150,
+  },
+  {
+    field: 'icon',
+    title: '图标',
+    slots: { default: 'icon' },
+  },
+  {
+    field: 'type',
+    title: '类型',
+    cellRender: {
+      name: 'CellTag',
+      options: [
+        { color: 'orange', label: '目录', value: 0 },
+        { color: 'default', label: '菜单', value: 1 },
+        { color: 'blue', label: '按钮', value: 2 },
+        { color: 'warning', label: '外链', value: 3 },
+        { color: 'success', label: '内嵌', value: 4 },
+      ],
+    },
+  },
+  { field: 'perms', title: '权限标识' },
+  { field: 'remark', title: '备注' },
+];

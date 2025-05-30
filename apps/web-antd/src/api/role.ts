@@ -1,3 +1,5 @@
+import type { RouteRecordStringComponent } from '@vben/types';
+
 import { requestClient } from './request';
 
 export interface SysRoleParams {
@@ -33,12 +35,22 @@ export async function getAllSysRoleApi() {
   return requestClient.get<SysRoleResult[]>('/api/v1/sys/roles/all');
 }
 
+export async function getSysRoleMenuApi(pk: number) {
+  return requestClient.get<RouteRecordStringComponent[]>(
+    `/api/v1/sys/roles/${pk}/menus`,
+  );
+}
+
 export async function addSysRoleApi(data: SysAddRoleParams) {
   return requestClient.post('/api/v1/sys/roles', data);
 }
 
 export async function updateSysRoleApi(pk: number, data: SysAddRoleParams) {
   return requestClient.put(`/api/v1/sys/roles/${pk}`, data);
+}
+
+export async function updateSysRoleMenu(pk: number, menus: number[]) {
+  return requestClient.put(`/api/v1/sys/roles/${pk}/menus`, { menus });
 }
 
 export async function deleteSysRoleApi(pk: number[]) {

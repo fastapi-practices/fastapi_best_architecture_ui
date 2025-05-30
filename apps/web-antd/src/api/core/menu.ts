@@ -56,7 +56,7 @@ export async function getAllMenusApi() {
 }
 
 export async function getSysMenuTreeApi(params: SysMenuTreeParams) {
-  return requestClient.get('/api/v1/sys/menus', { params });
+  return requestClient.get<SysMenuTreeResult>('/api/v1/sys/menus', { params });
 }
 
 export async function createSysMenuApi(data: SysMenuParams) {
