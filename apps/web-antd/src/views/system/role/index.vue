@@ -27,7 +27,7 @@ import {
 } from '#/api';
 
 import { querySchema, schema, useColumns } from './data';
-import ExtraDrawer from './drawer.vue';
+import ExtraDrawer from './perm-drawer.vue';
 
 const formOptions: VbenFormProps = {
   collapsed: true,

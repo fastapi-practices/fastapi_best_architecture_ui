@@ -159,20 +159,54 @@ export const drawerColumns: VxeGridProps['columns'] = [
   { field: 'remark', title: '备注' },
 ];
 
-export const drawerDataPermColumns: VxeGridProps['columns'] = [
-  {
-    type: 'checkbox',
-    title: '名称',
-    align: 'left',
-    fixed: 'left',
-    minWidth: 150,
-  },
-  {
-    field: 'status',
-    title: '状态',
-    cellRender: {
-      name: 'CellTag',
+export function drawerDataScopeColumns(
+  onActionClick?: OnActionClickFn<SysRoleResult>,
+): VxeGridProps['columns'] {
+  return [
+    {
+      type: 'checkbox',
+      title: '范围名称',
+      align: 'left',
+      fixed: 'left',
+      minWidth: 150,
     },
-    width: 100,
+    {
+      field: 'status',
+      title: '状态',
+      cellRender: {
+        name: 'CellTag',
+      },
+      width: 100,
+    },
+    {
+      field: 'operation',
+      title: $t('page.table.operation'),
+      align: 'center',
+      fixed: 'right',
+      width: 200,
+      cellRender: {
+        attrs: {
+          nameField: 'name',
+          onClick: onActionClick,
+        },
+        name: 'CellOperation',
+        options: [
+          {
+            code: 'details',
+            text: '规则详情',
+          },
+        ],
+      },
+    },
+  ];
+}
+
+export const drawerDataRuleColumns: VxeGridProps['columns'] = [
+  {
+    field: 'seq',
+    title: $t('page.table.id'),
+    type: 'seq',
+    width: 50,
   },
+  { field: 'name', title: '规则名称' },
 ];

@@ -2,7 +2,9 @@
 import type { VbenFormProps } from '@vben/common-ui';
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
+import type { OnActionClickParams } from '#/adapter/vxe-table';
 import type { SysMenuTreeResult } from '#/api';
+import type { SysDataScopesResult } from '#/api/data-permission';
 
 import { nextTick, ref, watch } from 'vue';
 
@@ -21,9 +23,10 @@ import { getSysDataScopesApi } from '#/api/data-permission';
 
 import {
   drawerColumns,
-  drawerDataPermColumns,
+  drawerDataScopeColumns,
   drawerQuerySchema,
 } from './data';
+import ExtraDataRuleDrawer from './data-rule-drawer.vue';
 
 const activeKey = ref('0');
 const clickRow = ref<number>(0);
@@ -49,7 +52,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
         drawerApi.close();
       });
     } else {
-      const checkedRows = dataPermGridApi.grid.getCheckboxRecords(true);
+      const checkedRows = dataScopeGridApi.grid.getCheckboxRecords(true);
       updateSysRoleDataScopesApi(
         clickRow.value,
         checkedRows.map((item: any) => item.id),
@@ -145,7 +148,7 @@ watch(checkStrictly, (newValue) => {
 /**
  * 数据权限
  */
-const dataPermGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
+const dataScopeGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   rowConfig: {
     keyField: 'id',
   },
@@ -157,12 +160,12 @@ const dataPermGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   checkboxConfig: {
     labelField: 'name',
     highlight: true,
-    checkRowKeys: [1, 2, 3, 4],
+    checkRowKeys: [],
   },
   pagerConfig: {
     enabled: false,
   },
-  columns: drawerDataPermColumns,
+  columns: drawerDataScopeColumns(onActionClick),
   proxyConfig: {
     ajax: {
       query: async () => {
@@ -172,25 +175,48 @@ const dataPermGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   },
 };
 
-const [DataPermGrid, dataPermGridApi] = useVbenVxeGrid({
-  gridOptions: dataPermGridOptions,
+const [DataScopeGrid, dataScopeGridApi] = useVbenVxeGrid({
+  gridOptions: dataScopeGridOptions,
 });
+
+function onActionClick({
+  code,
+  row,
+}: OnActionClickParams<SysDataScopesResult>) {
+  switch (code) {
+    case 'details': {
+      dataRuleDrawerApi
+        .setData({
+          clickedDataScopeRow: row,
+        })
+        .open();
+      break;
+    }
+  }
+}
 
 watch(activeKey, async (newValue) => {
   if (newValue === '1') {
     defaultCheckedDataScopesKeys.value = await getSysRoleDataScopesApi(
       clickRow.value,
     );
-    dataPermGridApi.setGridOptions({
+    dataScopeGridApi.setGridOptions({
       checkboxConfig: {
         checkRowKeys: defaultCheckedDataScopesKeys.value,
       },
     });
   }
 });
+
+/**
+ * 规则详情
+ */
+const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
+  connectedComponent: ExtraDataRuleDrawer,
+});
 </script>
 <template>
-  <Drawer title="权限设置">
+  <Drawer>
     <a-tabs v-model:active-key="activeKey" type="card">
       <a-tab-pane key="0" tab="菜单权限">
         <Grid>
@@ -238,7 +264,7 @@ watch(activeKey, async (newValue) => {
         </Grid>
       </a-tab-pane>
       <a-tab-pane key="1" tab="数据权限">
-        <DataPermGrid>
+        <DataScopeGrid>
           <template #toolbar-actions>
             <a-alert class="h-8" type="info">
               <template #message>
@@ -252,8 +278,9 @@ watch(activeKey, async (newValue) => {
               </template>
             </a-alert>
           </template>
-        </DataPermGrid>
+        </DataScopeGrid>
       </a-tab-pane>
     </a-tabs>
   </Drawer>
+  <DataRuleDrawer />
 </template>
