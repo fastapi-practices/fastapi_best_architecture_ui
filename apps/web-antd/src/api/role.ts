@@ -13,6 +13,7 @@ export interface SysRoleResult {
   id: number;
   name: string;
   status: number;
+  is_filter_scopes: boolean;
   remark?: string;
   created_time: string;
   updated_time: string;
