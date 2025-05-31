@@ -53,6 +53,12 @@ export function useColumns(
   onActionClick?: OnActionClickFn<SysUserResult>,
 ): VxeGridProps['columns'] {
   return [
+    {
+      field: 'seq',
+      title: $t('page.table.id'),
+      type: 'seq',
+      width: 50,
+    },
     { field: 'username', title: '用户名', width: 100 },
     { field: 'nickname', title: '昵称', width: 100 },
     {
@@ -64,7 +70,7 @@ export function useColumns(
     {
       field: 'dept',
       title: '部门',
-      width: 100,
+      width: 120,
       formatter({ cellValue }) {
         return cellValue.name || '未绑定';
       },
@@ -72,7 +78,7 @@ export function useColumns(
     {
       field: 'roles',
       title: '角色',
-      width: 200,
+      width: 220,
       slots: { default: 'roles' },
     },
     { field: 'email', title: '邮箱', width: 150 },
@@ -85,19 +91,8 @@ export function useColumns(
       },
     },
     {
-      field: 'join_time',
-      title: '注册时间',
-      width: 168,
-    },
-    {
-      field: 'last_login_time',
-      title: '注册时间',
-      width: 168,
-    },
-    {
       field: 'status',
       title: '状态',
-      fixed: 'right',
       width: 100,
       cellRender: {
         name: 'CellSwitch',
@@ -111,7 +106,6 @@ export function useColumns(
     {
       field: 'is_superuser',
       title: '超级管理员',
-      fixed: 'right',
       width: 100,
       cellRender: {
         name: 'CellSwitch',
@@ -129,7 +123,6 @@ export function useColumns(
     {
       field: 'is_staff',
       title: '后台登录',
-      fixed: 'right',
       width: 100,
       cellRender: {
         name: 'CellSwitch',
@@ -146,8 +139,7 @@ export function useColumns(
     },
     {
       field: 'is_multi_login',
-      title: '多点登录',
-      fixed: 'right',
+      title: '多端登录',
       width: 100,
       cellRender: {
         name: 'CellSwitch',
@@ -161,6 +153,16 @@ export function useColumns(
           unCheckedValue: false,
         },
       },
+    },
+    {
+      field: 'join_time',
+      title: '注册时间',
+      width: 168,
+    },
+    {
+      field: 'last_login_time',
+      title: '最后登录时间',
+      width: 168,
     },
     {
       field: 'operation',

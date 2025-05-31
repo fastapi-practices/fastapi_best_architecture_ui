@@ -22,7 +22,7 @@ export function useColumns(
       type: 'seq',
       width: 50,
     },
-    { field: 'session_uuid', title: '会话 UUID' },
+    { field: 'session_uuid', title: '会话 UUID', width: 280 },
     { field: 'username', title: '用户名' },
     { field: 'nickname', title: '昵称' },
     { field: 'ip', title: 'IP 地址' },

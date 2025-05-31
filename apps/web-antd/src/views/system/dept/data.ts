@@ -48,10 +48,10 @@ export function useColumns(
 ): VxeGridProps['columns'] {
   return [
     { field: 'name', title: '名称', align: 'left', treeNode: true },
-    { field: 'sort', title: '排序' },
     { field: 'leader', title: '负责人' },
     { field: 'phone', title: '手机号码' },
     { field: 'email', title: '邮箱' },
+    { field: 'sort', title: '排序' },
     {
       field: 'status',
       title: '状态',

@@ -1,17 +1,33 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '@vben/common-ui';
 
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { SysRoleResult } from '#/api';
+import type {
+  OnActionClickParams,
+  VxeTableGridOptions,
+} from '#/adapter/vxe-table';
+import type { SysAddRoleParams, SysRoleResult } from '#/api';
 
-import { Page, VbenButton } from '@vben/common-ui';
+import { computed, ref } from 'vue';
+
+import { Page, useVbenDrawer, useVbenModal, VbenButton } from '@vben/common-ui';
 import { AddData } from '@vben/icons';
 import { $t } from '@vben/locales';
+import { traverseTreeValues } from '@vben/utils';
 
+import { message } from 'ant-design-vue';
+
+import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getSysRoleListApi } from '#/api';
+import {
+  addSysRoleApi,
+  deleteSysRoleApi,
+  getSysRoleListApi,
+  getSysRoleMenuApi,
+  updateSysRoleApi,
+} from '#/api';
 
-import { columns, querySchema } from './data';
+import { querySchema, schema, useColumns } from './data';
+import ExtraDrawer from './perm-drawer.vue';
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -39,7 +55,7 @@ const gridOptions: VxeTableGridOptions<SysRoleResult> = {
     custom: true,
     zoom: true,
   },
-  columns,
+  columns: useColumns(onActionClick),
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
@@ -53,19 +69,114 @@ const gridOptions: VxeTableGridOptions<SysRoleResult> = {
   },
 };
 
-const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
+const [Grid, girdApi] = useVbenVxeGrid({ formOptions, gridOptions });
+
+function onRefresh() {
+  girdApi.query();
+}
+
+function onActionClick({ code, row }: OnActionClickParams<SysRoleResult>) {
+  switch (code) {
+    case 'delete': {
+      deleteSysRoleApi([row.id]).then(() => {
+        message.success({
+          content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+          key: 'action_process_msg',
+        });
+        onRefresh();
+      });
+      break;
+    }
+    case 'edit': {
+      modalApi.setData(row).open();
+      break;
+    }
+    case 'perm': {
+      openDrawer(row.id);
+      break;
+    }
+  }
+}
+
+const [Form, formApi] = useVbenForm({
+  layout: 'vertical',
+  showDefaultActions: false,
+  schema,
+});
+
+interface formSysRoleParams extends SysAddRoleParams {
+  id?: number;
+}
+
+const formData = ref<formSysRoleParams>();
+
+const modalTitle = computed(() => {
+  return formData.value?.id
+    ? $t('ui.actionTitle.edit', ['角色'])
+    : $t('ui.actionTitle.create', ['角色']);
+});
+
+const [Modal, modalApi] = useVbenModal({
+  destroyOnClose: true,
+  async onConfirm() {
+    const { valid } = await formApi.validate();
+    if (valid) {
+      modalApi.lock();
+      const data = await formApi.getValues<SysAddRoleParams>();
+      try {
+        await (formData.value?.id
+          ? updateSysRoleApi(formData.value?.id, data)
+          : addSysRoleApi(data));
+        await modalApi.close();
+        onRefresh();
+      } finally {
+        modalApi.unlock();
+      }
+    }
+  },
+  onOpenChange(idOpen) {
+    if (idOpen) {
+      const data = modalApi.getData<formSysRoleParams>();
+      if (data) {
+        formData.value = data;
+        formApi.setValues(formData.value);
+      }
+    }
+  },
+});
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  connectedComponent: ExtraDrawer,
+});
+
+const openDrawer = async (pk: number) => {
+  try {
+    const roleMenu = await getSysRoleMenuApi(pk);
+    drawerApi
+      .setData({
+        pk,
+        checkedRoleMenu: traverseTreeValues(roleMenu, (item: any) => item.id),
+      })
+      .open();
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid>
       <template #toolbar-actions>
-        <VbenButton>
+        <VbenButton @click="() => modalApi.setData(null).open()">
           <AddData class="size-5" />
           新增角色
         </VbenButton>
-        <p class="ml-10 text-orange-500">部分功能暂未实现，按钮无效！！！</p>
       </template>
     </Grid>
+    <Modal :title="modalTitle">
+      <Form />
+    </Modal>
+    <Drawer />
   </Page>
 </template>

@@ -86,7 +86,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysMenuTreeResult>) {
       break;
     }
     case 'delete': {
-      deleteSysMenuApi([row.id]).then(() => {
+      deleteSysMenuApi(row.id).then(() => {
         message.success({
           content: $t('ui.actionMessage.deleteSuccess', [row.name]),
           key: 'action_process_msg',
