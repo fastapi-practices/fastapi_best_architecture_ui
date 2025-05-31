@@ -158,3 +158,21 @@ export const drawerColumns: VxeGridProps['columns'] = [
   { field: 'perms', title: '权限标识' },
   { field: 'remark', title: '备注' },
 ];
+
+export const drawerDataPermColumns: VxeGridProps['columns'] = [
+  {
+    type: 'checkbox',
+    title: '名称',
+    align: 'left',
+    fixed: 'left',
+    minWidth: 150,
+  },
+  {
+    field: 'status',
+    title: '状态',
+    cellRender: {
+      name: 'CellTag',
+    },
+    width: 100,
+  },
+];

@@ -41,6 +41,10 @@ export async function getSysRoleMenuApi(pk: number) {
   );
 }
 
+export async function getSysRoleDataScopesApi(pk: number) {
+  return requestClient.get<number[]>(`/api/v1/sys/roles/${pk}/scopes`);
+}
+
 export async function addSysRoleApi(data: SysAddRoleParams) {
   return requestClient.post('/api/v1/sys/roles', data);
 }
@@ -49,8 +53,12 @@ export async function updateSysRoleApi(pk: number, data: SysAddRoleParams) {
   return requestClient.put(`/api/v1/sys/roles/${pk}`, data);
 }
 
-export async function updateSysRoleMenu(pk: number, menus: number[]) {
+export async function updateSysRoleMenuApi(pk: number, menus: number[]) {
   return requestClient.put(`/api/v1/sys/roles/${pk}/menus`, { menus });
+}
+
+export async function updateSysRoleDataScopesApi(pk: number, scopes: number[]) {
+  return requestClient.put(`/api/v1/sys/roles/${pk}/scopes`, { scopes });
 }
 
 export async function deleteSysRoleApi(pk: number[]) {

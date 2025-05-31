@@ -11,13 +11,25 @@ import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getSysMenuTreeApi, updateSysRoleMenu } from '#/api';
+import {
+  getSysMenuTreeApi,
+  getSysRoleDataScopesApi,
+  updateSysRoleDataScopesApi,
+  updateSysRoleMenuApi,
+} from '#/api';
+import { getSysDataScopesApi } from '#/api/data-permission';
 
-import { drawerColumns, drawerQuerySchema } from './data';
+import {
+  drawerColumns,
+  drawerDataPermColumns,
+  drawerQuerySchema,
+} from './data';
 
 const activeKey = ref('0');
+const clickRow = ref<number>(0);
 const defaultCheckedRoleMenuKeys = ref<number[]>([]);
 const checkStrictly = ref<boolean>(true);
+const defaultCheckedDataScopesKeys = ref<number[]>([]);
 
 const [Drawer, drawerApi] = useVbenDrawer({
   destroyOnClose: true,
@@ -30,15 +42,24 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (activeKey.value === '0') {
       const indeterminateRows = gridApi.grid.getCheckboxIndeterminateRecords();
       const checkedRows = gridApi.grid.getCheckboxRecords(true);
-      updateSysRoleMenu(drawerApi.getData().pk, [
+      updateSysRoleMenuApi(clickRow.value, [
         ...indeterminateRows.map((item: any) => item.id),
         ...checkedRows.map((item: any) => item.id),
       ]).then(() => {
         drawerApi.close();
       });
+    } else {
+      const checkedRows = dataPermGridApi.grid.getCheckboxRecords(true);
+      updateSysRoleDataScopesApi(
+        clickRow.value,
+        checkedRows.map((item: any) => item.id),
+      ).then(() => {
+        drawerApi.close();
+      });
     }
   },
   onOpenChange(isOpen: boolean) {
+    clickRow.value = drawerApi.getData().pk;
     if (isOpen && activeKey.value === '0') {
       defaultCheckedRoleMenuKeys.value = drawerApi.getData().checkedRoleMenu;
     }
@@ -124,6 +145,49 @@ watch(checkStrictly, (newValue) => {
 /**
  * 数据权限
  */
+const dataPermGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
+  rowConfig: {
+    keyField: 'id',
+  },
+  maxHeight: '775',
+  virtualYConfig: {
+    enabled: true,
+    gt: 0,
+  },
+  checkboxConfig: {
+    labelField: 'name',
+    highlight: true,
+    checkRowKeys: [1, 2, 3, 4],
+  },
+  pagerConfig: {
+    enabled: false,
+  },
+  columns: drawerDataPermColumns,
+  proxyConfig: {
+    ajax: {
+      query: async () => {
+        return await getSysDataScopesApi();
+      },
+    },
+  },
+};
+
+const [DataPermGrid, dataPermGridApi] = useVbenVxeGrid({
+  gridOptions: dataPermGridOptions,
+});
+
+watch(activeKey, async (newValue) => {
+  if (newValue === '1') {
+    defaultCheckedDataScopesKeys.value = await getSysRoleDataScopesApi(
+      clickRow.value,
+    );
+    dataPermGridApi.setGridOptions({
+      checkboxConfig: {
+        checkRowKeys: defaultCheckedDataScopesKeys.value,
+      },
+    });
+  }
+});
 </script>
 <template>
   <Drawer title="权限设置">
@@ -142,7 +206,7 @@ watch(checkStrictly, (newValue) => {
             <a-alert class="mx-2 h-8" type="info">
               <template #message>
                 <div>
-                  已选中
+                  已关联
                   <span class="text-primary mx-1 font-semibold">
                     {{ defaultCheckedRoleMenuKeys.length }}
                   </span>
@@ -173,7 +237,23 @@ watch(checkStrictly, (newValue) => {
           </template>
         </Grid>
       </a-tab-pane>
-      <a-tab-pane key="1" tab="数据权限">数据权限</a-tab-pane>
+      <a-tab-pane key="1" tab="数据权限">
+        <DataPermGrid>
+          <template #toolbar-actions>
+            <a-alert class="h-8" type="info">
+              <template #message>
+                <div>
+                  已关联
+                  <span class="text-primary mx-1 font-semibold">
+                    {{ defaultCheckedDataScopesKeys.length }}
+                  </span>
+                  个数据范围节点（非实时）
+                </div>
+              </template>
+            </a-alert>
+          </template>
+        </DataPermGrid>
+      </a-tab-pane>
     </a-tabs>
   </Drawer>
 </template>
