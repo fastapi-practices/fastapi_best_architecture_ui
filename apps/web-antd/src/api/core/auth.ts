@@ -37,7 +37,7 @@ export async function loginApi(data: LoginParams) {
  */
 export async function refreshTokenApi() {
   return baseRequestClient.post<RefreshTokenResult>(
-    '/api/v1/auth/token/new',
+    '/api/v1/auth/tokens/refresh',
     undefined,
     {
       withCredentials: true,
