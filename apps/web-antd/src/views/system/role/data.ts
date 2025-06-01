@@ -42,6 +42,17 @@ export function useColumns(
     },
     { field: 'name', title: '角色名称' },
     {
+      field: 'is_filter_scopes',
+      title: '过滤数据权限',
+      cellRender: {
+        name: 'CellTag',
+        options: [
+          { color: 'success', label: $t('common.enabled'), value: true },
+          { color: 'error', label: $t('common.disabled'), value: false },
+        ],
+      },
+    },
+    {
       field: 'status',
       title: '状态',
       cellRender: {
@@ -95,6 +106,21 @@ export const schema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'name',
     label: '角色名称',
+    rules: 'required',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: [
+        { label: $t('common.enabled'), value: true },
+        { label: $t('common.disabled'), value: false },
+      ],
+      optionType: 'button',
+    },
+    defaultValue: true,
+    fieldName: 'is_filter_scopes',
+    label: '过滤数据权限',
     rules: 'required',
   },
   {
