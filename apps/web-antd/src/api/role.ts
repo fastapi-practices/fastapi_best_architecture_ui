@@ -19,7 +19,7 @@ export interface SysRoleResult {
   updated_time: string;
 }
 
-export interface SysAddRoleParams {
+export interface CreateSysRoleParams {
   name: string;
   status: number;
   remark?: string;
@@ -46,11 +46,11 @@ export async function getSysRoleDataScopesApi(pk: number) {
   return requestClient.get<number[]>(`/api/v1/sys/roles/${pk}/scopes`);
 }
 
-export async function addSysRoleApi(data: SysAddRoleParams) {
+export async function createSysRoleApi(data: CreateSysRoleParams) {
   return requestClient.post('/api/v1/sys/roles', data);
 }
 
-export async function updateSysRoleApi(pk: number, data: SysAddRoleParams) {
+export async function updateSysRoleApi(pk: number, data: CreateSysRoleParams) {
   return requestClient.put(`/api/v1/sys/roles/${pk}`, data);
 }
 

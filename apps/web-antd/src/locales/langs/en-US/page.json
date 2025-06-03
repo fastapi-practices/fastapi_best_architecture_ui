@@ -30,6 +30,8 @@
     "redis": "Redis",
     "server": "Server",
     "SysPermission": "Data Permission",
+    "sysDataScope": "Data Scope",
+    "sysDataRule": "Data Rule",
     "SysPlugin": "System Plugin",
     "sysDept": "System Dept",
     "sysMenu": "System User",

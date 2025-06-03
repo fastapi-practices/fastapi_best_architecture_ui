@@ -47,10 +47,29 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'SysDataPermission',
         path: 'sys-data-permission',
-        component: () => import('#/views/system/data-permission/index.vue'),
         meta: {
           title: $t('page.menu.sysDataPermission'),
         },
+        children: [
+          {
+            name: 'SysDataScope',
+            path: 'sys-data-scope',
+            component: () =>
+              import('#/views/system/data-permission/scope/index.vue'),
+            meta: {
+              title: $t('page.menu.sysDataScope'),
+            },
+          },
+          {
+            name: 'SysDataRule',
+            path: 'sys-data-rule',
+            component: () =>
+              import('#/views/system/data-permission/rule/index.vue'),
+            meta: {
+              title: $t('page.menu.sysDataRule'),
+            },
+          },
+        ],
       },
       {
         name: 'SysPlugin',

@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
-import type { SysMenuTreeResult } from '#/api';
-import type { SysDataRulesResult } from '#/api/data-permission';
+import type {
+  SysDataRuleResult,
+  SysDataScopeRulesResult,
+} from '#/api/data-permission';
 
 import { ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { useVbenVxeGrid } from '@vben/plugins/vxe-table';
 
-import { getSysDataRulesApi } from '#/api/data-permission';
+import { getSysDataScopeRulesApi } from '#/api/data-permission';
 import { drawerDataRuleColumns } from '#/views/system/role/data';
 
-const rules = ref<SysDataRulesResult[]>([]);
+const rules = ref<SysDataRuleResult[]>([]);
 
 const [Drawer, drawerApi] = useVbenDrawer({
   destroyOnClose: true,
@@ -21,7 +23,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
   class: 'w-2/5',
 });
 
-const dataScopeRuleOptions: VxeTableGridOptions<SysMenuTreeResult> = {
+const dataScopeRuleOptions: VxeTableGridOptions<SysDataScopeRulesResult> = {
   rowConfig: {
     keyField: 'id',
   },
@@ -37,7 +39,7 @@ const dataScopeRuleOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   proxyConfig: {
     ajax: {
       query: async () => {
-        const res = await getSysDataRulesApi(
+        const res = await getSysDataScopeRulesApi(
           drawerApi.getData().clickedDataScopeRow.id,
         );
         rules.value = res.rules;

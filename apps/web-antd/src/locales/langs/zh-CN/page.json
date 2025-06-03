@@ -30,6 +30,8 @@
     "redis": "Redis",
     "server": "服务器",
     "sysDataPermission": "数据权限",
+    "sysDataScope": "数据范围",
+    "sysDataRule": "数据规则",
     "SysPlugin": "系统插件",
     "sysDept": "系统部门",
     "sysMenu": "系统菜单",
