@@ -71,14 +71,13 @@ export function useColumns(
       field: 'dept',
       title: '部门',
       width: 120,
-      formatter({ cellValue }) {
-        return cellValue.name || '未绑定';
-      },
+      slots: { default: 'dept' },
     },
     {
       field: 'roles',
       title: '角色',
       width: 220,
+      showOverflow: 'ellipsis',
       slots: { default: 'roles' },
     },
     { field: 'email', title: '邮箱', width: 150 },

@@ -4,7 +4,7 @@ import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
 import type { OnActionClickParams } from '#/adapter/vxe-table';
 import type { SysMenuTreeResult } from '#/api';
-import type { SysDataScopesResult } from '#/api/data-permission';
+import type { SysDataScopeResult } from '#/api/data-permission';
 
 import { nextTick, ref, watch } from 'vue';
 
@@ -179,10 +179,7 @@ const [DataScopeGrid, dataScopeGridApi] = useVbenVxeGrid({
   gridOptions: dataScopeGridOptions,
 });
 
-function onActionClick({
-  code,
-  row,
-}: OnActionClickParams<SysDataScopesResult>) {
+function onActionClick({ code, row }: OnActionClickParams<SysDataScopeResult>) {
   switch (code) {
     case 'details': {
       dataRuleDrawerApi

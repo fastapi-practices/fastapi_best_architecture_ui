@@ -60,7 +60,6 @@ const searchDept = async (searchValue: string | undefined) => {
 /**
  * 右侧
  */
-
 const formOptions: VbenFormProps = {
   collapsed: true,
   showCollapseButton: true,
@@ -86,14 +85,6 @@ const gridOptions: VxeTableGridOptions<SysUserResult> = {
     refresh: { code: 'query' },
     custom: true,
     zoom: true,
-  },
-  tooltipConfig: {
-    contentMethod: ({ column, row }) => {
-      if (column.field === 'roles' && row.roles.length > 0) {
-        return row.roles.map((item) => item.name).join('、');
-      }
-      return null;
-    },
   },
   columns: useColumns(onActionClick),
   proxyConfig: {
@@ -235,7 +226,7 @@ onMounted(() => {
     :right-width="80"
   >
     <template #left>
-      <div class="bg-card mr-2 h-full rounded-[var(--radius)]">
+      <div class="bg-card mr-2 h-full overflow-y-auto rounded-[var(--radius)]">
         <div class="mt-1 p-2">
           <a-input-search
             v-model:value="searchDeptValue"
@@ -281,11 +272,26 @@ onMounted(() => {
       <template #avatar="{ row }">
         <a-avatar :src="row.avatar || preferences.app.defaultAvatar" />
       </template>
+      <template #dept="{ row }">
+        <span v-if="row.dept">
+          <a-tag :key="row.dept.name" color="green">
+            {{ row.dept.name }}
+          </a-tag>
+        </span>
+        <span v-else>未绑定</span>
+      </template>
       <template #roles="{ row }">
         <span v-if="row.roles.length > 0">
-          <a-tag v-for="role in row.roles" :key="role.name">
-            {{ role.name }}
-          </a-tag>
+          <a-popover placement="topLeft">
+            <template #content>
+              <a-tag v-for="role in row.roles" :key="role.name" color="purple">
+                {{ role.name }}
+              </a-tag>
+            </template>
+            <a-tag v-for="role in row.roles" :key="role.name" color="purple">
+              {{ role.name }}
+            </a-tag>
+          </a-popover>
         </span>
         <span v-else>未绑定</span>
       </template>

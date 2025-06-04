@@ -11,16 +11,8 @@ export const overridesPreferences = defineOverridesPreferences({
     name: import.meta.env.VITE_APP_TITLE,
     enableRefreshToken: true,
   },
-  copyright: {
-    companyName: 'FastAPI Practices',
-    companySiteLink: 'https://github.com/fastapi-practices',
-    date: '2025',
-    icp: '',
-    icpLink: '',
-  },
   footer: {
-    enable: true,
-    fixed: true,
+    enable: false,
   },
   logo: {
     source: 'https://wu-clan.github.io/picx-images-hosting/logo/fba.png',
