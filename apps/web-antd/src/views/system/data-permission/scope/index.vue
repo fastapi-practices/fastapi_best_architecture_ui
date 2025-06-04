@@ -23,7 +23,7 @@ import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   createSysDataScope,
-  deleteSysDataScope,
+  deleteSysDataScopeApi,
   getSysDataRulesApi,
   getSysDataScopeListApi,
   getSysDataScopeRulesApi,
@@ -81,7 +81,7 @@ function onRefresh() {
 function onActionClick({ code, row }: OnActionClickParams<SysDataScopeResult>) {
   switch (code) {
     case 'delete': {
-      deleteSysDataScope([row.id]).then(() => {
+      deleteSysDataScopeApi([row.id]).then(() => {
         message.success({
           content: $t('ui.actionMessage.deleteSuccess', [row.name]),
           key: 'action_process_msg',
@@ -163,7 +163,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
   closable: false,
   class: 'w-2/5',
   onConfirm() {
-    const checkedRows = dataScopeRuleGridApi.grid.getCheckboxRecords(true);
+    const checkedRows =
+      dataScopeRuleGridApi.grid.getCheckboxReserveRecords(true);
     updateSysDataScopeRulesApi(
       clickDataScope.value,
       checkedRows.map((item: any) => item.id),
@@ -173,11 +174,11 @@ const [Drawer, drawerApi] = useVbenDrawer({
   },
 });
 
-const dataScopeRuleOptions: VxeTableGridOptions<SysDataRuleResult> = {
+const dataScopeRulesGridOptions: VxeTableGridOptions<SysDataRuleResult> = {
   rowConfig: {
     keyField: 'id',
   },
-  maxHeight: '775',
+  height: 'auto',
   virtualYConfig: {
     enabled: true,
     gt: 0,
@@ -185,6 +186,7 @@ const dataScopeRuleOptions: VxeTableGridOptions<SysDataRuleResult> = {
   checkboxConfig: {
     labelField: 'name',
     highlight: true,
+    reserve: true,
     checkRowKeys: [],
   },
   pagerConfig: {
@@ -199,8 +201,9 @@ const dataScopeRuleOptions: VxeTableGridOptions<SysDataRuleResult> = {
     },
   },
 };
+
 const [DataScopeRuleGrid, dataScopeRuleGridApi] = useVbenVxeGrid({
-  gridOptions: dataScopeRuleOptions,
+  gridOptions: dataScopeRulesGridOptions,
 });
 </script>
 

@@ -86,14 +86,6 @@ const gridOptions: VxeTableGridOptions<SysUserResult> = {
     custom: true,
     zoom: true,
   },
-  tooltipConfig: {
-    contentMethod: ({ column, row }) => {
-      if (column.field === 'roles' && row.roles.length > 0) {
-        return row.roles.map((item) => item.name).join('、');
-      }
-      return null;
-    },
-  },
   columns: useColumns(onActionClick),
   proxyConfig: {
     ajax: {
@@ -280,11 +272,26 @@ onMounted(() => {
       <template #avatar="{ row }">
         <a-avatar :src="row.avatar || preferences.app.defaultAvatar" />
       </template>
+      <template #dept="{ row }">
+        <span v-if="row.dept">
+          <a-tag :key="row.dept.name" color="green">
+            {{ row.dept.name }}
+          </a-tag>
+        </span>
+        <span v-else>未绑定</span>
+      </template>
       <template #roles="{ row }">
         <span v-if="row.roles.length > 0">
-          <a-tag v-for="role in row.roles" :key="role.name">
-            {{ role.name }}
-          </a-tag>
+          <a-popover placement="topLeft">
+            <template #content>
+              <a-tag v-for="role in row.roles" :key="role.name" color="purple">
+                {{ role.name }}
+              </a-tag>
+            </template>
+            <a-tag v-for="role in row.roles" :key="role.name" color="purple">
+              {{ role.name }}
+            </a-tag>
+          </a-popover>
         </span>
         <span v-else>未绑定</span>
       </template>

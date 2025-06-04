@@ -35,9 +35,23 @@ export interface CreateSysDataScopeParams {
 export interface SysDataScopeRulesResult extends SysDataScopeResult {
   rules: SysDataRuleResult[];
 }
+
 export interface SysDataRuleParams {
-  id?: number;
   name?: string;
+}
+
+export interface SysDataRuleModelColumnsResult {
+  key: string;
+  comment: string;
+}
+
+export interface CreateSysDataRuleParams {
+  name: string;
+  model: string;
+  column: string;
+  operator: string;
+  expression: string;
+  value: string;
 }
 
 export async function getSysDataScopeListApi(params: SysDataScopeParams) {
@@ -71,7 +85,7 @@ export async function updateSysDataScopeRulesApi(pk: number, rules: number[]) {
   return requestClient.put(`/api/v1/sys/data-scopes/${pk}/rules`, { rules });
 }
 
-export async function deleteSysDataScope(pk: number[]) {
+export async function deleteSysDataScopeApi(pk: number[]) {
   return requestClient.delete(`/api/v1/sys/data-scopes/`, {
     params: { pk },
     paramsSerializer: 'repeat',
@@ -86,4 +100,25 @@ export async function getSysDataRuleListApi(params: SysDataRuleParams) {
 
 export async function getSysDataRulesApi() {
   return requestClient.get<SysDataRuleResult>('/api/v1/sys/data-rules/all');
+}
+
+export async function getSysDataRuleModelsApi() {
+  return requestClient.get<string[]>('/api/v1/sys/data-rules/models');
+}
+
+export async function getSysDataRuleModelColumnsApi(model: string) {
+  return requestClient.get<SysDataRuleModelColumnsResult[]>(
+    `/api/v1/sys/data-rules/models/${model}/columns`,
+  );
+}
+
+export async function createDataRuleApi(data: CreateSysDataRuleParams) {
+  return requestClient.post('/api/v1/sys/data-rules', data);
+}
+
+export async function deleteSysDataRuleApi(pk: number[]) {
+  return requestClient.delete(`/api/v1/sys/data-rules/`, {
+    params: { pk },
+    paramsSerializer: 'repeat',
+  });
 }

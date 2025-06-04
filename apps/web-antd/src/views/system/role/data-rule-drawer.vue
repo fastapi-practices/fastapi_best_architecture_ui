@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
-import type {
-  SysDataRuleResult,
-  SysDataScopeRulesResult,
-} from '#/api/data-permission';
-
-import { ref } from 'vue';
+import type { SysDataScopeRulesResult } from '#/api/data-permission';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { useVbenVxeGrid } from '@vben/plugins/vxe-table';
 
 import { getSysDataScopeRulesApi } from '#/api/data-permission';
 import { drawerDataRuleColumns } from '#/views/system/role/data';
-
-const rules = ref<SysDataRuleResult[]>([]);
 
 const [Drawer, drawerApi] = useVbenDrawer({
   destroyOnClose: true,
@@ -27,7 +20,7 @@ const dataScopeRuleOptions: VxeTableGridOptions<SysDataScopeRulesResult> = {
   rowConfig: {
     keyField: 'id',
   },
-  maxHeight: '880',
+  height: 'auto',
   virtualYConfig: {
     enabled: true,
     gt: 0,
@@ -42,8 +35,7 @@ const dataScopeRuleOptions: VxeTableGridOptions<SysDataScopeRulesResult> = {
         const res = await getSysDataScopeRulesApi(
           drawerApi.getData().clickedDataScopeRow.id,
         );
-        rules.value = res.rules;
-        return rules.value;
+        return res.rules;
       },
     },
   },
@@ -60,21 +52,6 @@ const [Grid] = useVbenVxeGrid({
         <a-alert class="mb-2" type="warning" show-icon>
           <template #message>
             此页面仅用于数据展示，如需操作，请前往 【系统管理】 -> 【数据权限】
-          </template>
-        </a-alert>
-        <a-alert class="h-8" type="info">
-          <template #message>
-            <div>
-              数据范围
-              <span class="text-primary mx-1 font-semibold">
-                {{ drawerApi.getData().clickedDataScopeRow.name }}
-              </span>
-              已关联
-              <span class="text-primary mx-1 font-semibold">
-                {{ rules.length }}
-              </span>
-              条数据规则
-            </div>
           </template>
         </a-alert>
       </template>

@@ -113,7 +113,5 @@ export const drawerColumns: VxeGridProps['columns'] = [
     type: 'checkbox',
     title: '规则名称',
     align: 'left',
-    fixed: 'left',
-    minWidth: 150,
   },
 ];

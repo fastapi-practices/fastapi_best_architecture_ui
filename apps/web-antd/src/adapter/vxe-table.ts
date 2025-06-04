@@ -93,6 +93,7 @@ setupVbenVxeTable({
       },
     });
 
+    // 单元格渲染器：Switch
     vxeUI.renderer.add('CellSwitch', {
       renderTableDefault({ attrs, props }, { column, row }) {
         const loadingKey = `__loading_${column.field}`;
@@ -122,9 +123,7 @@ setupVbenVxeTable({
       },
     });
 
-    /**
-     * 注册表格的操作按钮渲染器
-     */
+    // 注册表格的操作按钮渲染器
     vxeUI.renderer.add('CellOperation', {
       renderTableDefault({ attrs, options, props }, { column, row }) {
         const defaultProps = { size: 'small', type: 'link', ...props };

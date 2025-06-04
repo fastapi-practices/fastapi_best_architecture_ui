@@ -4,6 +4,8 @@ import type { SysDataRuleResult } from '#/api/data-permission';
 
 import { $t } from '@vben/locales';
 
+import { getSysDataRuleModelColumnsApi } from '#/api/data-permission';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -82,3 +84,87 @@ export function useColumns(
     },
   ];
 }
+
+export const schema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'name',
+    label: '规则名称',
+    rules: 'required',
+  },
+  {
+    component: 'Select',
+    componentProps: {
+      class: 'w-full',
+      options: [],
+    },
+    fieldName: 'model',
+    label: '模型',
+    rules: 'selectRequired',
+  },
+  {
+    component: 'Select',
+    fieldName: 'column',
+    label: '字段',
+    rules: 'selectRequired',
+    dependencies: {
+      componentProps: async (values) => {
+        if (values.model) {
+          const res = await getSysDataRuleModelColumnsApi(values.model);
+          return {
+            class: 'w-full',
+            options: res.map((item) => ({
+              label: item.comment,
+              value: item.key,
+            })),
+          };
+        }
+        return { class: 'w-full' };
+      },
+      disabled(values) {
+        return !values.model;
+      },
+      triggerFields: ['model'],
+    },
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: [
+        { label: 'OR', value: 1 },
+        { label: 'AND', value: 0 },
+      ],
+      optionType: 'button',
+    },
+    defaultValue: 0,
+    fieldName: 'operator',
+    label: '操作符',
+    rules: 'required',
+  },
+  {
+    component: 'Select',
+    componentProps: {
+      class: 'w-full',
+      options: [
+        { label: 'not in', value: 7 },
+        { label: 'in', value: 6 },
+        { label: '<=', value: 5 },
+        { label: '<', value: 4 },
+        { label: '>=', value: 3 },
+        { label: '>', value: 2 },
+        { label: '!=', value: 1 },
+        { label: '==', value: 0 },
+      ],
+    },
+    fieldName: 'expression',
+    label: '表达式',
+    rules: 'selectRequired',
+  },
+  {
+    component: 'Input',
+    fieldName: 'value',
+    label: '规则值',
+    rules: 'required',
+  },
+];
