@@ -266,6 +266,7 @@ export function useAddSchema(roleSelectOptions: any): VbenFormSchema[] {
       },
       fieldName: 'dept_id',
       label: '部门',
+      rules: 'required',
     },
     {
       component: 'Input',
