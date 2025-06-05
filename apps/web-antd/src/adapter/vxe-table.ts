@@ -277,4 +277,5 @@ export type OnActionClickParams<T = Recordable<any>> = {
 export type OnActionClickFn<T = Recordable<any>> = (
   params: OnActionClickParams<T>,
 ) => void;
+
 export type * from '@vben/plugins/vxe-table';
