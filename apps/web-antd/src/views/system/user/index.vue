@@ -286,7 +286,7 @@ onMounted(() => {
             {{ row.roles[0].name }}
           </a-tag>
         </span>
-        <span v-if="row.roles.length > 1">
+        <span v-else-if="row.roles.length > 1">
           <a-popover placement="topLeft" :overlay-style="{ maxWidth: '20%' }">
             <template #content>
               <a-tag v-for="role in row.roles" :key="role.name" color="purple">
