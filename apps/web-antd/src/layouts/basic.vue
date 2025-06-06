@@ -5,7 +5,7 @@ import { computed, ref, watch } from 'vue';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { useWatermark } from '@vben/hooks';
-import { Profile } from '@vben/icons';
+import { MingcuteProfileLine } from '@vben/icons';
 import {
   BasicLayout,
   LockScreen,
@@ -63,7 +63,7 @@ const menus = computed(() => [
     handler: () => {
       router.push('/profile');
     },
-    icon: Profile,
+    icon: MingcuteProfileLine,
     text: '个人中心',
   },
 ]);

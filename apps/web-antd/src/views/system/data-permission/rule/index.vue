@@ -13,7 +13,7 @@ import type {
 import { computed, ref } from 'vue';
 
 import { Page, useVbenModal, VbenButton } from '@vben/common-ui';
-import { AddData } from '@vben/icons';
+import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
@@ -167,7 +167,7 @@ const openAddModal = async (row: any) => {
     <Grid>
       <template #toolbar-actions>
         <VbenButton @click="openAddModal(null)">
-          <AddData class="size-5" />
+          <MaterialSymbolsAdd class="size-5" />
           新增数据规则
         </VbenButton>
       </template>

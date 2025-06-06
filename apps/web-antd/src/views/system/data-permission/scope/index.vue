@@ -14,7 +14,7 @@ import type {
 import { computed, ref } from 'vue';
 
 import { Page, useVbenDrawer, useVbenModal, VbenButton } from '@vben/common-ui';
-import { AddData } from '@vben/icons';
+import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
@@ -215,7 +215,7 @@ const [DataScopeRuleGrid, dataScopeRuleGridApi] = useVbenVxeGrid({
     >
       <template #toolbar-tools>
         <VbenButton @click="() => modalApi.setData(null).open()">
-          <AddData class="size-5" />
+          <MaterialSymbolsAdd class="size-5" />
           新增数据范围
         </VbenButton>
       </template>
