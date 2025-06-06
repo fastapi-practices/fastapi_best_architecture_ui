@@ -7,6 +7,10 @@ import { requestClient } from '#/api/request';
 export interface MyUserInfo extends UserInfo {
   id: number;
   nickname: string;
+  email: string;
+  phone?: string;
+  dept?: string;
+  last_login_time: string;
 }
 
 export interface SysUserResult {
@@ -56,6 +60,12 @@ export interface SysAddUserParams {
   roles: number[];
 }
 
+export interface SysResetPasswordParams {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+}
+
 /**
  * 获取用户信息
  */
@@ -92,6 +102,13 @@ export async function updateSysUserStaffApi(pk: number) {
 
 export async function updateSysUserMultiApi(pk: number) {
   return requestClient.put(`/api/v1/sys/users/${pk}/multi`);
+}
+
+export async function updateSysUserPasswordApi(
+  username: string,
+  data: SysResetPasswordParams,
+) {
+  return requestClient.post(`/api/v1/sys/users/${username}/password`, data);
 }
 
 export async function deleteSysUserApi(username: string) {

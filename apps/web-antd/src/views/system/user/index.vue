@@ -281,8 +281,13 @@ onMounted(() => {
         <span v-else>未绑定</span>
       </template>
       <template #roles="{ row }">
-        <span v-if="row.roles.length > 0">
-          <a-popover placement="topLeft">
+        <span v-if="row.roles.length === 1">
+          <a-tag color="purple">
+            {{ row.roles[0].name }}
+          </a-tag>
+        </span>
+        <span v-else-if="row.roles.length > 1">
+          <a-popover placement="topLeft" :overlay-style="{ maxWidth: '20%' }">
             <template #content>
               <a-tag v-for="role in row.roles" :key="role.name" color="purple">
                 {{ role.name }}
