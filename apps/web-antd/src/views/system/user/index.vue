@@ -16,7 +16,7 @@ import type {
 import { onMounted, ref } from 'vue';
 
 import { ColPage, useVbenModal, VbenButton } from '@vben/common-ui';
-import { AddData } from '@vben/icons';
+import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 
@@ -265,7 +265,7 @@ onMounted(() => {
     <Grid>
       <template #toolbar-actions>
         <VbenButton @click="() => addModalApi.setData(null).open()">
-          <AddData class="size-5" />
+          <MaterialSymbolsAdd class="size-5" />
           添加用户
         </VbenButton>
       </template>

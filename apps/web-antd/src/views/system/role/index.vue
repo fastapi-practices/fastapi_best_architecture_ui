@@ -10,7 +10,7 @@ import type { CreateSysRoleParams, SysRoleResult } from '#/api';
 import { computed, ref } from 'vue';
 
 import { Page, useVbenDrawer, useVbenModal, VbenButton } from '@vben/common-ui';
-import { AddData } from '@vben/icons';
+import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { traverseTreeValues } from '@vben/utils';
 
@@ -169,7 +169,7 @@ const openDrawer = async (pk: number) => {
     <Grid>
       <template #toolbar-actions>
         <VbenButton @click="() => modalApi.setData(null).open()">
-          <AddData class="size-5" />
+          <MaterialSymbolsAdd class="size-5" />
           新增角色
         </VbenButton>
       </template>
