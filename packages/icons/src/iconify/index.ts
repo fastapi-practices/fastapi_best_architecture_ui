@@ -12,6 +12,6 @@ export const MdiGoogle = createIconifyIcon('mdi:google');
 
 export const MdiQqchat = createIconifyIcon('mdi:qqchat');
 
-export const AddData = createIconifyIcon('material-symbols:add');
+export const MaterialSymbolsAdd = createIconifyIcon('material-symbols:add');
 
-export const Profile = createIconifyIcon('mingcute:profile-line');
+export const MingcuteProfileLine = createIconifyIcon('mingcute:profile-line');
