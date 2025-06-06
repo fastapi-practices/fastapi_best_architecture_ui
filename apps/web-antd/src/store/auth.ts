@@ -101,6 +101,18 @@ export const useAuthStore = defineStore('auth', () => {
     };
   }
 
+  async function oauth2Login() {
+    const params = new URLSearchParams(window.location.search);
+    const access_token = params.get('access_token');
+    const session_uuid = params.get('session_uuid');
+    if (access_token && session_uuid) {
+      accessStore.setAccessToken(access_token);
+      accessStore.setAccessSessionUuid(session_uuid);
+      return true;
+    }
+    return false;
+  }
+
   async function logout(access_token: null | string, redirect: boolean = true) {
     try {
       await logoutApi(access_token);
@@ -136,6 +148,7 @@ export const useAuthStore = defineStore('auth', () => {
     $reset,
     captcha,
     authLogin,
+    oauth2Login,
     fetchUserInfo,
     loginLoading,
     logout,
