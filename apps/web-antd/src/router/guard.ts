@@ -59,6 +59,14 @@ function setupAccessGuard(router: Router) {
             preferences.app.defaultHomePath,
         );
       }
+      // 处理 OAuth2 回调
+      if (to.name === 'OAuth2Callback') {
+        const oauth2 = await authStore.oauth2Login();
+        if (!oauth2) {
+          return { path: LOGIN_PATH };
+        }
+        return { path: preferences.app.defaultHomePath, replace: true };
+      }
       return true;
     }
 
