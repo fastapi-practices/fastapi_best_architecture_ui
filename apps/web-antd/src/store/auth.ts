@@ -105,11 +105,14 @@ export const useAuthStore = defineStore('auth', () => {
     const params = new URLSearchParams(window.location.search);
     const access_token = params.get('access_token');
     const session_uuid = params.get('session_uuid');
+
     if (access_token && session_uuid) {
       accessStore.setAccessToken(access_token);
       accessStore.setAccessSessionUuid(session_uuid);
       return true;
     }
+
+    console.error('Missing or invalid access_token or session_uuid');
     return false;
   }
 

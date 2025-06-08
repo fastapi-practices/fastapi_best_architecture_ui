@@ -92,16 +92,6 @@ const coreRoutes: RouteRecordRaw[] = [
       },
     ],
   },
-  {
-    name: 'OAuth2Callback',
-    path: '/oauth2/callback',
-    component: () => import('#/views/oauth2/index.vue'),
-    meta: {
-      icon: 'mingcute:profile-line',
-      title: '第三方登录',
-      hideInMenu: true,
-    },
-  },
 ];
 
 export { coreRoutes, fallbackNotFoundRoute };
