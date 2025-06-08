@@ -18,6 +18,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/log/login/index.vue'),
         meta: {
           title: $t('page.menu.login'),
+          icon: 'mdi:login',
         },
       },
       {
@@ -26,6 +27,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/log/opera/index.vue'),
         meta: {
           title: $t('page.menu.opera'),
+          icon: 'carbon:operations-record',
         },
       },
     ],

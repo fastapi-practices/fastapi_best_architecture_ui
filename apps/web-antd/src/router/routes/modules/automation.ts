@@ -18,6 +18,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/automation/code-generator/index.vue'),
         meta: {
           title: $t('page.menu.codeGenerator'),
+          icon: 'tabler:code',
+        },
+      },
+      {
+        name: 'Scheduler',
+        path: 'scheduler',
+        component: () => import('#/views/automation/scheduler/index.vue'),
+        meta: {
+          title: $t('page.menu.scheduler'),
+          icon: 'ix:scheduler',
         },
       },
     ],
