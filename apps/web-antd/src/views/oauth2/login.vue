@@ -3,6 +3,8 @@ import { $t } from '@vben/locales';
 
 import { getOAuth2LinuxDo } from '#/api/oauth2';
 
+defineOptions({ name: 'OAuth2Login' });
+
 const linuxDoOAuth2 = async () => {
   try {
     window.location.href = await getOAuth2LinuxDo();

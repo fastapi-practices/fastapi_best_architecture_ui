@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Page } from '@vben/common-ui';
+import ComingSoon from '#/views/_core/fallback/coming-soon.vue';
 </script>
 
 <template>
-  <Page> Coming soon... </Page>
+  <ComingSoon />
 </template>
