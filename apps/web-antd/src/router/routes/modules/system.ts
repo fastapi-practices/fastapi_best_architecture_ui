@@ -18,6 +18,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/dept/index.vue'),
         meta: {
           title: $t('page.menu.sysDept'),
+          icon: 'mingcute:department-line',
         },
       },
       {
@@ -26,6 +27,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/user/index.vue'),
         meta: {
           title: $t('page.menu.sysUser'),
+          icon: 'ant-design:user-outlined',
         },
       },
       {
@@ -34,6 +36,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/role/index.vue'),
         meta: {
           title: $t('page.menu.sysRole'),
+          icon: 'carbon:user-role',
         },
       },
       {
@@ -42,6 +45,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/system/menu/index.vue'),
         meta: {
           title: $t('page.menu.sysMenu'),
+          icon: 'material-symbols:menu',
         },
       },
       {
@@ -49,6 +53,7 @@ const routes: RouteRecordRaw[] = [
         path: 'sys-data-permission',
         meta: {
           title: $t('page.menu.sysDataPermission'),
+          icon: 'icon-park-outline:permissions',
         },
         children: [
           {
@@ -58,6 +63,7 @@ const routes: RouteRecordRaw[] = [
               import('#/views/system/data-permission/scope/index.vue'),
             meta: {
               title: $t('page.menu.sysDataScope'),
+              icon: 'cuida:scope-outline',
             },
           },
           {
@@ -67,6 +73,7 @@ const routes: RouteRecordRaw[] = [
               import('#/views/system/data-permission/rule/index.vue'),
             meta: {
               title: $t('page.menu.sysDataRule'),
+              icon: 'material-symbols:rule',
             },
           },
         ],
@@ -76,7 +83,35 @@ const routes: RouteRecordRaw[] = [
         path: 'sys-plugin',
         component: () => import('#/views/system/plugin/index.vue'),
         meta: {
-          title: $t('page.menu.SysPlugin'),
+          title: $t('page.menu.sysPlugin'),
+          icon: 'clarity:plugin-line',
+        },
+      },
+      {
+        name: 'SysConfig',
+        path: 'sys-config',
+        component: () => import('#/views/system/config/index.vue'),
+        meta: {
+          title: $t('page.menu.sysConfig'),
+          icon: 'codicon:symbol-parameter',
+        },
+      },
+      {
+        name: 'SysDict',
+        path: 'sys-dict',
+        component: () => import('#/views/system/dict/index.vue'),
+        meta: {
+          title: $t('page.menu.sysDict'),
+          icon: 'fluent-mdl2:dictionary',
+        },
+      },
+      {
+        name: 'SysNotice',
+        path: 'sys-notice',
+        component: () => import('#/views/system/notice/index.vue'),
+        meta: {
+          title: $t('page.menu.sysNotice'),
+          icon: 'fe:notice-push',
         },
       },
     ],

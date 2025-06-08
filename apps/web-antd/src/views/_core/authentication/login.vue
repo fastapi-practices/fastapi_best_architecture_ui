@@ -46,6 +46,7 @@ const showNotification = () => {
       ]),
     ]),
     duration: null,
+    maxCount: 1,
     placement: 'bottom',
     class: 'w-full',
   });

@@ -22,7 +22,8 @@
     "system": "系统管理",
     "automation": "系统自动化",
     "codeGenerator": "代码生成",
-    "log": "系统日志",
+    "scheduler": "任务调度",
+    "log": "日志管理",
     "login": "登录日志",
     "monitor": "系统监控",
     "opera": "操作日志",
@@ -32,11 +33,14 @@
     "sysDataPermission": "数据权限",
     "sysDataScope": "数据范围",
     "sysDataRule": "数据规则",
-    "SysPlugin": "系统插件",
-    "sysDept": "系统部门",
-    "sysMenu": "系统菜单",
-    "sysRole": "系统角色",
-    "sysUser": "系统用户"
+    "sysPlugin": "插件管理",
+    "sysConfig": "参数设置",
+    "sysDict": "字典管理",
+    "sysNotice": "通知公告",
+    "sysDept": "部门管理",
+    "sysMenu": "菜单管理",
+    "sysRole": "角色管理",
+    "sysUser": "用户管理"
   },
   "monitor": {
     "redis": {

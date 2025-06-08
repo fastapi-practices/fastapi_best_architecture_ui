@@ -18,6 +18,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/monitor/online/index.vue'),
         meta: {
           title: $t('page.menu.online'),
+          icon: 'wpf:online',
         },
       },
       {
@@ -26,6 +27,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/monitor/redis/index.vue'),
         meta: {
           title: $t('page.menu.redis'),
+          icon: 'devicon:redis',
         },
       },
       {
@@ -34,6 +36,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/monitor/server/index.vue'),
         meta: {
           title: $t('page.menu.server'),
+          icon: 'mdi:server-outline',
         },
       },
     ],
