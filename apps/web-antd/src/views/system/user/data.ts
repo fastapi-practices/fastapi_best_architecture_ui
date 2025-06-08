@@ -8,7 +8,6 @@ import type { SysRoleResult, SysUserResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
-import { z } from '#/adapter/form';
 import {
   getSysDeptTreeApi,
   updateSysUserMultiApi,
@@ -223,12 +222,6 @@ export function useEditSchema(roleSelectOptions: any): VbenFormSchema[] {
     },
     {
       component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email({ message: '无效的邮箱地址' }).optional(),
-    },
-    {
-      component: 'Input',
       fieldName: 'phone',
       label: '手机号',
     },
@@ -284,12 +277,6 @@ export function useAddSchema(roleSelectOptions: any): VbenFormSchema[] {
       fieldName: 'password',
       label: '密码',
       rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email({ message: '无效的邮箱地址' }),
     },
     {
       component: 'Select',

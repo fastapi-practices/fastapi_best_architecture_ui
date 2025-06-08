@@ -1,5 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <a-spin dot tip="OAuthing..." />
+  <div class="grid min-h-screen place-items-center">
+    <a-spin size="large" tip="OAuthing..." />
+  </div>
 </template>

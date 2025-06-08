@@ -10,7 +10,7 @@ import { $t } from '@vben/locales';
 import { Image, notification } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
-import Oauth2Login from '#/views/_core/authentication/oauth2-login.vue';
+import OAuth2Login from '#/views/oauth2/login.vue';
 
 defineOptions({ name: 'Login' });
 
@@ -162,7 +162,7 @@ const formSchema = computed((): VbenFormSchema[] => {
     @submit="authStore.authLogin"
   >
     <template #third-party-login>
-      <Oauth2Login />
+      <OAuth2Login />
     </template>
   </AuthenticationLogin>
 </template>
