@@ -252,7 +252,7 @@ export const schema: VbenFormSchema[] = [
   },
   {
     component: 'Switch',
-    defaultValue: false,
+    defaultValue: true,
     dependencies: {
       show: (values) => {
         return values.type !== 2;
@@ -260,7 +260,7 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['type'],
     },
     fieldName: 'display',
-    label: '是否隐藏',
+    label: '是否显示',
   },
   {
     component: 'Switch',
