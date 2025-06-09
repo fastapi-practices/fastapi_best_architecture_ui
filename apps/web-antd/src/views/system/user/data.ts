@@ -221,11 +221,6 @@ export function useEditSchema(roleSelectOptions: any): VbenFormSchema[] {
       label: '头像地址',
     },
     {
-      component: 'Input',
-      fieldName: 'phone',
-      label: '手机号',
-    },
-    {
       component: 'Select',
       componentProps: {
         class: 'w-full',
