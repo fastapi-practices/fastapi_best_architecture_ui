@@ -148,9 +148,10 @@ const [Modal, modalApi] = useVbenModal({
   onOpenChange(isOpen) {
     if (isOpen) {
       const data = modalApi.getData<formSysDataScopeParams>();
+      formApi.resetForm();
       if (data) {
         formData.value = data;
-        formApi.setValues(formData.value);
+        formApi.setValues(data);
       }
     }
   },
@@ -163,8 +164,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
   closable: false,
   class: 'w-2/5',
   onConfirm() {
-    const checkedRows =
-      dataScopeRuleGridApi.grid.getCheckboxReserveRecords(true);
+    const checkedRows = dataScopeRuleGridApi.grid.getCheckboxRecords(true);
     updateSysDataScopeRulesApi(
       clickDataScope.value,
       checkedRows.map((item: any) => item.id),

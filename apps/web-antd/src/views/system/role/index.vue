@@ -137,9 +137,10 @@ const [Modal, modalApi] = useVbenModal({
   onOpenChange(idOpen) {
     if (idOpen) {
       const data = modalApi.getData<formSysRoleParams>();
+      formApi.resetForm();
       if (data) {
         formData.value = data;
-        formApi.setValues(formData.value);
+        formApi.setValues(data);
       }
     }
   },

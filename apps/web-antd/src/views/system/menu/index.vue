@@ -142,6 +142,7 @@ const [Modal, modalApi] = useVbenModal({
   onOpenChange(isOpen) {
     if (isOpen) {
       const data = modalApi.getData<SysMenuParams>();
+      formApi.resetForm();
       if (data) {
         if (data.parent_id === 0) {
           data.parent_id = 0;

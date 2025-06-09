@@ -86,7 +86,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysDataRuleResult>) {
       break;
     }
     case 'edit': {
-      openAddModal(row);
+      openAddModal(row, false);
       break;
     }
   }
@@ -132,32 +132,38 @@ const [Modal, modalApi] = useVbenModal({
   onOpenChange(isOpen) {
     if (isOpen) {
       const data = modalApi.getData<formSysDataRuleParams>();
+      formApi.resetForm();
       if (data) {
         formData.value = data;
-        formApi.setValues(formData.value);
+        formApi.setValues(data);
       }
     }
   },
 });
 
-const openAddModal = async (row: any) => {
+const openAddModal = (row: any, isAdd: boolean) => {
   try {
-    const res = await getSysDataRuleModelsApi();
-    formApi.updateSchema([
-      {
-        componentProps: {
-          options: res.map((item) => ({
-            label: item,
-            value: item,
-          })),
+    getSysDataRuleModelsApi().then((res) => {
+      formApi.updateSchema([
+        {
+          componentProps: {
+            options: res.map((item) => ({
+              label: item,
+              value: item,
+            })),
+          },
+          fieldName: 'model',
         },
-        fieldName: 'model',
-      },
-    ]);
+      ]);
+    });
   } catch (error) {
     console.error(error);
   } finally {
-    modalApi.setData(row).open();
+    if (isAdd) {
+      modalApi.setData(null).open();
+    } else {
+      modalApi.setData(row).open();
+    }
   }
 };
 </script>
@@ -166,7 +172,7 @@ const openAddModal = async (row: any) => {
   <Page auto-content-height>
     <Grid>
       <template #toolbar-actions>
-        <VbenButton @click="openAddModal(null)">
+        <VbenButton @click="openAddModal(null, true)">
           <MaterialSymbolsAdd class="size-5" />
           新增数据规则
         </VbenButton>
