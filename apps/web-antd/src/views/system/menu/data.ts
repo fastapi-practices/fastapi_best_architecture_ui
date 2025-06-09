@@ -252,7 +252,7 @@ export const schema: VbenFormSchema[] = [
   },
   {
     component: 'Switch',
-    defaultValue: true,
+    defaultValue: false,
     dependencies: {
       show: (values) => {
         return values.type !== 2;
