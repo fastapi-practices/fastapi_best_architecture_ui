@@ -86,7 +86,7 @@ export async function updateSysDataScopeRulesApi(pk: number, rules: number[]) {
 }
 
 export async function deleteSysDataScopeApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/data-scopes/`, {
+  return requestClient.delete(`/api/v1/sys/data-scopes`, {
     params: { pk },
     paramsSerializer: 'repeat',
   });
@@ -117,7 +117,7 @@ export async function createDataRuleApi(data: CreateSysDataRuleParams) {
 }
 
 export async function deleteSysDataRuleApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/data-rules/`, {
+  return requestClient.delete(`/api/v1/sys/data-rules`, {
     params: { pk },
     paramsSerializer: 'repeat',
   });

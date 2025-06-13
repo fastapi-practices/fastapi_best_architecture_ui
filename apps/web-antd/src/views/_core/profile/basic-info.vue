@@ -6,7 +6,7 @@ const props = defineProps<{ userinfo?: MyUserInfo }>();
 
 <template>
   <a-card
-    class="mr-2"
+    class="mr-3"
     title="基本信息"
     :head-style="{
       borderBottom: 'none',
