@@ -24,7 +24,7 @@ const gridOptions: VxeTableGridOptions<OnlineMonitorResult> = {
     enabled: true,
     gt: 0,
   },
-  minHeight: '343',
+  minHeight: '294',
   maxHeight: '686',
   toolbarConfig: {
     refresh: { code: 'query' },
