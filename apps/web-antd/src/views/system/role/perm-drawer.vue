@@ -251,6 +251,11 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
                 icon="carbon:security"
                 class="size-full"
               />
+              <a-image
+                v-else-if="/^https?:\/\/.*$/.test(row.icon || '')"
+                :src="row.icon"
+                class="size-full"
+              />
               <IconifyIcon
                 v-else
                 :icon="row.icon || 'carbon:circle-dash'"

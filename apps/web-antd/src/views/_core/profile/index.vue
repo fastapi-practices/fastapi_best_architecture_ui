@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import { ColPage } from '@vben/common-ui';
 
 import { getUserInfoApi } from '#/api';
+import ComingSoon from '#/views/_core/fallback/coming-soon.vue';
 import BasicInfo from '#/views/_core/profile/basic-info.vue';
 import OnlineDevice from '#/views/_core/profile/online-device.vue';
 import ResetPassword from '#/views/_core/profile/reset-password.vue';
@@ -65,7 +66,9 @@ onMounted(() => {
       <div v-if="tabKey === '0'">
         <ResetPassword :username="userinfo?.username || ''" />
       </div>
-      <p v-else-if="tabKey === '1'">Coming soon...</p>
+      <div class="h-[294px]" v-else-if="tabKey === '1'">
+        <ComingSoon />
+      </div>
       <div v-else>
         <OnlineDevice :username="userinfo?.username || ''" />
       </div>

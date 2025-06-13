@@ -158,7 +158,7 @@ export const schema: VbenFormSchema[] = [
     component: 'Input',
     dependencies: {
       show: (values) => {
-        return [0, 1, 3].includes(values.type);
+        return [0, 1, 3, 4].includes(values.type);
       },
       triggerFields: ['type'],
     },
@@ -252,7 +252,11 @@ export const schema: VbenFormSchema[] = [
   },
   {
     component: 'Switch',
-    defaultValue: true,
+    componentProps: {
+      checkedValue: 1,
+      unCheckedValue: 0,
+    },
+    defaultValue: 1,
     dependencies: {
       show: (values) => {
         return values.type !== 2;
@@ -264,7 +268,11 @@ export const schema: VbenFormSchema[] = [
   },
   {
     component: 'Switch',
-    defaultValue: true,
+    componentProps: {
+      checkedValue: 1,
+      unCheckedValue: 0,
+    },
+    defaultValue: 1,
     dependencies: {
       show: (values) => {
         return values.type === 1;
