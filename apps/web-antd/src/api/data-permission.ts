@@ -112,8 +112,15 @@ export async function getSysDataRuleModelColumnsApi(model: string) {
   );
 }
 
-export async function createDataRuleApi(data: CreateSysDataRuleParams) {
+export async function createSysDataRuleApi(data: CreateSysDataRuleParams) {
   return requestClient.post('/api/v1/sys/data-rules', data);
+}
+
+export async function updateSysDataRuleApi(
+  pk: number,
+  data: CreateSysDataRuleParams,
+) {
+  return requestClient.put(`/api/v1/sys/data-rules/${pk}`, data);
 }
 
 export async function deleteSysDataRuleApi(pk: number[]) {
