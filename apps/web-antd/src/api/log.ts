@@ -50,6 +50,20 @@ export async function getLoginLogListApi(params: LoginLogParams) {
   return requestClient.get<PaginationResult>('/api/v1/logs/login', { params });
 }
 
+export async function deleteLoginLogApi(pk: number[]) {
+  return requestClient.delete('/api/v1/logs/login', {
+    params: { pk },
+    paramsSerializer: 'repeat',
+  });
+}
+
 export async function getOperaLogListApi(params: OperaLogParams) {
   return requestClient.get<PaginationResult>('/api/v1/logs/opera', { params });
+}
+
+export async function deleteOperaLogApi(pk: number[]) {
+  return requestClient.delete('/api/v1/logs/opera', {
+    params: { pk },
+    paramsSerializer: 'repeat',
+  });
 }

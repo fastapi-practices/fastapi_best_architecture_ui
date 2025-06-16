@@ -14,4 +14,8 @@ export const MdiQqchat = createIconifyIcon('mdi:qqchat');
 
 export const MaterialSymbolsAdd = createIconifyIcon('material-symbols:add');
 
+export const MaterialSymbolsDelete = createIconifyIcon(
+  'material-symbols:delete',
+);
+
 export const MingcuteProfileLine = createIconifyIcon('mingcute:profile-line');
