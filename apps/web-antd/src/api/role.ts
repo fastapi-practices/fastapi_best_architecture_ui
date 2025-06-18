@@ -29,7 +29,7 @@ export interface CreateSysRoleParams {
  * 获取系统角色列表
  */
 export async function getSysRoleListApi(params: SysRoleParams) {
-  return requestClient.get<SysRoleResult>('/api/v1/sys/roles', { params });
+  return requestClient.get<SysRoleResult[]>('/api/v1/sys/roles', { params });
 }
 
 export async function getAllSysRoleApi() {
@@ -62,9 +62,6 @@ export async function updateSysRoleDataScopesApi(pk: number, scopes: number[]) {
   return requestClient.put(`/api/v1/sys/roles/${pk}/scopes`, { scopes });
 }
 
-export async function deleteSysRoleApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/roles`, {
-    params: { pk },
-    paramsSerializer: 'repeat',
-  });
+export async function deleteSysRoleApi(pks: number[]) {
+  return requestClient.delete(`/api/v1/sys/roles`, { data: { pks } });
 }

@@ -13,7 +13,7 @@ import { useAuthStore } from '#/store';
 
 import { schema } from './data';
 
-const props = defineProps<{ username: string }>();
+const props = defineProps<{ id: number }>();
 
 const [Form, formApi] = useVbenForm({
   layout: 'vertical',
@@ -35,7 +35,7 @@ const resetPassword = async () => {
         buttonLoading.value = true;
         const data = await formApi.getValues<SysResetPasswordParams>();
         try {
-          await updateSysUserPasswordApi(props.username, data);
+          await updateSysUserPasswordApi(props.id, data);
           await authStore.logout(null, false);
         } catch (error) {
           console.error(error);

@@ -53,7 +53,7 @@ export function userSchema(fileList: any): VbenFormSchema[] {
       fieldName: 'uploadField',
       label: 'ZIP 压缩包',
       rules: 'required',
-      help: '仅能上传一个 zip 压缩包文件，支持重新上传',
+      help: '仅能上传一个 zip 压缩包文件，重新上传则覆盖',
     },
     {
       component: 'Input',
@@ -62,8 +62,9 @@ export function userSchema(fileList: any): VbenFormSchema[] {
         triggerFields: ['installType'],
       },
       fieldName: 'repo_url',
-      label: 'GIT 仓库地址',
+      label: 'GIT 地址',
       rules: 'required',
+      help: '仓库内容无法实时检测，请谨慎操作，避免非插件代码植入',
     },
   ];
 }
