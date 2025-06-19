@@ -9,27 +9,28 @@ export async function getPluginListApi() {
 }
 
 export async function getPluginChangedApi() {
-  return requestClient.get<boolean>('/api/v1/sys/plugins/changes');
+  return requestClient.get<boolean>('/api/v1/sys/plugins/changed');
 }
 
 export async function installZipPluginApi(file: File) {
   return await requestClient.upload(
-    '/api/v1/sys/plugins/zip',
+    '/api/v1/sys/plugins',
     { file },
-    { timeout: 60_000 },
+    { params: { type: 'zip' }, timeout: 60_000 },
   );
 }
 
 export async function installGitPluginApi(repo_url: string) {
-  return await requestClient.post('/api/v1/sys/plugins/git', undefined, {
-    params: { repo_url },
+  return await requestClient.post('/api/v1/sys/plugins', undefined, {
+    params: { type: 'git', repo_url },
   });
 }
+
 export async function updatePluginStatus(plugin: string) {
-  return await requestClient.post(`/api/v1/sys/plugins/${plugin}/status`);
+  return await requestClient.put(`/api/v1/sys/plugins/${plugin}/status`);
 }
 
-export async function buildPluginApi(plugin: string) {
+export async function downloadPluginApi(plugin: string) {
   return await requestClient.download<Blob>(`/api/v1/sys/plugins/${plugin}`);
 }
 

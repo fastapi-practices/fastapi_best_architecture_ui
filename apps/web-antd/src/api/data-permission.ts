@@ -55,13 +55,13 @@ export interface CreateSysDataRuleParams {
 }
 
 export async function getSysDataScopeListApi(params: SysDataScopeParams) {
-  return requestClient.get<SysDataScopeResult>('/api/v1/sys/data-scopes', {
+  return requestClient.get<SysDataScopeResult[]>('/api/v1/sys/data-scopes', {
     params,
   });
 }
 
 export async function getSysDataScopesApi() {
-  return requestClient.get<SysDataScopeResult>('/api/v1/sys/data-scopes/all');
+  return requestClient.get<SysDataScopeResult[]>('/api/v1/sys/data-scopes/all');
 }
 
 export async function getSysDataScopeRulesApi(pk: number) {
@@ -85,21 +85,18 @@ export async function updateSysDataScopeRulesApi(pk: number, rules: number[]) {
   return requestClient.put(`/api/v1/sys/data-scopes/${pk}/rules`, { rules });
 }
 
-export async function deleteSysDataScopeApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/data-scopes`, {
-    params: { pk },
-    paramsSerializer: 'repeat',
-  });
+export async function deleteSysDataScopeApi(pks: number[]) {
+  return requestClient.delete(`/api/v1/sys/data-scopes`, { data: { pks } });
 }
 
 export async function getSysDataRuleListApi(params: SysDataRuleParams) {
-  return await requestClient.get<SysDataRuleResult>('/api/v1/sys/data-rules', {
+  return requestClient.get<SysDataRuleResult[]>('/api/v1/sys/data-rules', {
     params,
   });
 }
 
 export async function getSysDataRulesApi() {
-  return requestClient.get<SysDataRuleResult>('/api/v1/sys/data-rules/all');
+  return requestClient.get<SysDataRuleResult[]>('/api/v1/sys/data-rules/all');
 }
 
 export async function getSysDataRuleModelsApi() {
@@ -123,9 +120,6 @@ export async function updateSysDataRuleApi(
   return requestClient.put(`/api/v1/sys/data-rules/${pk}`, data);
 }
 
-export async function deleteSysDataRuleApi(pk: number[]) {
-  return requestClient.delete(`/api/v1/sys/data-rules`, {
-    params: { pk },
-    paramsSerializer: 'repeat',
-  });
+export async function deleteSysDataRuleApi(pks: number[]) {
+  return requestClient.delete(`/api/v1/sys/data-rules`, { data: { pks } });
 }

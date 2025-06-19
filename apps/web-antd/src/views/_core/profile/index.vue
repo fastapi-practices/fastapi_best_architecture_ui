@@ -64,7 +64,7 @@ onMounted(() => {
       @tab-change="(key: string) => onTabChange(key)"
     >
       <div v-if="tabKey === '0'">
-        <ResetPassword :username="userinfo?.username || ''" />
+        <ResetPassword :id="userinfo?.id || 0" />
       </div>
       <div class="h-[294px]" v-else-if="tabKey === '1'">
         <ComingSoon />

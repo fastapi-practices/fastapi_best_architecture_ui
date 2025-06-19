@@ -8,13 +8,7 @@ import type { SysRoleResult, SysUserResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
-import {
-  getSysDeptTreeApi,
-  updateSysUserMultiApi,
-  updateSysUserStaffApi,
-  updateSysUserStatusApi,
-  updateSysUserSuperApi,
-} from '#/api';
+import { getSysDeptTreeApi, updateSysUserPermissionApi } from '#/api';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -96,7 +90,7 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserStatusApi(row.id);
+            updateSysUserPermissionApi(row.id, 'status');
           },
         },
       },
@@ -109,7 +103,7 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserSuperApi(row.id);
+            updateSysUserPermissionApi(row.id, 'superuser');
           },
         },
         props: {
@@ -126,7 +120,7 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserStaffApi(row.id);
+            updateSysUserPermissionApi(row.id, 'staff');
           },
         },
         props: {
@@ -143,7 +137,7 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserMultiApi(row.id);
+            updateSysUserPermissionApi(row.id, 'multi_login');
           },
         },
         props: {

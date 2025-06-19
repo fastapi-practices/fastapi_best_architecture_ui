@@ -37,7 +37,7 @@ export async function loginApi(data: LoginParams) {
  */
 export async function refreshTokenApi() {
   return baseRequestClient.post<RefreshTokenResult>(
-    '/api/v1/auth/tokens/refresh',
+    '/api/v1/auth/tokens',
     undefined,
     {
       withCredentials: true,
@@ -64,5 +64,5 @@ export async function logoutApi(access_token: null | string) {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return [];
+  return requestClient.get<string[]>('/api/v1/auth/codes');
 }

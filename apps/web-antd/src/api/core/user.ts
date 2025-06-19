@@ -77,38 +77,26 @@ export async function getSysUserListApi(params: SysUserParams) {
   return requestClient.get<SysUserResult>('/api/v1/sys/users', { params });
 }
 
-export async function addSysUserApi(data: SysAddUserParams) {
-  requestClient.post('/api/v1/sys/users/add', data);
+export async function createSysUserApi(data: SysAddUserParams) {
+  return requestClient.post('/api/v1/sys/users', data);
 }
 
-export async function updateSysUserApi(
-  username: string,
-  data: SysUpdateUserParams,
-) {
-  return requestClient.put(`/api/v1/sys/users/${username}`, data);
+export async function updateSysUserApi(pk: number, data: SysUpdateUserParams) {
+  return requestClient.put(`/api/v1/sys/users/${pk}`, data);
 }
 
-export async function updateSysUserStatusApi(pk: number) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/status`);
-}
-
-export async function updateSysUserSuperApi(pk: number) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/super`);
-}
-
-export async function updateSysUserStaffApi(pk: number) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/staff`);
-}
-
-export async function updateSysUserMultiApi(pk: number) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/multi`);
+export async function updateSysUserPermissionApi(pk: number, type: string) {
+  return requestClient.put(`/api/v1/sys/users/${pk}/permissions`, undefined, {
+    params: { type },
+    paramsSerializer: 'repeat',
+  });
 }
 
 export async function updateSysUserPasswordApi(
-  username: string,
+  pk: number,
   data: SysResetPasswordParams,
 ) {
-  return requestClient.post(`/api/v1/sys/users/${username}/password`, data);
+  return requestClient.post(`/api/v1/sys/users/${pk}/password`, data);
 }
 
 export async function deleteSysUserApi(username: string) {

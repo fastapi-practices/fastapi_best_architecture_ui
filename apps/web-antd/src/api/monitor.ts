@@ -44,7 +44,7 @@ export async function getRedisMonitorApi() {
 }
 
 export async function getOnlineMonitorApi(params: MonitorOnlineParams) {
-  return requestClient.get<OnlineMonitorResult[]>('/api/v1/monitors/online', {
+  return requestClient.get<OnlineMonitorResult[]>('/api/v1/monitors/sessions', {
     params,
   });
 }
@@ -53,5 +53,5 @@ export async function kickOutOnlineApi(
   pk: number,
   params: KickOutOnlineParams,
 ) {
-  return requestClient.delete(`/api/v1/monitors/online/${pk}`, { params });
+  return requestClient.delete(`/api/v1/monitors/sessions/${pk}`, { params });
 }

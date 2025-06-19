@@ -25,7 +25,7 @@ import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
-  addSysUserApi,
+  createSysUserApi,
   deleteSysUserApi,
   getAllSysRoleApi,
   getSysDeptTreeApi,
@@ -119,7 +119,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
       break;
     }
     case 'edit': {
-      editUser.value = row.username;
+      editUser.value = row.id;
       editModalApi.setData(row).open();
       break;
     }
@@ -148,7 +148,7 @@ const [EditForm, formApi] = useVbenForm({
   schema: useEditSchema(roleSelectOptions),
 });
 
-const editUser = ref<string>('');
+const editUser = ref<number>(0);
 
 const [editModal, editModalApi] = useVbenModal({
   destroyOnClose: true,
@@ -193,7 +193,7 @@ const [addModal, addModalApi] = useVbenModal({
       addModalApi.lock();
       const data = await addFormApi.getValues<SysAddUserParams>();
       try {
-        await addSysUserApi(data);
+        await createSysUserApi(data);
         await addModalApi.close();
         onRefresh();
       } finally {

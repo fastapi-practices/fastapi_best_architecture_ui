@@ -10,7 +10,7 @@ import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import {
-  buildPluginApi,
+  downloadPluginApi,
   getPluginChangedApi,
   getPluginListApi,
   installGitPluginApi,
@@ -54,7 +54,7 @@ function downloadConfirm(plugin: string) {
     icon: 'success',
   }).then(async () => {
     try {
-      const res = await buildPluginApi(plugin);
+      const res = await downloadPluginApi(plugin);
       downloadFileFromBlobPart({ fileName: `${plugin}.zip`, source: res });
     } catch (error) {
       console.error(error);
@@ -69,6 +69,8 @@ function deleteConfirm(plugin: string) {
   }).then(async () => {
     try {
       await uninstallPluginApi(plugin);
+      await fetchPlugin();
+      await fetchPluginChanged();
     } catch (error) {
       console.error(error);
     }
