@@ -96,7 +96,7 @@ export async function updateSysUserPasswordApi(
   pk: number,
   data: SysResetPasswordParams,
 ) {
-  return requestClient.post(`/api/v1/sys/users/${pk}/password`, data);
+  return requestClient.put(`/api/v1/sys/users/${pk}/password`, data);
 }
 
 export async function deleteSysUserApi(username: string) {

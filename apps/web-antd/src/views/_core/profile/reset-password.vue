@@ -36,7 +36,7 @@ const resetPassword = async () => {
         const data = await formApi.getValues<SysResetPasswordParams>();
         try {
           await updateSysUserPasswordApi(props.id, data);
-          await authStore.logout(null, false);
+          await authStore.logout(false);
         } catch (error) {
           console.error(error);
         } finally {
