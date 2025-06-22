@@ -9,11 +9,9 @@ import type { LoginLogResult, OperaLogResult } from '#/api';
 
 import { ref, watch } from 'vue';
 
-import { Page, VbenButton } from '@vben/common-ui';
+import { confirm, Page, VbenButton } from '@vben/common-ui';
 import { MaterialSymbolsDelete } from '@vben/icons';
 import { $t } from '@vben/locales';
-
-import { Modal } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteOperaLogApi, getOperaLogListApi } from '#/api';
@@ -82,21 +80,20 @@ const deleteDisable = ref<boolean>(true);
 const deleteLoading = ref<boolean>(false);
 
 const deleteLoginLog = async () => {
-  Modal.confirm({
+  confirm({
     title: '提示',
     content: '确定删除已勾选的记录吗？',
-    onOk: async () => {
-      deleteLoading.value = true;
-      try {
-        await deleteOperaLogApi(checkedRows.value);
-        onRefresh();
-        deleteDisable.value = true;
-      } catch (error) {
-        console.error(error);
-      } finally {
-        deleteLoading.value = false;
-      }
-    },
+  }).then(async () => {
+    deleteLoading.value = true;
+    try {
+      await deleteOperaLogApi(checkedRows.value);
+      onRefresh();
+      deleteDisable.value = true;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      deleteLoading.value = false;
+    }
   });
 };
 
@@ -113,7 +110,7 @@ watch(checkedRows, () => {
           variant="destructive"
           :disabled="deleteDisable"
           :loading="deleteLoading"
-          @click="async () => deleteLoginLog()"
+          @click="deleteLoginLog"
         >
           <MaterialSymbolsDelete class="size-5" />
           删除日志
