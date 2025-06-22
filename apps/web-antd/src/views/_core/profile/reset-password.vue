@@ -3,9 +3,7 @@ import type { SysResetPasswordParams } from '#/api';
 
 import { ref } from 'vue';
 
-import { VbenButton } from '@vben/common-ui';
-
-import { Modal } from 'ant-design-vue';
+import { confirm, VbenButton } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
 import { updateSysUserPasswordApi } from '#/api';
@@ -28,21 +26,21 @@ const buttonLoading = ref<boolean>(false);
 const resetPassword = async () => {
   const { valid } = await formApi.validate();
   if (valid) {
-    Modal.confirm({
+    confirm({
       title: '提示',
       content: '确定修改密码吗？',
-      onOk: async () => {
-        buttonLoading.value = true;
-        const data = await formApi.getValues<SysResetPasswordParams>();
-        try {
-          await updateSysUserPasswordApi(props.id, data);
-          await authStore.logout(false);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          buttonLoading.value = false;
-        }
-      },
+      icon: 'warning',
+    }).then(async () => {
+      buttonLoading.value = true;
+      const data = await formApi.getValues<SysResetPasswordParams>();
+      try {
+        await updateSysUserPasswordApi(props.id, data);
+        await authStore.logout(false);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        buttonLoading.value = false;
+      }
     });
   }
 };
@@ -53,7 +51,7 @@ const resetPassword = async () => {
   <VbenButton
     :disabled="buttonDisabled"
     :loading="buttonLoading"
-    @click="async () => await resetPassword()"
+    @click="resetPassword"
   >
     修改密码
   </VbenButton>
