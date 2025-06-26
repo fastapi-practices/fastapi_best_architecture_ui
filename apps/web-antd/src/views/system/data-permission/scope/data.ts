@@ -26,7 +26,7 @@ export const querySchema: VbenFormSchema[] = [
       ],
     },
     fieldName: 'status',
-    label: $t('page.form.status'),
+    label: $t('common.form.status'),
   },
 ];
 
@@ -36,7 +36,7 @@ export function useColumns(
   return [
     {
       field: 'seq',
-      title: $t('page.table.id'),
+      title: $t('common.table.id'),
       type: 'seq',
       width: 50,
     },
@@ -51,17 +51,17 @@ export function useColumns(
     },
     {
       field: 'created_time',
-      title: $t('page.table.created_time'),
+      title: $t('common.table.created_time'),
       width: 168,
     },
     {
       field: 'updated_time',
-      title: $t('page.table.updated_time'),
+      title: $t('common.table.updated_time'),
       width: 168,
     },
     {
       field: 'operation',
-      title: $t('page.table.operation'),
+      title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
       width: 200,

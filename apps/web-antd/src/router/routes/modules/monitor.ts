@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         name: 'Online',
-        path: 'online',
+        path: '/monitor/online',
         component: () => import('#/views/monitor/online/index.vue'),
         meta: {
           title: $t('page.menu.online'),
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Redis',
-        path: 'redis',
+        path: '/monitor/redis',
         component: () => import('#/views/monitor/redis/index.vue'),
         meta: {
           title: $t('page.menu.redis'),
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Server',
-        path: 'server',
+        path: '/monitor/server',
         component: () => import('#/views/monitor/server/index.vue'),
         meta: {
           title: $t('page.menu.server'),

@@ -35,10 +35,10 @@ export const querySchema: VbenFormSchema[] = [
           value: 0,
         },
       ],
-      placeholder: $t('page.form.select'),
+      placeholder: $t('common.form.select'),
     },
     fieldName: 'status',
-    label: $t('page.form.status'),
+    label: $t('common.form.status'),
   },
 ];
 
@@ -48,7 +48,7 @@ export function useColumns(
   return [
     {
       field: 'seq',
-      title: $t('page.table.id'),
+      title: $t('common.table.id'),
       type: 'seq',
       width: 50,
     },
@@ -158,7 +158,7 @@ export function useColumns(
     },
     {
       field: 'operation',
-      title: $t('page.table.operation'),
+      title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
       width: 130,

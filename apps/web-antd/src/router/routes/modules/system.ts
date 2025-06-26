@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         name: 'SysDept',
-        path: 'sys-dept',
+        path: '/system/dept',
         component: () => import('#/views/system/dept/index.vue'),
         meta: {
           title: $t('page.menu.sysDept'),
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'SysUser',
-        path: 'sys-user',
+        path: '/system/user',
         component: () => import('#/views/system/user/index.vue'),
         meta: {
           title: $t('page.menu.sysUser'),
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'SysRole',
-        path: 'sys-role',
+        path: '/system/role',
         component: () => import('#/views/system/role/index.vue'),
         meta: {
           title: $t('page.menu.sysRole'),
@@ -41,7 +41,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'SysMenu',
-        path: 'sys-menu',
+        path: '/system/menu',
         component: () => import('#/views/system/menu/index.vue'),
         meta: {
           title: $t('page.menu.sysMenu'),
@@ -50,7 +50,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'SysDataPermission',
-        path: 'sys-data-permission',
+        path: '/system/data-permission',
         meta: {
           title: $t('page.menu.sysDataPermission'),
           icon: 'icon-park-outline:permissions',
@@ -58,7 +58,7 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             name: 'SysDataScope',
-            path: 'sys-data-scope',
+            path: '/system/data-scope',
             component: () =>
               import('#/views/system/data-permission/scope/index.vue'),
             meta: {
@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
           },
           {
             name: 'SysDataRule',
-            path: 'sys-data-rule',
+            path: '/system/data-rule',
             component: () =>
               import('#/views/system/data-permission/rule/index.vue'),
             meta: {
@@ -80,38 +80,11 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'SysPlugin',
-        path: 'sys-plugin',
+        path: '/system/plugin',
         component: () => import('#/views/system/plugin/index.vue'),
         meta: {
           title: $t('page.menu.sysPlugin'),
           icon: 'clarity:plugin-line',
-        },
-      },
-      {
-        name: 'SysConfig',
-        path: 'sys-config',
-        component: () => import('#/views/system/config/index.vue'),
-        meta: {
-          title: $t('page.menu.sysConfig'),
-          icon: 'codicon:symbol-parameter',
-        },
-      },
-      {
-        name: 'SysDict',
-        path: 'sys-dict',
-        component: () => import('#/views/system/dict/index.vue'),
-        meta: {
-          title: $t('page.menu.sysDict'),
-          icon: 'fluent-mdl2:dictionary',
-        },
-      },
-      {
-        name: 'SysNotice',
-        path: 'sys-notice',
-        component: () => import('#/views/system/notice/index.vue'),
-        meta: {
-          title: $t('page.menu.sysNotice'),
-          icon: 'fe:notice-push',
         },
       },
     ],
