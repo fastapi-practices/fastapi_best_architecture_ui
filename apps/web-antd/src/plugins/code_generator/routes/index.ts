@@ -4,7 +4,7 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'CodeGenerator',
+    name: 'PluginCodeGenerator',
     path: '/plugins/code-generator',
     component: () => import('#/plugins/code_generator/views/index.vue'),
     meta: {

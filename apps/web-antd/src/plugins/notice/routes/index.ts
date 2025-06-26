@@ -4,7 +4,7 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'Notice',
+    name: 'PluginNotice',
     path: '/plugins/notice',
     component: () => import('#/plugins/notice/views/index.vue'),
     meta: {

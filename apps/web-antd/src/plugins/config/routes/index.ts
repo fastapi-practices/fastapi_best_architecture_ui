@@ -4,7 +4,7 @@ import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    name: 'Config',
+    name: 'PluginConfig',
     path: '/plugins/config',
     component: () => import('#/plugins/config/views/index.vue'),
     meta: {
