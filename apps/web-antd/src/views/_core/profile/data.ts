@@ -68,7 +68,7 @@ export function useColumns(
     { field: 'expire_time', title: '过期时间' },
     {
       field: 'operation',
-      title: $t('page.table.operation'),
+      title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
       width: 120,

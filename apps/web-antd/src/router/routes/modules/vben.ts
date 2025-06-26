@@ -11,11 +11,11 @@ const routes: RouteRecordRaw[] = [
       title: '项目',
     },
     name: 'VbenProject',
-    path: '/fba-admin',
+    path: '/fba',
     children: [
       {
         name: 'Document',
-        path: '/document',
+        path: '/fba/document',
         component: IFrameView,
         meta: {
           icon: 'lucide:book-open-text',
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Github',
-        path: '/github',
+        path: '/fba/github',
         component: IFrameView,
         meta: {
           icon: 'mdi:github',
@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Apifox',
-        path: '/apifox',
+        path: '/fba/apifox',
         component: IFrameView,
         meta: {
           icon: 'simple-icons:apifox',

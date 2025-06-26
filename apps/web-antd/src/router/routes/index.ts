@@ -8,12 +8,19 @@ const dynamicRouteFiles = import.meta.glob('./modules/**/*.ts', {
   eager: true,
 });
 
+const pluginRouteFiles = import.meta.glob('../../plugins/**/routes/*.ts', {
+  eager: true,
+});
+
 // 有需要可以自行打开注释，并创建文件夹
 // const externalRouteFiles = import.meta.glob('./external/**/*.ts', { eager: true });
 // const staticRouteFiles = import.meta.glob('./static/**/*.ts', { eager: true });
 
 /** 动态路由 */
 const dynamicRoutes: RouteRecordRaw[] = mergeRouteModules(dynamicRouteFiles);
+
+/** 插件路由 */
+const pluginRoutes: RouteRecordRaw[] = mergeRouteModules(pluginRouteFiles);
 
 /** 外部路由列表，访问这些页面可以不需要Layout，可能用于内嵌在别的系统(不会显示在菜单中) */
 // const externalRoutes: RouteRecordRaw[] = mergeRouteModules(externalRouteFiles);
@@ -33,14 +40,15 @@ const routes: RouteRecordRaw[] = [
 const coreRouteNames = traverseTreeValues(coreRoutes, (route) => route.name);
 
 /** 有权限校验的路由列表，包含动态路由和静态路由 */
-const accessRoutes = [...dynamicRoutes, ...staticRoutes];
+const accessRoutes = [...dynamicRoutes, ...pluginRoutes, ...staticRoutes];
 
-const componentKeys: string[] = Object.keys(
-  import.meta.glob('../../views/**/*.vue'),
-)
+const componentKeys: string[] = Object.keys({
+  ...import.meta.glob('../../views/**/*.vue'),
+  ...import.meta.glob('../../plugins/**/*.vue'),
+})
   .filter((item) => !item.includes('/modules/'))
   .map((v) => {
-    const path = v.replace('../../views/', '/');
+    const path = v.replace('../../views/', '/').replace('../../', '/');
     return path.endsWith('.vue') ? path.slice(0, -4) : path;
   });
 

@@ -13,16 +13,11 @@
     "analytics": "分析页",
     "workspace": "工作台"
   },
-  "form": {
-    "query": "查询",
-    "select": "请选择",
-    "status": "状态"
-  },
   "menu": {
     "system": "系统管理",
-    "automation": "系统自动化",
-    "codeGenerator": "代码生成",
     "scheduler": "任务调度",
+    "schedulerManage": "任务管理",
+    "schedulerRecord": "执行记录",
     "log": "日志管理",
     "login": "登录日志",
     "monitor": "系统监控",
@@ -34,9 +29,6 @@
     "sysDataScope": "数据范围",
     "sysDataRule": "数据规则",
     "sysPlugin": "插件管理",
-    "sysConfig": "参数设置",
-    "sysDict": "字典管理",
-    "sysNotice": "通知公告",
     "sysDept": "部门管理",
     "sysMenu": "菜单管理",
     "sysRole": "角色管理",
@@ -106,12 +98,5 @@
       "service": "服务",
       "system": "系统"
     }
-  },
-  "table": {
-    "created_time": "创建时间",
-    "id": "序号",
-    "mark": "备注",
-    "operation": "操作",
-    "updated_time": "更新时间"
   }
 }
