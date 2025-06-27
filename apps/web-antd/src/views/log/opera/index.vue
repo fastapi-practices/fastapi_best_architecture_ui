@@ -63,6 +63,10 @@ const gridEvents: VxeGridListeners<LoginLogResult> = {
     const data = gridApi.grid.getCheckboxRecords(true);
     checkedRows.value = data.map((item: any) => item.id);
   },
+  checkboxAll: () => {
+    const data = gridApi.grid.getCheckboxRecords(true);
+    checkedRows.value = data.map((item: any) => item.id);
+  },
 };
 
 const [Grid, gridApi] = useVbenVxeGrid({
