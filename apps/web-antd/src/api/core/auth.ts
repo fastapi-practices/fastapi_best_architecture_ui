@@ -36,9 +36,13 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return miniRequestClient.post('/api/v1/auth/tokens', undefined, {
-    withCredentials: true,
-  });
+  return miniRequestClient.post<RefreshTokenResult>(
+    '/api/v1/auth/tokens',
+    undefined,
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 /**
