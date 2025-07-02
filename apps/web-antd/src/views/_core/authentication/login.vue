@@ -40,8 +40,12 @@ const showNotification = () => {
           ),
         ]),
         h('li', null, [
-          '计划于第二季度结束前完成',
-          h('span', { class: 'text-gray-500 ml-1' }, '（可能延期）'),
+          '作者已在拼命肝',
+          h(
+            'span',
+            { class: 'text-gray-500 ml-1' },
+            '（为此带来的不便请谅解）',
+          ),
         ]),
       ]),
     ]),
