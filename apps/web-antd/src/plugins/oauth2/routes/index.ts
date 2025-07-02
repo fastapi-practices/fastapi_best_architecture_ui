@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'OAuth2Callback',
     path: '/oauth2/callback',
-    component: () => import('#/views/oauth2/index.vue'),
+    component: () => import('#/plugins/oauth2/views/index.vue'),
     meta: {
       icon: 'mingcute:profile-line',
       title: '第三方登录',

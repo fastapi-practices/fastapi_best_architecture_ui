@@ -1,0 +1,14 @@
+{
+  "form": {
+    "query": "查询",
+    "select": "请选择",
+    "status": "状态"
+  },
+  "table": {
+    "created_time": "创建时间",
+    "id": "序号",
+    "mark": "备注",
+    "operation": "操作",
+    "updated_time": "更新时间"
+  }
+}

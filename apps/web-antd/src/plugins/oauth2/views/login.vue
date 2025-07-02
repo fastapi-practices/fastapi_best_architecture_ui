@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@vben/locales';
 
-import { getOAuth2LinuxDo } from '#/api/oauth2';
+import { getOAuth2LinuxDo } from '#/plugins/oauth2/api';
 
 defineOptions({ name: 'OAuth2Login' });
 

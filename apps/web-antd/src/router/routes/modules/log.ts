@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         name: 'LoginLog',
-        path: 'login',
+        path: '/log/login',
         component: () => import('#/views/log/login/index.vue'),
         meta: {
           title: $t('page.menu.login'),
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'OperaLog',
-        path: 'opera',
+        path: '/log/opera',
         component: () => import('#/views/log/opera/index.vue'),
         meta: {
           title: $t('page.menu.opera'),

@@ -11,7 +11,6 @@ export const overridesPreferences = defineOverridesPreferences({
     accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
     enableRefreshToken: true,
-    defaultHomePath: '/dashboard/analytics',
   },
   footer: {
     enable: false,

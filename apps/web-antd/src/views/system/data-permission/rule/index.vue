@@ -33,7 +33,7 @@ import { querySchema, schema, useColumns } from './data';
 const dataRuleFormOptions: VbenFormProps = {
   showCollapseButton: false,
   submitButtonOptions: {
-    content: $t('page.form.query'),
+    content: $t('common.form.query'),
   },
   schema: querySchema,
 };

@@ -75,7 +75,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 const formOptions: VbenFormProps = {
   showCollapseButton: false,
   submitButtonOptions: {
-    content: $t('page.form.query'),
+    content: $t('common.form.query'),
   },
   commonConfig: {
     componentProps: {

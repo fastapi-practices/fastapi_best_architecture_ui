@@ -9,8 +9,8 @@ import { $t } from '@vben/locales';
 
 import { Image, notification } from 'ant-design-vue';
 
+import OAuth2Login from '#/plugins/oauth2/views/login.vue';
 import { useAuthStore } from '#/store';
-import OAuth2Login from '#/views/oauth2/login.vue';
 
 defineOptions({ name: 'Login' });
 

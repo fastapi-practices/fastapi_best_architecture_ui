@@ -1,0 +1,14 @@
+{
+  "form": {
+    "query": "Query",
+    "select": "Please select",
+    "status": "Status"
+  },
+  "table": {
+    "created_time": "Created Time",
+    "id": "ID",
+    "mark": "Mark",
+    "operation": "Operation",
+    "updated_time": "Updated time"
+  }
+}

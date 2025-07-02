@@ -13,30 +13,22 @@
     "analytics": "Analytics",
     "workspace": "Workspace"
   },
-  "form": {
-    "query": "Query",
-    "select": "Please select",
-    "status": "Status"
-  },
   "menu": {
     "system": "System Admin",
-    "automation": "System Auto",
-    "codeGenerator": "Code Generator",
     "scheduler": "Scheduler",
+    "schedulerManage": "Manage",
+    "schedulerRecord": "Record",
     "log": "System Log",
     "login": "Login",
     "monitor": "System Monitor",
     "opera": "Opera",
-    "online": "Online User",
+    "online": "Online",
     "redis": "Redis",
     "server": "Server",
     "sysDataPermission": "Data Permission",
-    "sysDataScope": "Scope",
-    "sysDataRule": "Rule",
+    "sysDataScope": "Data Scope",
+    "sysDataRule": "Data Rule",
     "sysPlugin": "Plugin",
-    "sysConfig": "Config",
-    "sysDict": "Dict",
-    "sysNotice": "Notice",
     "sysDept": "Dept",
     "sysMenu": "User",
     "sysRole": "Role",
@@ -106,12 +98,5 @@
       "service": "Service",
       "system": "System"
     }
-  },
-  "table": {
-    "created_time": "Created Time",
-    "id": "ID",
-    "mark": "Mark",
-    "operation": "Operation",
-    "updated_time": "Updated time"
   }
 }

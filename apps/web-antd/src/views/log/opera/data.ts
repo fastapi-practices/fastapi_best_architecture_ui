@@ -30,7 +30,7 @@ export const querySchema: VbenFormSchema[] = [
       ],
     },
     fieldName: 'status',
-    label: $t('page.form.status'),
+    label: $t('common.form.status'),
   },
 ];
 
@@ -38,7 +38,7 @@ export const columns: VxeGridProps['columns'] = [
   { field: 'checkbox', type: 'checkbox', align: 'left', width: 50 },
   {
     field: 'seq',
-    title: $t('page.table.id'),
+    title: $t('common.table.id'),
     type: 'seq',
     width: 50,
   },

@@ -39,7 +39,7 @@ export const querySchema: VbenFormSchema[] = [
       ],
     },
     fieldName: 'status',
-    label: $t('page.form.status'),
+    label: $t('common.form.status'),
   },
 ];
 
@@ -65,13 +65,13 @@ export function useColumns(
     },
     {
       field: 'created_time',
-      title: $t('page.table.created_time'),
+      title: $t('common.table.created_time'),
       width: 168,
       formatter: 'formatDateTime',
     },
     {
       field: 'operation',
-      title: $t('page.table.operation'),
+      title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
       width: 200,
