@@ -1,4 +1,4 @@
-import { baseRequestClient, requestClient } from '#/api/request';
+import { miniRequestClient, requestClient } from '#/api/request';
 
 export interface CaptchaResult {
   image: string;
@@ -36,7 +36,7 @@ export async function loginApi(data: LoginParams) {
  * 刷新accessToken
  */
 export async function refreshTokenApi() {
-  return baseRequestClient.post<RefreshTokenResult>(
+  return miniRequestClient.post<RefreshTokenResult>(
     '/api/v1/auth/tokens',
     undefined,
     {
