@@ -134,7 +134,9 @@ onMounted(() => {
         <a-card v-for="info in pluginInfo" :key="info.plugin.name">
           <template #title>
             {{ info.plugin.summary }}
-            <span class="ml-1 text-sm"> v{{ info.plugin.version }} </span>
+            <span class="ml-1 text-sm">
+              <a-tag> v{{ info.plugin.version }} </a-tag>
+            </span>
           </template>
           <p>{{ info.plugin.description }}</p>
           <br />
