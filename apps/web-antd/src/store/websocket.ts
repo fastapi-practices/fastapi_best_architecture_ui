@@ -127,14 +127,10 @@ export const useWebSocketStore = defineStore('websocket', () => {
    * @param event 事件名称
    * @param data 发送的数据
    */
-  const emit = (event: string, data: any): boolean => {
-    if (!isConnected.value || !socket.value) {
-      console.warn('WebSocket 未连接，无法发送消息');
-      return false;
-    }
-
+  const emit = (event: string, data?: any): boolean => {
+    connect();
     try {
-      socket.value.emit(event, data);
+      socket.value?.emit(event, data);
       return true;
     } catch (error) {
       console.error('发送消息失败:', error);
@@ -148,12 +144,9 @@ export const useWebSocketStore = defineStore('websocket', () => {
    * @param callback 回调函数
    */
   const on = (event: string, callback: (data: any) => void) => {
-    if (!socket.value) {
-      console.warn('Socket未连接，无法监听事件');
-      return;
-    }
+    connect();
 
-    socket.value.on(event, callback);
+    socket.value?.on(event, callback);
 
     // 保存清理函数
     const cleanup = () => {
