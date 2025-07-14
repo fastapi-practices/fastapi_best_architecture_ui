@@ -41,11 +41,6 @@ export interface CreateTaskSchedulerParams {
   interval_every?: number;
   interval_period?: string;
   crontab: string;
-  crontab_minute?: string;
-  crontab_hour?: string;
-  crontab_day_of_week?: string;
-  crontab_day_of_month?: string;
-  crontab_month_of_year?: string;
   one_off: boolean;
   remark?: string;
 }
@@ -102,10 +97,6 @@ export async function updateTaskSchedulerStatusApi(pk: number) {
 
 export async function deleteTaskSchedulerApi(pk: number) {
   return requestClient.delete(`/api/v1/task/schedulers/${pk}`);
-}
-
-export async function getTaskSchedulerWorkers() {
-  return requestClient.get('/api/v1/task/schedulers/workers');
 }
 
 export async function executeTaskSchedulerApi(pk: number) {

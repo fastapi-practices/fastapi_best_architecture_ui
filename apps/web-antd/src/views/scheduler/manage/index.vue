@@ -96,9 +96,7 @@ const [Modal, modalApi] = useVbenModal({
       formApi.resetForm();
       if (data) {
         formData.value = data;
-        data.crontab = data.id
-          ? `${data.crontab_minute} ${data.crontab_hour} ${data.crontab_day_of_week} ${data.crontab_day_of_month} ${data.crontab_month_of_year}`
-          : '* * * * *';
+        data.crontab = data.id ? data.crontab : '* * * * *';
         if (data.start_time) {
           data.start_time = dayjs(data.start_time, 'YYYY-MM-DD HH:mm:ss');
         }
@@ -219,7 +217,7 @@ onUnmounted(() => {
           </EllipsisText>
           <EllipsisText :max-width="500">
             <span class="text-gray-500">关键参数：</span>
-            {{ ts.kwargs }}
+            {{ ts.kwargs || 'N/A' }}
             <template #tooltip>
               {{ ts.kwargs || 'N/A' }}
             </template>
@@ -241,9 +239,7 @@ onUnmounted(() => {
             <span v-else>
               Crontab
               <a-tag>
-                {{ ts.crontab_minute }} {{ ts.crontab_hour }}
-                {{ ts.crontab_day_of_week }} {{ ts.crontab_day_of_month }}
-                {{ ts.crontab_month_of_year }}
+                {{ ts.crontab }}
               </a-tag>
             </span>
           </p>
