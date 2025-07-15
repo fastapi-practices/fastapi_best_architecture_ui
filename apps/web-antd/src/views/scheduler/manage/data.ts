@@ -2,6 +2,8 @@ import type { VbenFormSchema } from '#/adapter/form';
 
 import { $t } from '@vben/locales';
 
+import { z } from '#/adapter/form';
+
 export const schema: VbenFormSchema[] = [
   {
     component: 'RadioGroup',
@@ -37,13 +39,30 @@ export const schema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'args',
     label: '位置参数',
-    help: '列表格式，多个参数中间以英文逗号相隔',
+    help: 'JSON 列表字符串，例如：[1, 2, 3]',
   },
   {
     component: 'Input',
     fieldName: 'kwargs',
     label: '关键字参数',
-    help: '字典格式，多个参数中间以英文逗号相隔',
+    help: 'JSON 字典字符串，例如：{"a": 1, "b": 2}',
+    rules: z
+      .string()
+      .optional()
+      .transform((val, ctx) => {
+        if (!val) return null;
+
+        try {
+          const parsed = JSON.parse(val);
+          return z.record(z.string(), z.unknown()).parse(parsed);
+        } catch {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: '输入必须是有效的 JSON 字符串',
+          });
+          return z.NEVER;
+        }
+      }),
   },
   // {
   //   component: 'Input',

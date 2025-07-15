@@ -70,11 +70,21 @@ const [Modal, modalApi] = useVbenModal({
     if (valid) {
       modalApi.lock();
       const data = await formApi.getValues<CreateTaskSchedulerParams>();
+      const args = ref();
       if (data.args) {
-        data.args = JSON.stringify(data.args);
-      }
-      if (data.kwargs) {
-        data.kwargs = JSON.stringify(data.kwargs);
+        try {
+          args.value = JSON.parse(data.args);
+        } catch {
+          const argsStr = data.args.trim().startsWith('[')
+            ? data.args.trim().slice(1, -1)
+            : data.args;
+          args.value = argsStr.split(',').map((item) => {
+            const trimmed = item.trim();
+            const num = Number(trimmed);
+            return Number.isNaN(num) ? trimmed : num;
+          });
+        }
+        data.args = JSON.stringify(args.value);
       }
       try {
         await (formData.value?.id
