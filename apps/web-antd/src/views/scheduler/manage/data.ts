@@ -103,7 +103,7 @@ export const schema: VbenFormSchema[] = [
     },
     fieldName: 'expire_time',
     label: '截止时间',
-    help: '截止时间和过期秒数只能设定一个',
+    help: '截止时间和截止秒数只能设定一个',
   },
   {
     component: 'InputNumber',
@@ -117,8 +117,8 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['expire_time'],
     },
     fieldName: 'expire_seconds',
-    label: '过期秒数',
-    help: '截止时间和过期秒数只能设定一个',
+    label: '截止秒数',
+    help: '截止时间和截止秒数只能设定一个',
   },
   {
     component: 'RadioGroup',
@@ -173,10 +173,10 @@ export const schema: VbenFormSchema[] = [
           label: '秒',
           value: 'seconds',
         },
-        {
-          label: '微妙',
-          value: 'microseconds',
-        },
+        // {
+        //   label: '微秒',
+        //   value: 'microseconds',
+        // },
       ],
     },
     dependencies: {
@@ -187,7 +187,7 @@ export const schema: VbenFormSchema[] = [
     },
     defaultValue: 'seconds',
     fieldName: 'interval_period',
-    label: '间隔类型',
+    label: '周期类型',
   },
   {
     component: 'Input',
