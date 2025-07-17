@@ -152,6 +152,7 @@ onMounted(async () => {
   wsStore.on('task_worker_status', (data: any[]) => {
     taskWorkerStatus.value = data;
   });
+  emitTWS();
   intervalId.value = setInterval(emitTWS, 5000);
 });
 
@@ -211,21 +212,30 @@ onUnmounted(() => {
               删除
             </a-button>
           </template>
-          <EllipsisText :max-width="500">
+          <EllipsisText
+            tooltip-when-ellipsis
+            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
+          >
             <span class="text-gray-500">任务调用：</span>
             {{ ts.task }}
             <template #tooltip>
               {{ ts.task }}
             </template>
           </EllipsisText>
-          <EllipsisText :max-width="500">
+          <EllipsisText
+            tooltip-when-ellipsis
+            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
+          >
             <span class="text-gray-500">位置参数：</span>
             {{ ts.args || 'N/A' }}
             <template #tooltip>
               {{ ts.args }}
             </template>
           </EllipsisText>
-          <EllipsisText :max-width="500">
+          <EllipsisText
+            tooltip-when-ellipsis
+            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
+          >
             <span class="text-gray-500">关键参数：</span>
             {{ ts.kwargs || 'N/A' }}
             <template #tooltip>
@@ -253,7 +263,10 @@ onUnmounted(() => {
               </a-tag>
             </span>
           </p>
-          <EllipsisText :max-width="500">
+          <EllipsisText
+            tooltip-when-ellipsis
+            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
+          >
             <span class="text-gray-500">任务描述：</span>
             {{ ts.remark || 'N/A' }}
             <template #tooltip>
