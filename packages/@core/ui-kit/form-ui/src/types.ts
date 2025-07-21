@@ -174,10 +174,10 @@ export interface FormCommonConfig {
    */
   formFieldProps?: FormFieldOptions;
   /**
-   * 所有表单项的栅格布局
+   * 所有表单项的栅格布局，支持函数形式
    * @default ""
    */
-  formItemClass?: string;
+  formItemClass?: (() => string) | string;
   /**
    * 隐藏所有表单项label
    * @default false
@@ -386,6 +386,12 @@ export interface VbenFormProps<
    * 重置按钮参数
    */
   resetButtonOptions?: ActionButtonOptions;
+
+  /**
+   * 验证失败时是否自动滚动到第一个错误字段
+   * @default false
+   */
+  scrollToFirstError?: boolean;
 
   /**
    * 是否显示默认操作按钮
