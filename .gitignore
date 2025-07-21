@@ -51,6 +51,7 @@ vite.config.ts.*
 .history
 
 # 升级 vben 时需要删除的文件(夹)
+.github
 .vscode
 .changeset
 backend-mock
