@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  MyUserInfo,
   SysResetPasswordParams,
   SysUpdateUserEmailParams,
   SysUpdateUserPhoneParams,
@@ -9,6 +8,7 @@ import type {
 import { computed } from 'vue';
 
 import { useVbenModal, VbenButton } from '@vben/common-ui';
+import { useUserStore } from '@vben/stores';
 
 import { useVbenForm } from '#/adapter/form';
 import {
@@ -22,7 +22,8 @@ import { useAuthStore } from '#/store';
 
 import { emailSchema, passwordSchema, phoneSchema } from './data';
 
-const props = defineProps<{ userinfo?: MyUserInfo }>();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const securityOptions = computed(() => [
   {
@@ -30,16 +31,16 @@ const securityOptions = computed(() => [
     title: '安全手机',
     description: '手机号可用于登录、身份验证、密码找回、通知接收',
     type: 'phone',
-    status: !!props.userinfo?.phone,
-    statusString: props.userinfo?.phone ? '已绑定' : '未绑定',
+    status: !!userStore.userInfo?.phone,
+    statusString: userStore.userInfo?.phone ? '已绑定' : '未绑定',
   },
   {
     class: 'icon-[ic--outline-email] mt-1.5',
     title: '安全邮箱',
     description: '邮箱可用于登录、身份验证、密码找回、通知接收',
     type: 'email',
-    status: !!props.userinfo?.email,
-    statusString: props.userinfo?.email ? '已绑定' : '未绑定',
+    status: !!userStore.userInfo?.email,
+    statusString: userStore.userInfo?.email ? '已绑定' : '未绑定',
   },
   {
     class: 'icon-[mdi--password-outline] mt-1.5',
@@ -73,8 +74,9 @@ const [phoneModal, phoneModalApi] = useVbenModal({
       phoneModalApi.lock();
       const data = await phoneFormApi.getValues<SysUpdateUserPhoneParams>();
       try {
-        await updateSysUserPhoneApi(props.userinfo?.id || 0, data);
+        await updateSysUserPhoneApi(data);
         await phoneModalApi.close();
+        await authStore.fetchUserInfo();
       } finally {
         phoneModalApi.unlock();
       }
@@ -113,8 +115,9 @@ const [emailModal, emailModalApi] = useVbenModal({
       emailModalApi.lock();
       const data = await emailFormApi.getValues<SysUpdateUserEmailParams>();
       try {
-        await updateSysUserEmailApi(props.userinfo?.id || 0, data);
+        await updateSysUserEmailApi(data);
         await emailModalApi.close();
+        await authStore.fetchUserInfo();
       } finally {
         emailModalApi.unlock();
       }
@@ -131,7 +134,6 @@ const [emailModal, emailModalApi] = useVbenModal({
   },
 });
 
-const authStore = useAuthStore();
 const [passwordForm, passwordFormApi] = useVbenForm({
   layout: 'vertical',
   showDefaultActions: false,
@@ -146,7 +148,7 @@ const [passwordModal, passwordModalApi] = useVbenModal({
       passwordModalApi.lock();
       const data = await passwordFormApi.getValues<SysResetPasswordParams>();
       try {
-        await updateSysUserPasswordApi(props.userinfo?.id || 0, data);
+        await updateSysUserPasswordApi(data);
         await passwordModalApi.close();
         await authStore.logout(false);
       } finally {
