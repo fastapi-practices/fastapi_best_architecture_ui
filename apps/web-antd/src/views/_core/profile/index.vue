@@ -9,7 +9,7 @@ import { getUserInfoApi } from '#/api';
 import ComingSoon from '#/views/_core/fallback/coming-soon.vue';
 import BasicInfo from '#/views/_core/profile/basic-info.vue';
 import OnlineDevice from '#/views/_core/profile/online-device.vue';
-import ResetPassword from '#/views/_core/profile/reset-password.vue';
+import Security from '#/views/_core/profile/security.vue';
 
 const userinfo = ref<MyUserInfo>();
 const tabList = [
@@ -64,9 +64,9 @@ onMounted(() => {
       @tab-change="(key: string) => onTabChange(key)"
     >
       <div v-if="tabKey === '0'">
-        <ResetPassword :id="userinfo?.id || 0" />
+        <Security :userinfo="userinfo" />
       </div>
-      <div class="h-[294px]" v-else-if="tabKey === '1'">
+      <div v-else-if="tabKey === '1'">
         <ComingSoon />
       </div>
       <div v-else>
