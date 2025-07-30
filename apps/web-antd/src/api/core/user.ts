@@ -108,14 +108,14 @@ export async function deleteSysUserApi(pk: number) {
   return requestClient.delete(`/api/v1/sys/users/${pk}`);
 }
 
-export async function bindSysUserPhoneApi(
+export async function updateSysUserPhoneApi(
   pk: number,
   data: SysUpdateUserPhoneParams,
 ) {
   return requestClient.put(`/api/v1/sys/users/${pk}/phones`, data);
 }
 
-export async function bindSysUserEmailApi(
+export async function updateSysUserEmailApi(
   pk: number,
   data: SysUpdateUserEmailParams,
 ) {

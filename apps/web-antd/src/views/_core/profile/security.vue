@@ -12,9 +12,9 @@ import { useVbenModal, VbenButton } from '@vben/common-ui';
 
 import { useVbenForm } from '#/adapter/form';
 import {
-  bindSysUserEmailApi,
-  bindSysUserPhoneApi,
+  updateSysUserEmailApi,
   updateSysUserPasswordApi,
+  updateSysUserPhoneApi,
 } from '#/api';
 import { getPhoneCaptchaApi } from '#/plugins/aliyun_sms/api';
 import { getEmailCaptchaApi } from '#/plugins/email/api';
@@ -73,7 +73,7 @@ const [phoneModal, phoneModalApi] = useVbenModal({
       phoneModalApi.lock();
       const data = await phoneFormApi.getValues<SysUpdateUserPhoneParams>();
       try {
-        await bindSysUserPhoneApi(props.userinfo?.id || 0, data);
+        await updateSysUserPhoneApi(props.userinfo?.id || 0, data);
         await phoneModalApi.close();
       } finally {
         phoneModalApi.unlock();
@@ -113,7 +113,7 @@ const [emailModal, emailModalApi] = useVbenModal({
       emailModalApi.lock();
       const data = await emailFormApi.getValues<SysUpdateUserEmailParams>();
       try {
-        await bindSysUserEmailApi(props.userinfo?.id || 0, data);
+        await updateSysUserEmailApi(props.userinfo?.id || 0, data);
         await emailModalApi.close();
       } finally {
         emailModalApi.unlock();
