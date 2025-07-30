@@ -96,12 +96,15 @@ export function useColumns(
           {
             code: 'add',
             text: '新增子菜单',
+            disabled: (row: SysMenuTreeResult) => {
+              return [2, 3, 4].includes(row.type);
+            },
           },
           'edit',
           {
             code: 'delete',
             disabled: (row: SysMenuTreeResult) => {
-              return row.name === 'System';
+              return row.name === 'System' || row.name === 'Log';
             },
           },
         ],

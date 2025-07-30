@@ -71,6 +71,14 @@ export interface SysUpdateUserEmailParams {
   captcha: string;
 }
 
+export interface SysUpdateUserNicknameParams {
+  nickname: string;
+}
+
+export interface SysUpdateUserAvatarParams {
+  avatar: string;
+}
+
 /**
  * 获取用户信息
  */
@@ -97,27 +105,27 @@ export async function updateSysUserPermissionApi(pk: number, type: string) {
   });
 }
 
-export async function updateSysUserPasswordApi(
-  pk: number,
-  data: SysResetPasswordParams,
+export async function updateSysUserAvatarApi(data: SysUpdateUserAvatarParams) {
+  return requestClient.put(`/api/v1/sys/users/me/avatar`, data);
+}
+
+export async function updateSysUserNicknameApi(
+  data: SysUpdateUserNicknameParams,
 ) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/password`, data);
+  return requestClient.put(`/api/v1/sys/users/me/nickname`, data);
+}
+export async function updateSysUserPhoneApi(data: SysUpdateUserPhoneParams) {
+  return requestClient.put(`/api/v1/sys/users/me/phones`, data);
+}
+
+export async function updateSysUserEmailApi(data: SysUpdateUserEmailParams) {
+  return requestClient.put(`/api/v1/sys/users/me/emails`, data);
+}
+
+export async function updateSysUserPasswordApi(data: SysResetPasswordParams) {
+  return requestClient.put(`/api/v1/sys/users/me/password`, data);
 }
 
 export async function deleteSysUserApi(pk: number) {
   return requestClient.delete(`/api/v1/sys/users/${pk}`);
-}
-
-export async function updateSysUserPhoneApi(
-  pk: number,
-  data: SysUpdateUserPhoneParams,
-) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/phones`, data);
-}
-
-export async function updateSysUserEmailApi(
-  pk: number,
-  data: SysUpdateUserEmailParams,
-) {
-  return requestClient.put(`/api/v1/sys/users/${pk}/emails`, data);
 }

@@ -8,6 +8,24 @@ import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
 
+export const avatarSchema: VbenFormSchema[] = [
+  {
+    component: 'Textarea',
+    fieldName: 'avatar',
+    label: '头像链接',
+    rules: 'required',
+  },
+];
+
+export const nicknameSchema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'nickname',
+    label: '昵称',
+    rules: 'required',
+  },
+];
+
 const CODE_LENGTH = 6;
 export function phoneSchema(sendCodeFunc: AnyFunction): VbenFormSchema[] {
   return [

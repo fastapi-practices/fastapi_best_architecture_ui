@@ -6,6 +6,7 @@ import type {
 import type { OnlineMonitorResult } from '#/api';
 
 import { $t } from '@vben/locales';
+import { useUserStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
 
@@ -14,7 +15,7 @@ import { getOnlineMonitorApi, kickOutOnlineApi } from '#/api';
 
 import { useColumns } from './data';
 
-const props = defineProps<{ username: string }>();
+const userStore = useUserStore();
 
 const gridOptions: VxeTableGridOptions<OnlineMonitorResult> = {
   rowConfig: {
@@ -39,7 +40,7 @@ const gridOptions: VxeTableGridOptions<OnlineMonitorResult> = {
     ajax: {
       query: async () => {
         return await getOnlineMonitorApi({
-          username: props.username,
+          username: userStore.userInfo?.username || '',
         });
       },
     },
