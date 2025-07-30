@@ -50,9 +50,10 @@ export function useColumns(
       field: 'seq',
       title: $t('common.table.id'),
       type: 'seq',
+      fixed: 'left',
       width: 50,
     },
-    { field: 'username', title: '用户名', width: 100 },
+    { field: 'username', title: '用户名', fixed: 'left', width: 100 },
     { field: 'nickname', title: '昵称', width: 100 },
     {
       field: 'avatar',
@@ -73,10 +74,17 @@ export function useColumns(
       showOverflow: 'ellipsis',
       slots: { default: 'roles' },
     },
-    { field: 'email', title: '邮箱', width: 150 },
     {
       field: 'phone',
       title: '手机号',
+      width: 150,
+      formatter({ cellValue }) {
+        return cellValue || '暂无';
+      },
+    },
+    {
+      field: 'email',
+      title: '邮箱',
       width: 150,
       formatter({ cellValue }) {
         return cellValue || '暂无';
@@ -185,19 +193,6 @@ export function useColumns(
 export function useEditSchema(roleSelectOptions: any): VbenFormSchema[] {
   return [
     {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getSysDeptTreeApi,
-        class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept_id',
-      label: '部门',
-    },
-    {
       component: 'Input',
       fieldName: 'username',
       label: '用户名',
@@ -213,6 +208,29 @@ export function useEditSchema(roleSelectOptions: any): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'avatar',
       label: '头像地址',
+    },
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: '手机号码',
+    },
+    {
+      component: 'Input',
+      fieldName: 'email',
+      label: '邮箱',
+    },
+    {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        allowClear: true,
+        api: getSysDeptTreeApi,
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      fieldName: 'dept_id',
+      label: '所属部门',
     },
     {
       component: 'Select',
@@ -237,20 +255,6 @@ export function useEditSchema(roleSelectOptions: any): VbenFormSchema[] {
 export function useAddSchema(roleSelectOptions: any): VbenFormSchema[] {
   return [
     {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getSysDeptTreeApi,
-        class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept_id',
-      label: '部门',
-      rules: 'required',
-    },
-    {
       component: 'Input',
       fieldName: 'username',
       label: '用户名',
@@ -265,6 +269,30 @@ export function useAddSchema(roleSelectOptions: any): VbenFormSchema[] {
       component: 'InputPassword',
       fieldName: 'password',
       label: '密码',
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: '手机号码',
+    },
+    {
+      component: 'Input',
+      fieldName: 'email',
+      label: '邮箱',
+    },
+    {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        allowClear: true,
+        api: getSysDeptTreeApi,
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      fieldName: 'dept_id',
+      label: '所属部门',
       rules: 'required',
     },
     {
