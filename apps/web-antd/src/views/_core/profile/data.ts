@@ -1,3 +1,5 @@
+import type { AnyFunction } from '@vben/types';
+
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
 import type { OnlineMonitorResult } from '#/api';
@@ -6,13 +8,77 @@ import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
 
-export const schema: VbenFormSchema[] = [
+const CODE_LENGTH = 6;
+export function phoneSchema(sendCodeFunc: AnyFunction): VbenFormSchema[] {
+  return [
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: '手机号',
+      rules: z
+        .string()
+        .min(1, { message: $t('authentication.mobileTip') })
+        .refine((v) => /^\d{11}$/.test(v), {
+          message: $t('authentication.mobileErrortip'),
+        }),
+    },
+    {
+      component: 'VbenPinInput',
+      componentProps: {
+        codeLength: CODE_LENGTH,
+        createText: (countdown: number) => {
+          return countdown > 0
+            ? $t('authentication.sendText', [countdown])
+            : $t('authentication.sendCode');
+        },
+        handleSendCode: sendCodeFunc,
+        placeholder: $t('authentication.code'),
+      },
+      fieldName: 'captcha',
+      label: '验证码',
+      rules: z.string().length(CODE_LENGTH, {
+        message: $t('authentication.codeTip', [CODE_LENGTH]),
+      }),
+    },
+  ];
+}
+
+export function emailSchema(sendCodeFunc: AnyFunction): VbenFormSchema[] {
+  return [
+    {
+      component: 'Input',
+      fieldName: 'email',
+      label: '邮箱',
+      rules: z.string().email({ message: '无效的邮箱地址' }),
+    },
+    {
+      component: 'VbenPinInput',
+      componentProps: {
+        codeLength: CODE_LENGTH,
+        createText: (countdown: number) => {
+          return countdown > 0
+            ? $t('authentication.sendText', [countdown])
+            : $t('authentication.sendCode');
+        },
+        handleSendCode: sendCodeFunc,
+        placeholder: $t('authentication.code'),
+      },
+      fieldName: 'captcha',
+      label: '验证码',
+      rules: z.string().length(CODE_LENGTH, {
+        message: $t('authentication.codeTip', [CODE_LENGTH]),
+      }),
+    },
+  ];
+}
+
+export const passwordSchema: VbenFormSchema[] = [
   {
     component: 'InputPassword',
     fieldName: 'old_password',
-    label: '旧密码',
+    label: '当前密码',
     rules: z
-      .string({ message: '请输入旧密码' })
+      .string({ message: '请输入当前密码' })
       .min(6, '密码长度不能少于 6 个字符')
       .max(20, '密码长度不能超过 20 个字符'),
   },

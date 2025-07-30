@@ -109,7 +109,7 @@ function onRefresh() {
 function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
   switch (code) {
     case 'delete': {
-      deleteSysUserApi(row.username).then(() => {
+      deleteSysUserApi(row.id).then(() => {
         message.success({
           content: $t('ui.actionMessage.deleteSuccess', [row.username]),
           key: 'action_process_msg',
@@ -283,7 +283,7 @@ onMounted(() => {
       <template #roles="{ row }">
         <span v-if="row.roles.length === 1">
           <a-tag color="purple">
-            {{ row.roles[0].name }}
+            {{ row.roles[0]?.name }}
           </a-tag>
         </span>
         <span v-else-if="row.roles.length > 1">
