@@ -8,6 +8,7 @@ import type {
 import type {
   SysAddUserParams,
   SysDeptTreeResult,
+  SysResetPasswordParams,
   SysRoleResult,
   SysUpdateUserParams,
   SysUserResult,
@@ -30,10 +31,12 @@ import {
   getAllSysRoleApi,
   getSysDeptTreeApi,
   getSysUserListApi,
+  resetSysUserPasswordApi,
   updateSysUserApi,
 } from '#/api';
 import {
   querySchema,
+  resetPwdSchema,
   useAddSchema,
   useColumns,
   useEditSchema,
@@ -123,6 +126,11 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
       editModalApi.setData(row).open();
       break;
     }
+    case 'more': {
+      editUser.value = row.id;
+      resetPwdModalApi.setData(null).open();
+      break;
+    }
   }
 }
 
@@ -207,6 +215,40 @@ const [addModal, addModalApi] = useVbenModal({
       addFormApi.resetForm();
       if (data) {
         addFormApi.setValues(data);
+      }
+    }
+  },
+});
+
+const [ResetPwdForm, resetPwdFormApi] = useVbenForm({
+  layout: 'vertical',
+  showDefaultActions: false,
+  schema: resetPwdSchema,
+});
+
+const [resetPwdModal, resetPwdModalApi] = useVbenModal({
+  destroyOnClose: true,
+  centered: true,
+  async onConfirm() {
+    const { valid } = await resetPwdFormApi.validate();
+    if (valid) {
+      resetPwdModalApi.lock();
+      const data = await resetPwdFormApi.getValues<SysResetPasswordParams>();
+      try {
+        await resetSysUserPasswordApi(editUser.value, data);
+        message.success($t('ui.actionMessage.operationSuccess'));
+        await resetPwdModalApi.close();
+      } finally {
+        resetPwdModalApi.unlock();
+      }
+    }
+  },
+  onOpenChange(isOpen) {
+    if (isOpen) {
+      const data = resetPwdModalApi.getData();
+      resetPwdFormApi.resetForm();
+      if (data) {
+        resetPwdFormApi.setValues(data);
       }
     }
   },
@@ -307,5 +349,8 @@ onMounted(() => {
     <addModal title="添加用户">
       <AddForm />
     </addModal>
+    <resetPwdModal title="重置密码">
+      <ResetPwdForm />
+    </resetPwdModal>
   </ColPage>
 </template>

@@ -9,7 +9,16 @@ import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
 import { get, isFunction, isString } from '@vben/utils';
 
 import { objectOmit } from '@vueuse/core';
-import { Button, Image, Popconfirm, Switch, Tag } from 'ant-design-vue';
+import {
+  Button,
+  Dropdown,
+  Image,
+  Menu,
+  MenuItem,
+  Popconfirm,
+  Switch,
+  Tag,
+} from 'ant-design-vue';
 
 import { $t } from '#/locales';
 
@@ -239,9 +248,68 @@ setupVbenVxeTable({
           );
         }
 
-        const btns = operations.map((opt) =>
-          opt.code === 'delete' ? renderConfirm(opt) : renderBtn(opt),
-        );
+        function renderDropdown(opt: Recordable<any>) {
+          const menuItems =
+            opt.items?.map((item: Recordable<any>) =>
+              h(
+                MenuItem,
+                {
+                  key: item.code || item.text,
+                  icon: item.icon ?? undefined,
+                  disabled: item.disabled ?? undefined,
+                },
+                {
+                  default: () => item.text,
+                },
+              ),
+            ) || [];
+
+          return h(
+            Dropdown,
+            {
+              getPopupContainer(el) {
+                if (el.closest('.fixed-right--wrapper')) {
+                  return document.body;
+                }
+                return (
+                  el
+                    .closest('.vxe-table--viewport-wrapper')
+                    ?.querySelector('.vxe-table--main-wrapper')
+                    ?.querySelector('tbody') || document.body
+                );
+              },
+              placement: 'bottomLeft',
+              ...opt,
+            },
+            {
+              default: () => renderBtn({ ...opt, icon: 'tabler:dots' }, false),
+              overlay: () =>
+                h(
+                  Menu,
+                  {
+                    onClick: () =>
+                      attrs?.onClick?.({
+                        code: opt.code,
+                        row,
+                      }),
+                  },
+                  {
+                    default: () => menuItems,
+                  },
+                ),
+            },
+          );
+        }
+
+        const btns = operations.map((opt) => {
+          if (opt.code === 'delete') {
+            return renderConfirm(opt);
+          } else if (opt.code === 'more') {
+            return renderDropdown(opt);
+          } else {
+            return renderBtn(opt);
+          }
+        });
         return h(
           'div',
           {
