@@ -83,7 +83,10 @@ export const columns: VxeGridProps['columns'] = [
   {
     field: 'args',
     title: '请求参数',
-    formatter: ({ cellValue }) => JSON.stringify(cellValue, null, 2),
+    formatter: ({ cellValue }) =>
+      JSON.stringify(cellValue, (_, value) => {
+        return value === null ? undefined : value;
+      }),
     width: 150,
   },
   { field: 'opera_time', title: '操作时间', width: 168 },
