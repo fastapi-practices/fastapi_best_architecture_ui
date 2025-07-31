@@ -13,6 +13,8 @@ import { confirm, Page, VbenButton } from '@vben/common-ui';
 import { MaterialSymbolsDelete } from '@vben/icons';
 import { $t } from '@vben/locales';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteOperaLogApi, getOperaLogListApi } from '#/api';
 
@@ -85,12 +87,13 @@ const deleteLoading = ref<boolean>(false);
 
 const deleteLoginLog = async () => {
   confirm({
-    title: '提示',
+    icon: 'warning',
     content: '确定删除已勾选的记录吗？',
   }).then(async () => {
     deleteLoading.value = true;
     try {
       await deleteOperaLogApi(checkedRows.value);
+      message.success($t('ui.actionMessage.deleteSuccess'));
       onRefresh();
       deleteDisable.value = true;
     } catch (error) {

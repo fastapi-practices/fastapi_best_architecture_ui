@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
-import type { SysDataScopeRulesResult } from '#/api/data-permission';
+import type { SysDataScopeRulesResult } from '#/api';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { useVbenVxeGrid } from '@vben/plugins/vxe-table';
 
-import { getSysDataScopeRulesApi } from '#/api/data-permission';
+import { getSysDataScopeRulesApi } from '#/api';
 import { drawerDataRuleColumns } from '#/views/system/role/data';
 
 const [Drawer, drawerApi] = useVbenDrawer({

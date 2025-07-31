@@ -1,10 +1,10 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
-import type { SysDataRuleResult } from '#/api/data-permission';
+import type { SysDataRuleResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
-import { getSysDataRuleModelColumnsApi } from '#/api/data-permission';
+import { getSysDataRuleModelColumnsApi } from '#/api';
 
 export const querySchema: VbenFormSchema[] = [
   {

@@ -9,7 +9,7 @@ import type {
   CreateSysDataScopeParams,
   SysDataRuleResult,
   SysDataScopeResult,
-} from '#/api/data-permission';
+} from '#/api';
 
 import { computed, ref } from 'vue';
 
@@ -29,7 +29,7 @@ import {
   getSysDataScopeRulesApi,
   updateSysDataScope,
   updateSysDataScopeRulesApi,
-} from '#/api/data-permission';
+} from '#/api';
 
 import { drawerColumns, querySchema, schema, useColumns } from './data';
 
@@ -169,6 +169,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       clickDataScope.value,
       checkedRows.map((item: any) => item.id),
     ).then(() => {
+      message.success($t('ui.actionMessage.operationSuccess'));
       drawerApi.close();
     });
   },

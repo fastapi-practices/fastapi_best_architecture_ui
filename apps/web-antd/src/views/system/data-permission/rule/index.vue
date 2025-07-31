@@ -5,10 +5,7 @@ import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type {
-  CreateSysDataRuleParams,
-  SysDataRuleResult,
-} from '#/api/data-permission';
+import type { CreateSysDataRuleParams, SysDataRuleResult } from '#/api';
 
 import { computed, ref } from 'vue';
 
@@ -26,7 +23,7 @@ import {
   getSysDataRuleListApi,
   getSysDataRuleModelsApi,
   updateSysDataRuleApi,
-} from '#/api/data-permission';
+} from '#/api';
 
 import { querySchema, schema, useColumns } from './data';
 
