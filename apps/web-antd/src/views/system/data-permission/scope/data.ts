@@ -1,6 +1,6 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
-import type { SysDataScopeResult } from '#/api/data-permission';
+import type { SysDataScopeResult } from '#/api';
 
 import { $t } from '@vben/locales';
 

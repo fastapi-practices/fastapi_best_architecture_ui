@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type {
-  CreateTaskSchedulerParams,
-  TaskSchedulerResult,
-} from '#/api/scheduler';
+import type { CreateTaskSchedulerParams, TaskSchedulerResult } from '#/api';
 
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
@@ -26,7 +23,7 @@ import {
   getAllTaskSchedulerApi,
   updateTaskSchedulerApi,
   updateTaskSchedulerStatusApi,
-} from '#/api/scheduler';
+} from '#/api';
 import { useWebSocketStore } from '#/store';
 
 import { schema } from './data';
@@ -121,11 +118,12 @@ const [Modal, modalApi] = useVbenModal({
 
 function deleteConfirm(pk: number) {
   confirm({
+    icon: 'warning',
     content: '确认删除此任务计划吗？',
-    icon: 'error',
   }).then(async () => {
     try {
       await deleteTaskSchedulerApi(pk);
+      message.success($t('ui.actionMessage.deleteSuccess'));
       await fetchTaskSchedulerList();
     } catch (error) {
       console.error(error);
@@ -136,7 +134,7 @@ function deleteConfirm(pk: number) {
 const executeTask = async (pk: number) => {
   try {
     await executeTaskSchedulerApi(pk);
-    message.success('执行成功，任务已发送至后台');
+    message.success('执行成功，任务已下发');
   } catch (error) {
     console.error(error);
   }
@@ -194,7 +192,11 @@ onUnmounted(() => {
               :checked-value="true"
               checked-children="已启动"
               un-checked-children="已停止"
-              @click="updateTaskSchedulerStatusApi(ts.id)"
+              @click="
+                updateTaskSchedulerStatusApi(ts.id).then(
+                  message.success($t('ui.actionMessage.operationSuccess')),
+                )
+              "
             />
           </template>
           <template #actions>

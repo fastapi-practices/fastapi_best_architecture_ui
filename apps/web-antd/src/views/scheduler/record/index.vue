@@ -5,7 +5,7 @@ import type {
   VxeGridListeners,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type { TaskResult } from '#/api/scheduler';
+import type { TaskResult } from '#/api';
 
 import { ref, watch } from 'vue';
 
@@ -13,8 +13,10 @@ import { confirm, Page, VbenButton } from '@vben/common-ui';
 import { MaterialSymbolsDelete } from '@vben/icons';
 import { $t } from '@vben/locales';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteTaskResultApi, getTaskResultListApi } from '#/api/scheduler';
+import { deleteTaskResultApi, getTaskResultListApi } from '#/api';
 
 import { columns, querySchema } from './data';
 
@@ -85,12 +87,13 @@ const deleteLoading = ref<boolean>(false);
 
 const deleteTaskResult = async () => {
   confirm({
-    title: '提示',
+    icon: 'warning',
     content: '确定删除已勾选的记录吗？',
   }).then(async () => {
     deleteLoading.value = true;
     try {
       await deleteTaskResultApi(checkedRows.value);
+      message.success($t('ui.actionMessage.deleteSuccess'));
       onRefresh();
       deleteDisable.value = true;
     } catch (error) {

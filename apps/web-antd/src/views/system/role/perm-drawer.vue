@@ -3,8 +3,7 @@ import type { VbenFormProps } from '@vben/common-ui';
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
 import type { OnActionClickParams } from '#/adapter/vxe-table';
-import type { SysMenuTreeResult } from '#/api';
-import type { SysDataScopeResult } from '#/api/data-permission';
+import type { SysDataScopeResult, SysMenuTreeResult } from '#/api';
 
 import { nextTick, ref, watch } from 'vue';
 
@@ -12,14 +11,16 @@ import { useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
+import { message } from 'ant-design-vue';
+
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
+  getSysDataScopesApi,
   getSysMenuTreeApi,
   getSysRoleDataScopesApi,
   updateSysRoleDataScopesApi,
   updateSysRoleMenuApi,
 } from '#/api';
-import { getSysDataScopesApi } from '#/api/data-permission';
 
 import {
   drawerColumns,
@@ -49,6 +50,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
         ...indeterminateRows.map((item: any) => item.id),
         ...checkedRows.map((item: any) => item.id),
       ]).then(() => {
+        message.success($t('ui.actionMessage.operationSuccess'));
         drawerApi.close();
       });
     } else {
@@ -57,6 +59,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
         clickRow.value,
         checkedRows.map((item: any) => item.id),
       ).then(() => {
+        message.success($t('ui.actionMessage.operationSuccess'));
         drawerApi.close();
       });
     }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { PluginResult } from '#/api/plugin';
+import type { PluginResult } from '#/api';
 
 import { onMounted, ref } from 'vue';
 
 import { confirm, Page, useVbenModal, VbenButton } from '@vben/common-ui';
+import { $t } from '@vben/locales';
 import { downloadFileFromBlobPart } from '@vben/utils';
 
 import { message } from 'ant-design-vue';
@@ -17,7 +18,7 @@ import {
   installZipPluginApi,
   uninstallPluginApi,
   updatePluginStatus,
-} from '#/api/plugin';
+} from '#/api';
 
 import { userSchema } from './data';
 
@@ -50,8 +51,8 @@ const [Form, formApi] = useVbenForm({
 
 function downloadConfirm(plugin: string) {
   confirm({
-    content: '确认打包并下载此插件吗？',
     icon: 'success',
+    content: '确认打包并下载此插件吗？',
   }).then(async () => {
     try {
       const res = await downloadPluginApi(plugin);
@@ -64,11 +65,12 @@ function downloadConfirm(plugin: string) {
 
 function deleteConfirm(plugin: string) {
   confirm({
+    icon: 'warning',
     content: '确认删除此插件吗？',
-    icon: 'error',
   }).then(async () => {
     try {
       await uninstallPluginApi(plugin);
+      message.success($t('ui.actionMessage.deleteSuccess'));
       await fetchPlugin();
       await fetchPluginChanged();
     } catch (error) {
@@ -81,7 +83,7 @@ const editPluginStatus = async (plugin: string) => {
   try {
     await updatePluginStatus(plugin);
     await fetchPluginChanged();
-    message.success('更新插件状态成功');
+    message.success($t('ui.actionMessage.operationSuccess'));
   } catch (error) {
     console.error(error);
   }
