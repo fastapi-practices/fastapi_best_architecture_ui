@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {
-  SysResetPasswordParams,
+  SysUpdatePasswordParams,
   SysUpdateUserEmailParams,
   SysUpdateUserPhoneParams,
 } from '#/api';
@@ -146,7 +146,7 @@ const [passwordModal, passwordModalApi] = useVbenModal({
     const { valid } = await passwordFormApi.validate();
     if (valid) {
       passwordModalApi.lock();
-      const data = await passwordFormApi.getValues<SysResetPasswordParams>();
+      const data = await passwordFormApi.getValues<SysUpdatePasswordParams>();
       try {
         await updateSysUserPasswordApi(data);
         await passwordModalApi.close();

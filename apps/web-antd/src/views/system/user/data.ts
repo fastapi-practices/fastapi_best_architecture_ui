@@ -8,6 +8,9 @@ import type { SysRoleResult, SysUserResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
+import { message } from 'ant-design-vue';
+
+import { z } from '#/adapter/form';
 import { getSysDeptTreeApi, updateSysUserPermissionApi } from '#/api';
 
 export const querySchema: VbenFormSchema[] = [
@@ -70,7 +73,7 @@ export function useColumns(
     {
       field: 'roles',
       title: '角色',
-      width: 220,
+      width: 200,
       showOverflow: 'ellipsis',
       slots: { default: 'roles' },
     },
@@ -98,7 +101,9 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'status');
+            updateSysUserPermissionApi(row.id, 'status').then(
+              message.success($t('ui.actionMessage.operationSuccess')),
+            );
           },
         },
       },
@@ -111,7 +116,9 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'superuser');
+            updateSysUserPermissionApi(row.id, 'superuser').then(
+              message.success($t('ui.actionMessage.operationSuccess')),
+            );
           },
         },
         props: {
@@ -128,7 +135,9 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'staff');
+            updateSysUserPermissionApi(row.id, 'staff').then(
+              message.success($t('ui.actionMessage.operationSuccess')),
+            );
           },
         },
         props: {
@@ -145,7 +154,9 @@ export function useColumns(
         name: 'CellSwitch',
         attrs: {
           onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'multi_login');
+            updateSysUserPermissionApi(row.id, 'multi_login').then(
+              message.success($t('ui.actionMessage.operationSuccess')),
+            );
           },
         },
         props: {
@@ -169,7 +180,7 @@ export function useColumns(
       title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
-      width: 130,
+      width: 150,
       cellRender: {
         attrs: {
           nameField: 'username',
@@ -183,6 +194,10 @@ export function useColumns(
             disabled: (row: SysUserResult) => {
               return row.username === 'admin';
             },
+          },
+          {
+            code: 'more',
+            items: [{ code: 'reset_password', text: '重置密码' }],
           },
         ],
       },
@@ -314,3 +329,15 @@ export function useAddSchema(roleSelectOptions: any): VbenFormSchema[] {
     },
   ];
 }
+
+export const resetPwdSchema: VbenFormSchema[] = [
+  {
+    component: 'InputPassword',
+    fieldName: 'password',
+    label: '密码',
+    rules: z
+      .string({ message: '请输入新密码' })
+      .min(6, '密码长度不能少于 6 个字符')
+      .max(20, '密码长度不能超过 20 个字符'),
+  },
+];

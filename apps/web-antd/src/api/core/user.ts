@@ -55,7 +55,7 @@ export interface SysAddUserParams extends SysUpdateUserParams {
   password: string;
 }
 
-export interface SysResetPasswordParams {
+export interface SysUpdatePasswordParams {
   old_password: string;
   new_password: string;
   confirm_password: string;
@@ -77,6 +77,10 @@ export interface SysUpdateUserNicknameParams {
 
 export interface SysUpdateUserAvatarParams {
   avatar: string;
+}
+
+export interface SysResetPasswordParams {
+  password: string;
 }
 
 /**
@@ -122,8 +126,15 @@ export async function updateSysUserEmailApi(data: SysUpdateUserEmailParams) {
   return requestClient.put(`/api/v1/sys/users/me/emails`, data);
 }
 
-export async function updateSysUserPasswordApi(data: SysResetPasswordParams) {
+export async function updateSysUserPasswordApi(data: SysUpdatePasswordParams) {
   return requestClient.put(`/api/v1/sys/users/me/password`, data);
+}
+
+export async function resetSysUserPasswordApi(
+  pk: number,
+  data: SysResetPasswordParams,
+) {
+  return requestClient.put(`/api/v1/sys/users/${pk}/password`, data);
 }
 
 export async function deleteSysUserApi(pk: number) {
