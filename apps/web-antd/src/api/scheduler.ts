@@ -55,54 +55,58 @@ export interface TaskSchedulerResult extends CreateTaskSchedulerParams {
 }
 
 export async function getTaskResultApi(pk: number) {
-  return requestClient.get<TaskResult>(`/api/v1/task/results/${pk}`);
+  return requestClient.get<TaskResult>(`/api/v1/tasks/results/${pk}`);
 }
 
 export async function getTaskResultListApi(params?: TaskResultParams) {
-  return requestClient.get<PaginationResult>('/api/v1/task/results', {
+  return requestClient.get<PaginationResult>('/api/v1/tasks/results', {
     params,
   });
 }
 
 export async function deleteTaskResultApi(pks: number[]) {
-  return requestClient.delete('/api/v1/task/results', { data: { pks } });
+  return requestClient.delete('/api/v1/tasks/results', { data: { pks } });
 }
 
 export async function getAllTaskSchedulerApi() {
   return requestClient.get<TaskSchedulerResult[]>(
-    '/api/v1/task/schedulers/all',
+    '/api/v1/tasks/schedulers/all',
   );
 }
 
 export async function getTaskSchedulerApi(pk: number) {
   return requestClient.get<TaskSchedulerResult>(
-    `/api/v1/task/schedulers/${pk}`,
+    `/api/v1/tasks/schedulers/${pk}`,
   );
 }
 
 export async function createTaskSchedulerApi(data: CreateTaskSchedulerParams) {
-  return requestClient.post('/api/v1/task/schedulers', data);
+  return requestClient.post('/api/v1/tasks/schedulers', data);
 }
 
 export async function updateTaskSchedulerApi(
   pk: number,
   data: CreateTaskSchedulerParams,
 ) {
-  return requestClient.put(`/api/v1/task/schedulers/${pk}`, data);
+  return requestClient.put(`/api/v1/tasks/schedulers/${pk}`, data);
 }
 
 export async function updateTaskSchedulerStatusApi(pk: number) {
-  return requestClient.put(`/api/v1/task/schedulers/${pk}/status`);
+  return requestClient.put(`/api/v1/tasks/schedulers/${pk}/status`);
 }
 
 export async function deleteTaskSchedulerApi(pk: number) {
-  return requestClient.delete(`/api/v1/task/schedulers/${pk}`);
+  return requestClient.delete(`/api/v1/tasks/schedulers/${pk}`);
 }
 
 export async function executeTaskSchedulerApi(pk: number) {
-  return requestClient.post(`/api/v1/task/schedulers/${pk}/executions`);
+  return requestClient.post(`/api/v1/tasks/schedulers/${pk}/executions`);
+}
+
+export async function getTaskRegisteredApi() {
+  return requestClient.get<any[]>('/api/v1/tasks/registered');
 }
 
 export async function revokeTaskSchedulerApi(task_id: string) {
-  return requestClient.delete(`/api/v1/task/schedulers/${task_id}/cancel`);
+  return requestClient.delete(`/api/v1/tasks/${task_id}/cancel`);
 }
