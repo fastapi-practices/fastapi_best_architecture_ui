@@ -24,6 +24,7 @@ import {
   updateTaskSchedulerApi,
   updateTaskSchedulerStatusApi,
 } from '#/api';
+import { router } from '#/router';
 import { useWebSocketStore } from '#/store';
 
 import { schema } from './data';
@@ -140,6 +141,10 @@ const executeTask = async (pk: number) => {
   }
 };
 
+const searchLog = (task: string) => {
+  router.replace({ path: `/scheduler/record`, query: { name: task } });
+};
+
 const intervalId = ref<any>(null);
 const emitTWS = () => {
   wsStore.emit('task_worker_status');
@@ -207,6 +212,7 @@ onUnmounted(() => {
             >
               手动执行
             </a-button>
+            <a-button size="small" @click="searchLog(ts.task)"> 日志 </a-button>
             <a-button size="small" @click="modalApi.setData(ts).open()">
               编辑
             </a-button>

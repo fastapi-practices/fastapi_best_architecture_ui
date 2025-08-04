@@ -1,8 +1,6 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
-import { $t } from '@vben/locales';
-
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -18,12 +16,7 @@ export const querySchema: VbenFormSchema[] = [
 
 export const columns: VxeGridProps['columns'] = [
   { field: 'checkbox', type: 'checkbox', align: 'left', width: 50 },
-  {
-    field: 'seq',
-    title: $t('common.table.id'),
-    type: 'seq',
-    width: 50,
-  },
+  { field: 'task_id', title: '任务 ID' },
   { field: 'name', title: '任务名称' },
   {
     field: 'args',

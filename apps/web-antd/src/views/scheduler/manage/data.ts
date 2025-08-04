@@ -3,6 +3,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
+import { getTaskRegisteredApi } from '#/api';
 
 export const schema: VbenFormSchema[] = [
   {
@@ -27,22 +28,27 @@ export const schema: VbenFormSchema[] = [
     rules: 'required',
   },
   {
-    component: 'Input',
-    fieldName: 'task',
-    label: 'Celery 任务',
+    component: 'ApiSelect',
     componentProps: {
+      allowClear: true,
+      api: getTaskRegisteredApi,
+      class: 'w-full',
+      labelField: 'name',
+      valueField: 'task',
       placeholder: 'Celery 任务名称或任务模块化字符串',
     },
+    fieldName: 'task',
+    label: 'Celery 任务',
     rules: 'required',
   },
   {
-    component: 'Input',
+    component: 'Textarea',
     fieldName: 'args',
     label: '位置参数',
     help: 'JSON 列表字符串，例如：[1, 2, 3]',
   },
   {
-    component: 'Input',
+    component: 'Textarea',
     fieldName: 'kwargs',
     label: '关键字参数',
     help: 'JSON 字典字符串，例如：{"a": 1, "b": 2}',
@@ -64,22 +70,24 @@ export const schema: VbenFormSchema[] = [
         }
       }),
   },
-  // {
-  //   component: 'Input',
-  //   fieldName: 'queue',
-  //   label: '队列',
-  //   help: '将任务发送到指定队列运行',
-  // },
-  // {
-  //   component: 'Input',
-  //   fieldName: 'exchange',
-  //   label: '路由交换机',
-  // },
-  // {
-  //   component: 'Input',
-  //   fieldName: 'routing_key',
-  //   label: '路由密钥',
-  // },
+  {
+    component: 'Input',
+    fieldName: 'queue',
+    label: '队列',
+    help: '将任务下发到指定队列',
+  },
+  {
+    component: 'Input',
+    fieldName: 'exchange',
+    label: '消息交换机',
+    help: '参考：https://docs.celeryq.dev/en/stable/userguide/routing.html#exchanges-queues-and-routing-keys',
+  },
+  {
+    component: 'Input',
+    fieldName: 'routing_key',
+    label: '路由密钥',
+    help: '参考：https://docs.celeryq.dev/en/stable/userguide/routing.html#exchanges-queues-and-routing-keys',
+  },
   {
     component: 'DatePicker',
     componentProps: {
@@ -119,20 +127,6 @@ export const schema: VbenFormSchema[] = [
     fieldName: 'expire_seconds',
     label: '截止秒数',
     help: '截止时间和截止秒数只能设定一个',
-  },
-  {
-    component: 'RadioGroup',
-    componentProps: {
-      buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
-      optionType: 'button',
-    },
-    defaultValue: false,
-    fieldName: 'one_off',
-    label: '只执行一次',
   },
   {
     component: 'InputNumber',
@@ -203,6 +197,20 @@ export const schema: VbenFormSchema[] = [
     fieldName: 'crontab',
     label: '计划',
     help: 'Crontab 表达式：https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html#crontab-schedules',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: [
+        { label: $t('common.enabled'), value: true },
+        { label: $t('common.disabled'), value: false },
+      ],
+      optionType: 'button',
+    },
+    defaultValue: false,
+    fieldName: 'one_off',
+    label: '只执行一次',
   },
   {
     component: 'Textarea',

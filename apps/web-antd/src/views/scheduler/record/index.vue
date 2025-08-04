@@ -7,7 +7,8 @@ import type {
 } from '#/adapter/vxe-table';
 import type { TaskResult } from '#/api';
 
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { confirm, Page, VbenButton } from '@vben/common-ui';
 import { MaterialSymbolsDelete } from '@vben/icons';
@@ -106,6 +107,13 @@ const deleteTaskResult = async () => {
 
 watch(checkedRows, () => {
   deleteDisable.value = checkedRows.value.length === 0;
+});
+
+const route = useRoute();
+onMounted(() => {
+  if (route.query) {
+    gridApi.reload({ name: route.query.name ?? undefined });
+  }
 });
 </script>
 
