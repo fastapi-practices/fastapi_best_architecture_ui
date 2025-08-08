@@ -46,7 +46,6 @@ export function useColumns(
       type: 'seq',
       width: 50,
     },
-    // { field: 'trace_id', title: '追踪 ID', width: 250 },
     { field: 'username', title: '用户名' },
     {
       field: 'method',
@@ -75,22 +74,8 @@ export function useColumns(
         ],
       },
     },
-    // { field: 'ip', title: 'IP 地址', width: 100 },
-    // { field: 'country', title: '国家', width: 100 },
-    // { field: 'os', title: '操作系统', width: 150 },
-    // { field: 'device', title: '设备', width: 80 },
     { field: 'code', title: '状态码' },
     { field: 'cost_time', title: '耗时（ms）' },
-    // { field: 'msg', title: '消息', width: 150 },
-    // {
-    //   field: 'args',
-    //   title: '请求参数',
-    //   formatter: ({ cellValue }) =>
-    //     JSON.stringify(cellValue, (_, value) => {
-    //       return value === null ? undefined : value;
-    //     }),
-    //   width: 150,
-    // },
     { field: 'opera_time', title: '操作时间' },
     {
       field: 'operation',
