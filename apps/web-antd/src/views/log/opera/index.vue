@@ -2,6 +2,7 @@
 import type { VbenFormProps } from '@vben/common-ui';
 
 import type {
+  OnActionClickParams,
   VxeGridListeners,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
@@ -9,7 +10,13 @@ import type { LoginLogResult, OperaLogResult } from '#/api';
 
 import { ref, watch } from 'vue';
 
-import { confirm, Page, VbenButton } from '@vben/common-ui';
+import {
+  confirm,
+  JsonViewer,
+  Page,
+  useVbenDrawer,
+  VbenButton,
+} from '@vben/common-ui';
 import { MaterialSymbolsDelete } from '@vben/icons';
 import { $t } from '@vben/locales';
 
@@ -18,7 +25,7 @@ import { message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteOperaLogApi, getOperaLogListApi } from '#/api';
 
-import { columns, querySchema } from './data';
+import { querySchema, useColumns } from './data';
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -46,7 +53,7 @@ const gridOptions: VxeTableGridOptions<OperaLogResult> = {
     custom: true,
     zoom: true,
   },
-  columns,
+  columns: useColumns(onActionClick),
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
@@ -80,6 +87,23 @@ const [Grid, gridApi] = useVbenVxeGrid({
 function onRefresh() {
   gridApi.query();
 }
+
+function onActionClick({ code, row }: OnActionClickParams<OperaLogResult>) {
+  switch (code) {
+    case 'details': {
+      operaLogDetails.value = row;
+      drawerApi.open();
+    }
+  }
+}
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  destroyOnClose: true,
+  footer: false,
+  class: 'w-2/5',
+});
+
+const operaLogDetails = ref<OperaLogResult>();
 
 const checkedRows = ref<number[]>([]);
 const deleteDisable = ref<boolean>(true);
@@ -124,5 +148,93 @@ watch(checkedRows, () => {
         </VbenButton>
       </template>
     </Grid>
+    <Drawer title="操作日志详情">
+      <a-descriptions
+        class="ml-1"
+        :label-style="{ color: '#6b7280' }"
+        :column="2"
+      >
+        <a-descriptions-item label="追踪 ID">
+          {{ operaLogDetails?.trace_id }}
+        </a-descriptions-item>
+        <a-descriptions-item label="用户名">
+          {{ operaLogDetails?.username }}
+        </a-descriptions-item>
+        <a-descriptions-item label="请求方法">
+          {{ operaLogDetails?.method }}
+        </a-descriptions-item>
+        <a-descriptions-item label="请求路径">
+          {{ operaLogDetails?.path }}
+        </a-descriptions-item>
+        <a-descriptions-item label="操作标题">
+          {{ operaLogDetails?.title }}
+        </a-descriptions-item>
+        <a-descriptions-item label="操作系统">
+          {{ operaLogDetails?.os }}
+        </a-descriptions-item>
+        <a-descriptions-item label="设备">
+          {{ operaLogDetails?.device }}
+        </a-descriptions-item>
+        <a-descriptions-item label="浏览器">
+          {{ operaLogDetails?.browser }}
+        </a-descriptions-item>
+        <a-descriptions-item label="请求 IP">
+          {{ operaLogDetails?.ip }}
+        </a-descriptions-item>
+        <a-descriptions-item label="国家">
+          {{
+            operaLogDetails?.country === 'None' || !operaLogDetails?.country
+              ? 'N/A'
+              : operaLogDetails?.country
+          }}
+        </a-descriptions-item>
+        <a-descriptions-item label="地区">
+          {{
+            operaLogDetails?.region === 'None' || !operaLogDetails?.region
+              ? 'N/A'
+              : operaLogDetails?.region
+          }}
+        </a-descriptions-item>
+        <a-descriptions-item label="城市">
+          {{ operaLogDetails?.city }}
+        </a-descriptions-item>
+        <a-descriptions-item label="用户代理" :span="2">
+          {{ operaLogDetails?.user_agent }}
+        </a-descriptions-item>
+        <a-descriptions-item label="请求参数" :span="2">
+          <JsonViewer
+            class="mr-8 w-full"
+            :value="operaLogDetails?.args"
+            :copyable="!!operaLogDetails?.args"
+            boxed
+            :show-array-index="false"
+            @copied="message.success('已复制请求参数')"
+          />
+        </a-descriptions-item>
+        <a-descriptions-item label="状态">
+          <a-tag v-if="operaLogDetails?.status === 1" color="success">
+            成功
+          </a-tag>
+          <a-tag v-else color="error"> 失败 </a-tag>
+        </a-descriptions-item>
+        <a-descriptions-item label="耗时">
+          <a-tag v-if="(operaLogDetails?.cost_time || 0) < 200" color="success">
+            {{ operaLogDetails?.cost_time }} ms
+          </a-tag>
+          <a-tag v-else color="warning">
+            {{ operaLogDetails?.cost_time }} ms
+          </a-tag>
+        </a-descriptions-item>
+        <a-descriptions-item label="状态码">
+          {{ operaLogDetails?.code }}
+        </a-descriptions-item>
+        <a-descriptions-item label="消息">
+          {{ operaLogDetails?.msg }}
+        </a-descriptions-item>
+        <a-descriptions-item label="操作时间">
+          {{ operaLogDetails?.opera_time }}
+        </a-descriptions-item>
+      </a-descriptions>
+    </Drawer>
   </Page>
 </template>

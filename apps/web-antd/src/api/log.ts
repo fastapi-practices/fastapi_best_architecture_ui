@@ -35,6 +35,9 @@ export interface OperaLogResult {
   path: string;
   ip: string;
   country?: string;
+  region?: string;
+  city?: string;
+  user_agent: string;
   os?: string;
   browser?: string;
   device?: string;

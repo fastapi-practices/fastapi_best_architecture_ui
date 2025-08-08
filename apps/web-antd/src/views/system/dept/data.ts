@@ -57,10 +57,6 @@ export function useColumns(
       title: '状态',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '正常', value: 1 },
-          { color: 'error', label: '停用', value: 0 },
-        ],
       },
     },
     {

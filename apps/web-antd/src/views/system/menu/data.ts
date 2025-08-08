@@ -73,10 +73,6 @@ export function useColumns(
       width: 80,
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '正常', value: 1 },
-          { color: 'error', label: '停用', value: 0 },
-        ],
       },
     },
     { field: 'remark', title: '备注' },
