@@ -1,5 +1,6 @@
 export * from './api-component';
 export * from './captcha';
+export * from './code-mirror';
 export * from './col-page';
 export * from './count-to';
 export * from './ellipsis-text';
