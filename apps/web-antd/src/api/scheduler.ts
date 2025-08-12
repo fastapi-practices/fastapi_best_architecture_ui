@@ -59,9 +59,12 @@ export async function getTaskResultApi(pk: number) {
 }
 
 export async function getTaskResultListApi(params?: TaskResultParams) {
-  return requestClient.get<PaginationResult>('/api/v1/tasks/results', {
-    params,
-  });
+  return requestClient.get<PaginationResult<TaskSchedulerResult>>(
+    '/api/v1/tasks/results',
+    {
+      params,
+    },
+  );
 }
 
 export async function deleteTaskResultApi(pks: number[]) {

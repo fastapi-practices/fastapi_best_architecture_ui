@@ -1,5 +1,5 @@
-interface PaginationResult {
-  items: Array<any>;
+interface PaginationResult<T> {
+  items: Array<T>;
   page: number;
   size: number;
   total: number;
