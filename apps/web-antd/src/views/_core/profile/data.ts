@@ -1,12 +1,16 @@
-import type { AnyFunction } from '@vben/types';
-
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
 import type { OnlineMonitorResult } from '#/api';
 
+import { ref } from 'vue';
+
 import { $t } from '@vben/locales';
 
+import { message } from 'ant-design-vue';
+
 import { z } from '#/adapter/form';
+import { getPhoneCaptchaApi } from '#/plugins/aliyun_sms/api';
+import { getEmailCaptchaApi } from '#/plugins/email/api';
 
 export const avatarSchema: VbenFormSchema[] = [
   {
@@ -27,68 +31,92 @@ export const nicknameSchema: VbenFormSchema[] = [
 ];
 
 const CODE_LENGTH = 6;
-export function phoneSchema(sendCodeFunc: AnyFunction): VbenFormSchema[] {
-  return [
-    {
-      component: 'Input',
-      fieldName: 'phone',
-      label: '手机号',
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.mobileTip') })
-        .refine((v) => /^\d{11}$/.test(v), {
-          message: $t('authentication.mobileErrortip'),
-        }),
-    },
-    {
-      component: 'VbenPinInput',
-      componentProps: {
-        codeLength: CODE_LENGTH,
-        createText: (countdown: number) => {
-          return countdown > 0
-            ? $t('authentication.sendText', [countdown])
-            : $t('authentication.sendCode');
-        },
-        handleSendCode: sendCodeFunc,
-        placeholder: $t('authentication.code'),
-      },
-      fieldName: 'captcha',
-      label: '验证码',
-      rules: z.string().length(CODE_LENGTH, {
-        message: $t('authentication.codeTip', [CODE_LENGTH]),
+const phoneValue = ref<string>('');
+export const phoneSchema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'phone',
+    label: '手机号',
+    rules: z
+      .string()
+      .min(1, { message: $t('authentication.mobileTip') })
+      .refine((v) => /^\d{11}$/.test(v), {
+        message: $t('authentication.mobileErrortip'),
       }),
+  },
+  {
+    component: 'VbenPinInput',
+    componentProps: {
+      codeLength: CODE_LENGTH,
+      createText: (countdown: number) => {
+        return countdown > 0
+          ? $t('authentication.sendText', [countdown])
+          : $t('authentication.sendCode');
+      },
+      handleSendCode: async () => {
+        try {
+          await getPhoneCaptchaApi({ phone: phoneValue.value });
+          message.success('短信验证码已发送，请注意查收');
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      placeholder: $t('authentication.code'),
     },
-  ];
-}
+    dependencies: {
+      trigger(values) {
+        phoneValue.value = values.phone;
+      },
+      triggerFields: ['phone'],
+    },
+    fieldName: 'captcha',
+    label: '验证码',
+    rules: z.string().length(CODE_LENGTH, {
+      message: $t('authentication.codeTip', [CODE_LENGTH]),
+    }),
+  },
+];
 
-export function emailSchema(sendCodeFunc: AnyFunction): VbenFormSchema[] {
-  return [
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email({ message: '无效的邮箱地址' }),
-    },
-    {
-      component: 'VbenPinInput',
-      componentProps: {
-        codeLength: CODE_LENGTH,
-        createText: (countdown: number) => {
-          return countdown > 0
-            ? $t('authentication.sendText', [countdown])
-            : $t('authentication.sendCode');
-        },
-        handleSendCode: sendCodeFunc,
-        placeholder: $t('authentication.code'),
+const emailValue = ref<string>('');
+export const emailSchema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'email',
+    label: '邮箱',
+    rules: z.string().email({ message: '无效的邮箱地址' }),
+  },
+  {
+    component: 'VbenPinInput',
+    componentProps: {
+      codeLength: CODE_LENGTH,
+      createText: (countdown: number) => {
+        return countdown > 0
+          ? $t('authentication.sendText', [countdown])
+          : $t('authentication.sendCode');
       },
-      fieldName: 'captcha',
-      label: '验证码',
-      rules: z.string().length(CODE_LENGTH, {
-        message: $t('authentication.codeTip', [CODE_LENGTH]),
-      }),
+      handleSendCode: async () => {
+        try {
+          await getEmailCaptchaApi({ recipients: emailValue.value });
+          message.success('邮箱验证码已发送，请注意查收');
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      placeholder: $t('authentication.code'),
     },
-  ];
-}
+    dependencies: {
+      trigger(values) {
+        emailValue.value = values.email;
+      },
+      triggerFields: ['email'],
+    },
+    fieldName: 'captcha',
+    label: '验证码',
+    rules: z.string().length(CODE_LENGTH, {
+      message: $t('authentication.codeTip', [CODE_LENGTH]),
+    }),
+  },
+];
 
 export const passwordSchema: VbenFormSchema[] = [
   {
