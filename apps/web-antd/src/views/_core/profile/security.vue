@@ -16,8 +16,6 @@ import {
   updateSysUserPasswordApi,
   updateSysUserPhoneApi,
 } from '#/api';
-import { getPhoneCaptchaApi } from '#/plugins/aliyun_sms/api';
-import { getEmailCaptchaApi } from '#/plugins/email/api';
 import { useAuthStore } from '#/store';
 
 import { emailSchema, passwordSchema, phoneSchema } from './data';
@@ -52,18 +50,10 @@ const securityOptions = computed(() => [
   },
 ]);
 
-const sendPhoneCode = async (phone: string) => {
-  try {
-    await getPhoneCaptchaApi({ phone });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const [phoneForm, phoneFormApi] = useVbenForm({
   layout: 'vertical',
   showDefaultActions: false,
-  schema: phoneSchema(sendPhoneCode),
+  schema: phoneSchema,
 });
 
 const [phoneModal, phoneModalApi] = useVbenModal({
@@ -93,18 +83,10 @@ const [phoneModal, phoneModalApi] = useVbenModal({
   },
 });
 
-const sendEmailCode = async (email: string) => {
-  try {
-    await getEmailCaptchaApi({ email });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 const [emailForm, emailFormApi] = useVbenForm({
   layout: 'vertical',
   showDefaultActions: false,
-  schema: emailSchema(sendEmailCode),
+  schema: emailSchema,
 });
 
 const [emailModal, emailModalApi] = useVbenModal({

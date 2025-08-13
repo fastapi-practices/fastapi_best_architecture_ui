@@ -119,11 +119,11 @@ export async function updateSysUserNicknameApi(
   return requestClient.put(`/api/v1/sys/users/me/nickname`, data);
 }
 export async function updateSysUserPhoneApi(data: SysUpdateUserPhoneParams) {
-  return requestClient.put(`/api/v1/sys/users/me/phones`, data);
+  return requestClient.put(`/api/v1/sys/users/me/phone`, data);
 }
 
 export async function updateSysUserEmailApi(data: SysUpdateUserEmailParams) {
-  return requestClient.put(`/api/v1/sys/users/me/emails`, data);
+  return requestClient.put(`/api/v1/sys/users/me/email`, data);
 }
 
 export async function updateSysUserPasswordApi(data: SysUpdatePasswordParams) {
