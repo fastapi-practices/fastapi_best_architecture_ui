@@ -12,6 +12,7 @@ import {
   Notification,
   UserDropdown,
 } from '@vben/layouts';
+import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
 
@@ -64,7 +65,7 @@ const menus = computed(() => [
       router.push('/profile');
     },
     icon: MingcuteProfileLine,
-    text: '个人中心',
+    text: $t('page.menu.profile'),
   },
 ]);
 

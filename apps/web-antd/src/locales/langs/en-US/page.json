@@ -14,7 +14,7 @@
     "workspace": "Workspace"
   },
   "menu": {
-    "system": "System Admin",
+    "system": "System",
     "scheduler": "Scheduler",
     "schedulerManage": "Manage",
     "schedulerRecord": "Record",
@@ -32,7 +32,8 @@
     "sysDept": "Dept",
     "sysMenu": "User",
     "sysRole": "Role",
-    "sysUser": "User"
+    "sysUser": "User",
+    "profile": "Profile"
   },
   "monitor": {
     "redis": {
