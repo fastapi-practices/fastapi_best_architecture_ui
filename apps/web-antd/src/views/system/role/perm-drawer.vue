@@ -8,7 +8,6 @@ import type { SysDataScopeResult, SysMenuTreeResult } from '#/api';
 import { nextTick, ref, watch } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
-import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
@@ -72,6 +71,21 @@ const [Drawer, drawerApi] = useVbenDrawer({
   },
 });
 
+const processTreeData = (nodes: any[]) => {
+  return nodes.map((node) => {
+    const processedNode = {
+      ...node,
+      title: $t(node.title),
+    };
+
+    if (node.children && node.children.length > 0) {
+      processedNode.children = processTreeData(node.children);
+    }
+
+    return processedNode;
+  });
+};
+
 /**
  * 菜单权限
  */
@@ -114,7 +128,8 @@ const gridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   proxyConfig: {
     ajax: {
       query: async (_, formValues) => {
-        return await getSysMenuTreeApi(formValues);
+        const res = await getSysMenuTreeApi(formValues);
+        return processTreeData(res);
       },
     },
   },
@@ -155,7 +170,7 @@ const dataScopeGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   rowConfig: {
     keyField: 'id',
   },
-  maxHeight: '775',
+  height: 'auto',
   virtualYConfig: {
     enabled: true,
     gt: 0,
@@ -247,43 +262,26 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
             </a-button>
             <a-button type="primary" @click="collapseAll">折叠全部</a-button>
           </template>
-          <template #icon="{ row }">
-            <div class="m-auto size-5">
-              <IconifyIcon
-                v-if="row.type === 2"
-                icon="carbon:security"
-                class="size-full"
-              />
-              <a-image
-                v-else-if="/^https?:\/\/.*$/.test(row.icon || '')"
-                :src="row.icon"
-                class="size-full"
-              />
-              <IconifyIcon
-                v-else
-                :icon="row.icon || 'carbon:circle-dash'"
-                class="size-full"
-              />
-            </div>
-          </template>
         </Grid>
       </a-tab-pane>
       <a-tab-pane key="1" tab="数据权限">
-        <DataScopeGrid>
-          <template #toolbar-actions>
-            <a-alert class="h-8" type="info">
-              <template #message>
-                <div>
-                  已关联
-                  <span class="text-primary mx-1 font-semibold">
-                    {{ defaultCheckedDataScopesKeys.length }}
-                  </span>
-                  个数据范围节点（非实时）
-                </div>
-              </template>
-            </a-alert>
-          </template>
-        </DataScopeGrid>
+        <div class="h-[775px]">
+          <DataScopeGrid>
+            <template #toolbar-actions>
+              <a-alert class="h-8" type="info">
+                <template #message>
+                  <div>
+                    已关联
+                    <span class="text-primary mx-1 font-semibold">
+                      {{ defaultCheckedDataScopesKeys.length }}
+                    </span>
+                    个数据范围节点（非实时）
+                  </div>
+                </template>
+              </a-alert>
+            </template>
+          </DataScopeGrid>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </Drawer>

@@ -160,12 +160,6 @@ export const drawerColumns: VxeGridProps['columns'] = [
     align: 'left',
     fixed: 'left',
     treeNode: true,
-    minWidth: 150,
-  },
-  {
-    field: 'icon',
-    title: '图标',
-    slots: { default: 'icon' },
   },
   {
     field: 'type',
