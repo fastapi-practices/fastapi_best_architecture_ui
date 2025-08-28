@@ -198,24 +198,17 @@ watch(checkedRows, () => {
         <a-descriptions-item label="城市">
           {{ operaLogDetails?.city }}
         </a-descriptions-item>
-        <a-descriptions-item label="用户代理" :span="2">
-          {{ operaLogDetails?.user_agent }}
-        </a-descriptions-item>
-        <a-descriptions-item label="请求参数" :span="2">
-          <JsonViewer
-            class="mr-8 w-full"
-            :value="operaLogDetails?.args"
-            :copyable="!!operaLogDetails?.args"
-            boxed
-            :show-array-index="false"
-            @copied="message.success('已复制请求参数')"
-          />
+        <a-descriptions-item label="状态码">
+          {{ operaLogDetails?.code }}
         </a-descriptions-item>
         <a-descriptions-item label="状态">
           <a-tag v-if="operaLogDetails?.status === 1" color="success">
             成功
           </a-tag>
           <a-tag v-else color="error"> 失败 </a-tag>
+        </a-descriptions-item>
+        <a-descriptions-item label="操作时间">
+          {{ operaLogDetails?.opera_time }}
         </a-descriptions-item>
         <a-descriptions-item label="耗时">
           <a-tag v-if="(operaLogDetails?.cost_time || 0) < 200" color="success">
@@ -225,14 +218,23 @@ watch(checkedRows, () => {
             {{ operaLogDetails?.cost_time }} ms
           </a-tag>
         </a-descriptions-item>
-        <a-descriptions-item label="状态码">
-          {{ operaLogDetails?.code }}
+        <a-descriptions-item label="用户代理" :span="2">
+          {{ operaLogDetails?.user_agent }}
         </a-descriptions-item>
-        <a-descriptions-item label="消息">
+        <a-descriptions-item label="请求参数" :span="2">
+          <JsonViewer
+            class="mr-8 w-full"
+            :value="operaLogDetails?.args"
+            :copyable="!!operaLogDetails?.args"
+            boxed
+            expanded
+            :expand-depth="3"
+            :show-array-index="false"
+            @copied="message.success('已复制请求参数')"
+          />
+        </a-descriptions-item>
+        <a-descriptions-item label="响应消息">
           {{ operaLogDetails?.msg }}
-        </a-descriptions-item>
-        <a-descriptions-item label="操作时间">
-          {{ operaLogDetails?.opera_time }}
         </a-descriptions-item>
       </a-descriptions>
     </Drawer>
