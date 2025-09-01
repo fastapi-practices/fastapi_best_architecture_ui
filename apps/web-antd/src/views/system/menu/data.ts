@@ -125,7 +125,7 @@ export const schema: VbenFormSchema[] = [
     },
     defaultValue: 1,
     fieldName: 'type',
-    formItemClass: 'col-span-2 md:col-span-2',
+    formItemClass: 'md:col-span-2',
     label: '菜单类型',
   },
   {

@@ -63,15 +63,15 @@ const saveEmailConfig = async () => {
         config.value = data[config.key];
       }
     });
-  }
-  try {
-    await updateConfigApi(emailData.value);
-    message.success($t('ui.actionMessage.operationSuccess'));
-    editButtonShow.value = true;
-    formApi.setState({ commonConfig: { disabled: true } });
-    await fetchConfigList();
-  } catch (error) {
-    console.error(error);
+    try {
+      await updateConfigApi(emailData.value);
+      message.success($t('ui.actionMessage.operationSuccess'));
+      editButtonShow.value = true;
+      formApi.setState({ commonConfig: { disabled: true } });
+      await fetchConfigList();
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 
