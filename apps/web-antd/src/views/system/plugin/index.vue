@@ -137,7 +137,7 @@ onMounted(() => {
           <template #title>
             {{ info.plugin.summary }}
             <span class="ml-1 text-sm">
-              <a-tag> v{{ info.plugin.version }} </a-tag>
+              <span class="text-gray-500">@{{ info.plugin.author }}</span>
             </span>
           </template>
           <p>{{ info.plugin.description }}</p>
@@ -152,18 +152,15 @@ onMounted(() => {
             />
           </template>
           <template #actions>
-            <p class="text-gray-500">@{{ info.plugin.author }}</p>
-            <span
-              class="cursor-pointer text-green-500 hover:opacity-80"
-              @click="downloadConfirm(info.plugin.name)"
-            >
-              打包
+            <span @click="deleteConfirm(info.plugin.name)">
+              <a-button size="small" danger>卸载</a-button>
             </span>
-            <span
-              class="cursor-pointer text-red-500 hover:opacity-80"
-              @click="deleteConfirm(info.plugin.name)"
-            >
-              卸载
+            <p>
+              <span class="icon-[mingcute--version-line] -mb-1 h-5 w-5"></span>
+              {{ info.plugin.version }}
+            </p>
+            <span @click="downloadConfirm(info.plugin.name)">
+              <a-button size="small">打包</a-button>
             </span>
           </template>
         </a-card>

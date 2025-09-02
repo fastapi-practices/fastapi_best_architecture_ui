@@ -73,7 +73,7 @@ export const schema: VbenFormSchema[] = [
   {
     component: 'Input',
     fieldName: 'queue',
-    label: '队列',
+    label: '执行队列',
     help: '将任务下发到指定队列',
   },
   {
@@ -95,7 +95,7 @@ export const schema: VbenFormSchema[] = [
       showTime: true,
     },
     fieldName: 'start_time',
-    label: '开始时间',
+    label: '开始执行时间',
   },
   {
     component: 'DatePicker',
@@ -110,8 +110,8 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['expire_seconds'],
     },
     fieldName: 'expire_time',
-    label: '截止时间',
-    help: '截止时间和截止秒数只能设定一个',
+    label: '过期时间',
+    help: '如果任务执行到该时间没有执行完，则取消执行',
   },
   {
     component: 'InputNumber',
@@ -125,8 +125,8 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['expire_time'],
     },
     fieldName: 'expire_seconds',
-    label: '截止秒数',
-    help: '截止时间和截止秒数只能设定一个',
+    label: '过期秒数',
+    help: '如果任务执行超过该秒后没有执行完，则取消执行',
   },
   {
     component: 'InputNumber',
@@ -144,7 +144,7 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['type'],
     },
     fieldName: 'interval_every',
-    label: '间隔周期',
+    label: '执行周期',
   },
   {
     component: 'Select',
@@ -195,7 +195,7 @@ export const schema: VbenFormSchema[] = [
       triggerFields: ['type'],
     },
     fieldName: 'crontab',
-    label: '计划',
+    label: '执行计划',
     help: 'Crontab 表达式：https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html#crontab-schedules',
   },
   {

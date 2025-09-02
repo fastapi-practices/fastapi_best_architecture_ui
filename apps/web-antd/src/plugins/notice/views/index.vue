@@ -154,16 +154,18 @@ const [Modal, modalApi] = useVbenModal({
   },
 });
 
+const preViewTitle = ref<string>('');
 const preViewContent = ref<string>('');
 
 const [PreviewModal, previewModalApi] = useVbenModal({
-  title: '内容预览',
+  title: '通知公告预览',
   class: 'w-5/12',
   footer: false,
   onOpenChange: (isOpen) => {
     if (isOpen) {
       const data = previewModalApi.getData<formSysNoticeParams>();
       if (data) {
+        preViewTitle.value = data.title;
         preViewContent.value = data.content;
       }
     }
@@ -185,6 +187,7 @@ const [PreviewModal, previewModalApi] = useVbenModal({
       <Form />
     </Modal>
     <PreviewModal>
+      <div class="mb-5 text-center text-3xl">{{ preViewTitle }}</div>
       <MarkdownPreviewer :value="preViewContent" />
     </PreviewModal>
   </Page>
