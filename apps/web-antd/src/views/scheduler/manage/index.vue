@@ -195,8 +195,8 @@ onUnmounted(() => {
             <a-switch
               v-model:checked="ts.enabled"
               :checked-value="true"
-              checked-children="已启动"
-              un-checked-children="已停止"
+              checked-children="启用"
+              un-checked-children="禁用"
               @click="
                 updateTaskSchedulerStatusApi(ts.id).then(
                   message.success($t('ui.actionMessage.operationSuccess')),
@@ -205,19 +205,21 @@ onUnmounted(() => {
             />
           </template>
           <template #actions>
-            <a-button
-              :disabled="taskWorkerStatus.length === 0"
-              @click="executeTask(ts.id)"
-              size="small"
-            >
-              手动执行
+            <a-button size="small" danger @click="deleteConfirm(ts.id)">
+              删除
             </a-button>
-            <a-button size="small" @click="searchLog(ts.task)"> 日志 </a-button>
+            <a-button size="small" type="text" @click="searchLog(ts.task)">
+              日志
+            </a-button>
             <a-button size="small" @click="modalApi.setData(ts).open()">
               编辑
             </a-button>
-            <a-button size="small" danger @click="deleteConfirm(ts.id)">
-              删除
+            <a-button
+              size="small"
+              :disabled="taskWorkerStatus.length === 0"
+              @click="executeTask(ts.id)"
+            >
+              手动执行
             </a-button>
           </template>
           <EllipsisText
@@ -230,46 +232,32 @@ onUnmounted(() => {
               {{ ts.task }}
             </template>
           </EllipsisText>
-          <EllipsisText
-            tooltip-when-ellipsis
-            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
-          >
-            <span class="text-gray-500">位置参数：</span>
-            {{ ts.args || 'N/A' }}
-            <template #tooltip>
-              {{ ts.args }}
-            </template>
-          </EllipsisText>
-          <EllipsisText
-            tooltip-when-ellipsis
-            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
-          >
-            <span class="text-gray-500">关键参数：</span>
-            {{ ts.kwargs || 'N/A' }}
-            <template #tooltip>
-              {{ ts.kwargs || 'N/A' }}
-            </template>
-          </EllipsisText>
           <p>
-            <span class="text-gray-500"> 执行总计： </span>
-            {{ ts.total_run_count }} 次
+            <span class="text-gray-500">开始时间：</span>
+            {{ ts.start_time || 'N/A' }}
+          </p>
+          <p>
+            <span class="text-gray-500">过期时间：</span>
+            {{ ts.expire_seconds ? `${ts.expire_seconds} seconds` : 'N/A' }}
+          </p>
+          <p>
+            <span class="text-gray-500">触发策略：</span>
+            <span v-if="ts.type === 0">
+              <a-tag :bordered="false" color="cyan">Interval</a-tag>
+              <a-tag>{{ ts.interval_every }} {{ ts.interval_period }} </a-tag>
+            </span>
+            <span v-else>
+              <a-tag :bordered="false" color="purple">Crontab</a-tag>
+              <a-tag>{{ ts.crontab }}</a-tag>
+            </span>
           </p>
           <p>
             <span class="text-gray-500">最近执行：</span>
             {{ ts.last_run_time || 'N/A' }}
           </p>
           <p>
-            <span class="text-gray-500">触发策略：</span>
-            <span v-if="ts.type === 0">
-              Interval
-              <a-tag>{{ ts.interval_every }} {{ ts.interval_period }}</a-tag>
-            </span>
-            <span v-else>
-              Crontab
-              <a-tag>
-                {{ ts.crontab }}
-              </a-tag>
-            </span>
+            <span class="text-gray-500"> 执行总计： </span>
+            {{ ts.total_run_count }} 次
           </p>
           <EllipsisText
             tooltip-when-ellipsis
