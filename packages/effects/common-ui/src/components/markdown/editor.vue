@@ -2,6 +2,7 @@
 import {
   onBeforeUnmount,
   onMounted,
+  ref,
   shallowRef,
   useTemplateRef,
   watch,
@@ -23,7 +24,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  height: 350,
+  height: 'auto',
   mode: 'wysiwyg',
   // 编辑器唯一ID 缓存使用 可记录上次输入
   id: '',
@@ -52,7 +53,13 @@ const content = defineModel('value', {
   default: '',
 });
 
+const isInternalUpdate = ref(false);
+
 watch(content, (value) => {
+  if (isInternalUpdate.value) {
+    isInternalUpdate.value = false;
+    return;
+  }
   vditorInstance.value?.setValue(value);
 });
 
@@ -80,6 +87,7 @@ onMounted(() => {
     mode: props.mode,
     value: content.value,
     height: props.height,
+    minHeight: 350,
     width: '100%',
     lang: locale.value.replace('-', '_') as any,
     cache: {
@@ -89,6 +97,7 @@ onMounted(() => {
     theme: isDark.value ? 'dark' : 'classic',
     // 手动响应式
     input(value) {
+      isInternalUpdate.value = true;
       content.value = value;
     },
     // 加载完成的事件
