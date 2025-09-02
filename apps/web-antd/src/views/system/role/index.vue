@@ -134,8 +134,8 @@ const [Modal, modalApi] = useVbenModal({
       }
     }
   },
-  onOpenChange(idOpen) {
-    if (idOpen) {
+  onOpenChange(isOpen) {
+    if (isOpen) {
       const data = modalApi.getData<formSysRoleParams>();
       formApi.resetForm();
       if (data) {

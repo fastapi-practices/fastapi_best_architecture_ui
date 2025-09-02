@@ -103,7 +103,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysMenuTreeResult>) {
 }
 
 const [Form, formApi] = useVbenForm({
-  wrapperClass: 'grid-cols-1 md:grid-cols-2',
+  wrapperClass: 'md:grid-cols-2',
   showDefaultActions: false,
   schema,
 });

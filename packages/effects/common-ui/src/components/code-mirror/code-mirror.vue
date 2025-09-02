@@ -7,30 +7,31 @@ import { usePreferences } from '@vben-core/preferences';
 import { python } from '@codemirror/lang-python';
 import { oneDark } from '@codemirror/theme-one-dark';
 
-const props = withDefaults(
-  defineProps<{
-    /**
-     * 语言
-     */
-    language?: string;
-    /**
-     * 只读
-     */
-    readonly?: boolean;
-  }>(),
-  {
-    language: 'python',
-    readonly: true,
-  },
-);
+interface Props {
+  /**
+   * 语言
+   */
+  language?: string;
+  /**
+   * 只读
+   */
+  readonly?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  language: 'python',
+  readonly: true,
+});
 
 const { isDark } = usePreferences();
 
 const codeMirrorRef =
   useTemplateRef<InstanceType<typeof CodeMirror>>('codeMirrorRef');
+
 const modelValue = defineModel({ default: '', type: String });
 
 const lang = computed(() => python());
+
 const langChanged = ref(true);
 
 watch(

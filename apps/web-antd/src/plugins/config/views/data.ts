@@ -39,7 +39,7 @@ export const emailSchema: VbenFormSchema[] = [
     rules: z.string().email({ message: '无效的邮箱地址' }),
   },
   {
-    component: 'Input',
+    component: 'InputPassword',
     fieldName: 'EMAIL_PASSWORD',
     label: '邮箱密码',
     help: '服务授权密码/客户端专用密码',
