@@ -90,13 +90,20 @@ export function useColumns(
       title: $t('common.table.operation'),
       align: 'center',
       fixed: 'right',
-      width: 130,
+      width: 150,
       cellRender: {
         attrs: {
           onClick: onActionClick,
         },
         name: 'CellOperation',
-        options: ['edit', 'delete'],
+        options: [
+          {
+            code: 'preview',
+            text: '预览',
+          },
+          'edit',
+          'delete',
+        ],
       },
     },
   ];

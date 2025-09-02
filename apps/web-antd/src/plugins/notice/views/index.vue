@@ -13,7 +13,12 @@ import type {
 
 import { computed, ref } from 'vue';
 
-import { Page, useVbenModal, VbenButton } from '@vben/common-ui';
+import {
+  MarkdownPreviewer,
+  Page,
+  useVbenModal,
+  VbenButton,
+} from '@vben/common-ui';
 import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
@@ -88,6 +93,10 @@ function onActionClick({ code, row }: OnActionClickParams<SysNoticeResult>) {
       modalApi.setData(row).open();
       break;
     }
+    case 'preview': {
+      previewModalApi.setData(row).open();
+      break;
+    }
   }
 }
 
@@ -144,6 +153,22 @@ const [Modal, modalApi] = useVbenModal({
     }
   },
 });
+
+const preViewContent = ref<string>('');
+
+const [PreviewModal, previewModalApi] = useVbenModal({
+  title: '内容预览',
+  class: 'w-5/12',
+  footer: false,
+  onOpenChange: (isOpen) => {
+    if (isOpen) {
+      const data = previewModalApi.getData<formSysNoticeParams>();
+      if (data) {
+        preViewContent.value = data.content;
+      }
+    }
+  },
+});
 </script>
 
 <template>
@@ -159,5 +184,8 @@ const [Modal, modalApi] = useVbenModal({
     <Modal :title="modalTitle">
       <Form />
     </Modal>
+    <PreviewModal>
+      <MarkdownPreviewer :value="preViewContent" />
+    </PreviewModal>
   </Page>
 </template>
