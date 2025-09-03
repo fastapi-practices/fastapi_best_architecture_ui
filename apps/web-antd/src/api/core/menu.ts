@@ -1,5 +1,7 @@
 import type { RouteRecordStringComponent } from '@vben/types';
 
+import { $t } from '@vben/locales';
+
 import { requestClient } from '#/api/request';
 
 export interface SysMenuResult {
@@ -56,9 +58,29 @@ export async function getAllMenusApi() {
 }
 
 export async function getSysMenuTreeApi(params: SysMenuTreeParams) {
-  return requestClient.get<SysMenuTreeResult[]>('/api/v1/sys/menus', {
-    params,
-  });
+  const transformMenuTitles = (menuData: SysMenuTreeResult[]) => {
+    return menuData.map((item) => {
+      const transformedItem = {
+        ...item,
+        title: $t(item.title),
+      };
+
+      if (item.children && item.children.length > 0) {
+        transformedItem.children = transformMenuTitles(item.children);
+      }
+
+      return transformedItem;
+    });
+  };
+
+  const data = await requestClient.get<SysMenuTreeResult[]>(
+    '/api/v1/sys/menus',
+    {
+      params,
+    },
+  );
+
+  return transformMenuTitles(data);
 }
 
 export async function createSysMenuApi(data: SysMenuParams) {
