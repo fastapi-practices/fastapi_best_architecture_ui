@@ -37,7 +37,9 @@ const onTabChange = (value: string) => {
     :right-width="70"
   >
     <template #left>
-      <BasicInfo />
+      <div class="mr-3">
+        <BasicInfo />
+      </div>
     </template>
     <a-card
       :head-style="{

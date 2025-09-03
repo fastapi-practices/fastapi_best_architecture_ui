@@ -133,6 +133,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateSysDeptApi(formData.value.id, data)
           : createSysDeptApi(data));
+        message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         onRefresh();
       } finally {

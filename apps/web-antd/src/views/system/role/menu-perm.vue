@@ -26,7 +26,7 @@ import {
   drawerDataScopeColumns,
   drawerQuerySchema,
 } from './data';
-import ExtraDataRuleDrawer from './data-rule-drawer.vue';
+import ExtraDataRuleDrawer from './data-perm.vue';
 
 const activeKey = ref('0');
 const clickRow = ref<number>(0);

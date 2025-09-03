@@ -135,6 +135,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateSysMenuApi(formData.value.id, data)
           : createSysMenuApi(data));
+        message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         onRefresh();
       } finally {

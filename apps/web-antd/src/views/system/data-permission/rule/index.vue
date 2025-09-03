@@ -122,6 +122,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateSysDataRuleApi(formData.value?.id, data)
           : createSysDataRuleApi(data));
+        message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         onRefresh();
       } finally {
