@@ -27,7 +27,7 @@ import {
 } from '#/api';
 
 import { querySchema, schema, useColumns } from './data';
-import ExtraDrawer from './perm-drawer.vue';
+import ExtraDrawer from './menu-perm.vue';
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -127,6 +127,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateSysRoleApi(formData.value?.id, data)
           : createSysRoleApi(data));
+        message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         onRefresh();
       } finally {

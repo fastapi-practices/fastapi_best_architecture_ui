@@ -88,6 +88,7 @@ const [Modal, modalApi] = useVbenModal({
         await (formData.value?.id
           ? updateTaskSchedulerApi(formData.value?.id, data)
           : createTaskSchedulerApi(data));
+        message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         await formApi.resetForm();
         await fetchTaskSchedulerList();

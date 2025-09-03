@@ -87,7 +87,6 @@ const [nicknameModal, nicknameModalApi] = useVbenModal({
 
 <template>
   <a-card
-    class="mr-3"
     title="基本信息"
     :head-style="{
       borderBottom: 'none',
