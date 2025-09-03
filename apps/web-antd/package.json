@@ -43,6 +43,7 @@
     "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
+    "mitt": "^3.0.1",
     "pinia": "catalog:",
     "socket.io-client": "^4.8.1",
     "vue": "catalog:",
