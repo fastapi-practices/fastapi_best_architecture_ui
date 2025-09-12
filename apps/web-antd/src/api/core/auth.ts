@@ -1,13 +1,15 @@
 import { miniRequestClient, requestClient } from '#/api/request';
 
 export interface CaptchaResult {
+  uuid: string;
+  img_type: string;
   image: string;
-  image_type: string;
 }
 
 export interface LoginParams {
   username: string;
   password: string;
+  uuid: string;
   captcha: string;
 }
 
