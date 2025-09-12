@@ -28,6 +28,10 @@ interface AccessState {
    */
   accessToken: AccessToken;
   /**
+   * 验证码 uuid
+   */
+  captchaUuid: null | string;
+  /**
    * 是否已经检查过权限
    */
   isAccessChecked: boolean;
@@ -77,6 +81,9 @@ export const useAccessStore = defineStore('core-access', {
       this.isLockScreen = true;
       this.lockScreenPassword = password;
     },
+    setCaptchaUuid(uuid: string) {
+      this.captchaUuid = uuid;
+    },
     setAccessCodes(codes: string[]) {
       this.accessCodes = codes;
     },
@@ -123,6 +130,7 @@ export const useAccessStore = defineStore('core-access', {
     accessRoutes: [],
     accessSessionUuid: null,
     accessToken: null,
+    captchaUuid: null,
     isAccessChecked: false,
     isLockScreen: false,
     lockScreenPassword: undefined,

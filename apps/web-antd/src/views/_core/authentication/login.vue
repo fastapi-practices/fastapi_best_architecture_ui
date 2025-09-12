@@ -6,6 +6,7 @@ import { computed, h, onMounted, ref } from 'vue';
 
 import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { useAccessStore } from '@vben/stores';
 
 import { Image, notification } from 'ant-design-vue';
 
@@ -61,6 +62,7 @@ onMounted(() => {
 });
 
 const authStore = useAuthStore();
+const accessStore = useAccessStore();
 
 const MOCK_USER_OPTIONS: BasicOption[] = [
   {
@@ -145,6 +147,19 @@ const formSchema = computed((): VbenFormSchema[] => {
       formItemClass: 'w-2/3',
     },
     {
+      component: 'VbenInput',
+      fieldName: 'uuid',
+      formItemClass: 'hidden',
+      dependencies: {
+        trigger: (_, form) => {
+          form.setValues({
+            uuid: accessStore.captchaUuid,
+          });
+        },
+        triggerFields: ['captchaImg'],
+      },
+    },
+    {
       component: h(Image),
       componentProps: {
         src: imageSrc.value,
@@ -154,7 +169,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         onClick: refreshCaptcha,
       },
       fieldName: 'captchaImg',
-      formItemClass: 'ml-auto -mt-16',
+      formItemClass: 'ml-auto -mt-[74px]',
     },
   ];
 });

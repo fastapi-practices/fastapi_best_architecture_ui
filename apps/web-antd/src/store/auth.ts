@@ -34,6 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function captcha() {
     const res: CaptchaResult = await getCaptchaApi();
+    accessStore.setCaptchaUuid(res.uuid);
     return res.image;
   }
 
