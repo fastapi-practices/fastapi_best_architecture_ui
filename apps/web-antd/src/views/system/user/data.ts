@@ -39,7 +39,7 @@ export const querySchema: VbenFormSchema[] = [
       //     value: 0,
       //   },
       // ],
-      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
+      options: getDictOptions(DictEnum.SYS_STATUS),
       placeholder: $t('common.form.select'),
     },
     fieldName: 'status',

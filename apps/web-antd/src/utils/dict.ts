@@ -18,15 +18,25 @@ export enum DictEnum {
   USER_ONLINE_STATUS = 'user_online_status',
 }
 
+export const DICT_CONFIG: Record<string, DictOptionsParams> = {
+  [DictEnum.SYS_STATUS]: { asNumber: true },
+  [DictEnum.NOTICE]: { asNumber: true },
+  [DictEnum.SYS_CHOOSE]: { asBoolean: false },
+  [DictEnum.SYS_DATA_RULE_EXPRESSION]: { asNumber: true },
+  [DictEnum.SYS_DATA_RULE_OPERATOR]: { asNumber: true },
+  [DictEnum.SYS_FRONTEND_CONFIG]: { asBoolean: true },
+  [DictEnum.SYS_LOGIN_STATUS]: { asNumber: true },
+  [DictEnum.SYS_MENU_TYPE]: { asNumber: true },
+  [DictEnum.SYS_PLUGIN_TYPE]: { asNumber: true },
+  [DictEnum.TASK_PERIOD_TYPE]: { asString: true },
+  [DictEnum.TASK_STRATEGY_TYPE]: { asNumber: true },
+  [DictEnum.USER_ONLINE_STATUS]: { asNumber: true },
+};
+
 export interface DictOptionsParams {
-  /**
-   * 是否将字典值格式化为数字类型
-   */
   asNumber?: boolean;
-  /**
-   * 是否将字典值格式化为布尔类型
-   */
   asBoolean?: boolean;
+  asString?: boolean; // 可选，显式支持 string 类型
 }
 
 export function getDictOptions(
@@ -34,15 +44,14 @@ export function getDictOptions(
   params: DictOptionsParams = {},
 ) {
   const { dictRequestCache, setDictInfo, getDictOptions } = useDictStore();
-  const dataList = getDictOptions(dictName);
+  const mergedParams = { ...DICT_CONFIG[dictName], ...params };
+  const cacheKey = `${dictName}_${mergedParams.asNumber}_${mergedParams.asBoolean}`;
+  const dataList = getDictOptions(dictName, mergedParams);
 
-  const { asNumber = false, asBoolean = false } = params;
-
-  // 检查请求状态缓存
-  if (dataList.length === 0 && !dictRequestCache.has(dictName)) {
+  if (dataList.length === 0 && !dictRequestCache.has(cacheKey)) {
     const requestPromise = getDictDataDetailApi(dictName)
       .then((res: DictDataResult[]) => {
-        setDictInfo(dictName, res);
+        setDictInfo(dictName, res, mergedParams);
         return res;
       })
       .catch((error: any) => {
@@ -51,26 +60,19 @@ export function getDictOptions(
       })
       .finally(() => {
         if (dataList.length > 0) {
-          dictRequestCache.delete(dictName);
+          dictRequestCache.delete(cacheKey);
         }
       });
 
-    dictRequestCache.set(dictName, requestPromise);
-  }
-
-  if (asNumber && dataList.length > 0) {
-    return dataList.map((item) => ({
-      ...item,
-      value: Number(item.value),
-    }));
-  }
-
-  if (asBoolean && dataList.length > 0) {
-    return dataList.map((item) => ({
-      ...item,
-      value: item.value === 'true',
-    }));
+    dictRequestCache.set(cacheKey, requestPromise);
   }
 
   return dataList;
+}
+
+// 预加载所有字典
+export function preloadDictOptions() {
+  Object.keys(DICT_CONFIG).forEach((dictName) => {
+    getDictOptions(dictName, DICT_CONFIG[dictName]);
+  });
 }

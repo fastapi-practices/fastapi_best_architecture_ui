@@ -37,9 +37,7 @@ export function useColumns(
         //   { color: 'cyan', label: 'OR', value: 1 },
         //   { color: 'success', label: 'AND', value: 0 },
         // ],
-        options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR, {
-          asNumber: true,
-        }),
+        options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR),
       },
       width: 80,
     },
@@ -58,9 +56,7 @@ export function useColumns(
         //   { label: '!=', value: 1 },
         //   { label: '==', value: 0 },
         // ],
-        options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION, {
-          asNumber: true,
-        }),
+        options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION),
       },
       width: 80,
     },
@@ -142,9 +138,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: 'OR', value: 1 },
       //   { label: 'AND', value: 0 },
       // ],
-      options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR, {
-        asNumber: true,
-      }),
+      options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR),
       optionType: 'button',
     },
     defaultValue: 0,
@@ -166,9 +160,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: '!=', value: 1 },
       //   { label: '==', value: 0 },
       // ],
-      options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION, {
-        asNumber: true,
-      }),
+      options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION),
     },
     fieldName: 'expression',
     label: '表达式',

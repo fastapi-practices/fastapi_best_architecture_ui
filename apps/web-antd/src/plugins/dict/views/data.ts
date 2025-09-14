@@ -72,7 +72,7 @@ export const dictTypeSchema: VbenFormSchema[] = [
       //   { label: $t('common.enabled'), value: 1 },
       //   { label: $t('common.disabled'), value: 0 },
       // ],
-      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
+      options: getDictOptions(DictEnum.SYS_STATUS),
       optionType: 'button',
     },
     defaultValue: 1,
@@ -107,6 +107,15 @@ export function useDictDataColumns(
     },
     { field: 'label', title: '标签' },
     { field: 'value', title: '值' },
+    {
+      field: 'color',
+      title: '标签样式',
+      slots: {
+        default: ({ row }: { row: any }) => {
+          return h(Tag, { color: row.color }, { default: () => row.label });
+        },
+      },
+    },
     {
       field: 'status',
       title: '状态',
@@ -226,7 +235,7 @@ export const dictDataSchema: VbenFormSchema[] = [
       //   { label: $t('common.enabled'), value: 1 },
       //   { label: $t('common.disabled'), value: 0 },
       // ],
-      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
+      options: getDictOptions(DictEnum.SYS_STATUS),
       optionType: 'button',
     },
     defaultValue: 1,

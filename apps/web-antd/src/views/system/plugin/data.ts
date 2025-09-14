@@ -22,7 +22,7 @@ export function userSchema(fileList: any): VbenFormSchema[] {
         //     value: 1,
         //   },
         // ],
-        options: getDictOptions(DictEnum.SYS_PLUGIN_TYPE, { asNumber: true }),
+        options: getDictOptions(DictEnum.SYS_PLUGIN_TYPE),
       },
       fieldName: 'installType',
       label: '安装方式',

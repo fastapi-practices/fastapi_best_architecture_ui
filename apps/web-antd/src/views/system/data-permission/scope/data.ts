@@ -26,7 +26,7 @@ export const querySchema: VbenFormSchema[] = [
       //     value: 0,
       //   },
       // ],
-      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
+      options: getDictOptions(DictEnum.SYS_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -103,7 +103,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: $t('common.disabled'), value: 0 },
       // ],
 
-      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: 1,

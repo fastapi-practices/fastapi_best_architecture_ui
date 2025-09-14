@@ -72,7 +72,7 @@ export function useColumns(
         //   { color: 'success', label: $t('common.enabled'), value: true },
         //   { color: 'error', label: $t('common.disabled'), value: false },
         // ],
-        options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     { field: 'api_version', title: 'API 版本' },
@@ -208,7 +208,7 @@ export const editSchema: VbenFormSchema[] = [
       //   { label: $t('common.disabled'), value: false },
       // ],
 
-      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     fieldName: 'default_datetime_column',
@@ -251,7 +251,7 @@ export function useColumnColumns(
         //   { color: 'error', label: $t('common.disabled'), value: false },
         // ],
 
-        options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     {
@@ -288,7 +288,7 @@ export function useColumnColumns(
         //   { color: 'error', label: $t('common.disabled'), value: false },
         // ],
 
-        options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     {
@@ -389,7 +389,7 @@ export const columnSchema: VbenFormSchema[] = [
       //   { label: $t('common.disabled'), value: false },
       // ],
 
-      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: false,
@@ -401,7 +401,11 @@ export const columnSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: false,

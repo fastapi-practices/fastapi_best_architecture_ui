@@ -13,7 +13,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: 'Interval（间隔）', value: 0 },
       //   { label: 'Crontab（计划）', value: 1 },
       // ],
-      options: getDictOptions(DictEnum.TASK_STRATEGY_TYPE, { asNumber: true }),
+      options: getDictOptions(DictEnum.TASK_STRATEGY_TYPE),
       optionType: 'button',
     },
     defaultValue: 0,
@@ -208,7 +208,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: $t('common.disabled'), value: false },
       // ],
 
-      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: false,

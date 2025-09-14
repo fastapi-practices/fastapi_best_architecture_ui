@@ -40,9 +40,7 @@ export function useColumns(
         //   { color: 'success', label: '在线', value: 1 },
         //   { color: 'warning', label: '离线', value: 0 },
         // ],
-        options: getDictOptions(DictEnum.USER_ONLINE_STATUS, {
-          asNumber: true,
-        }),
+        options: getDictOptions(DictEnum.USER_ONLINE_STATUS),
       },
     },
     { field: 'last_login_time', title: '最后登录时间' },

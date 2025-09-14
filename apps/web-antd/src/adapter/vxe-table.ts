@@ -83,8 +83,7 @@ setupVbenVxeTable({
         //   { color: 'success', label: $t('common.enabled'), value: 1 },
         //   { color: 'error', label: $t('common.disabled'), value: 0 },
         // ];
-        const tagOptions =
-          options ?? getDictOptions(DictEnum.SYS_STATUS, { asNumber: true });
+        const tagOptions = options ?? getDictOptions(DictEnum.SYS_STATUS);
         const tagItem = tagOptions.find((item) => item.value === value);
         return h(
           Tag,
