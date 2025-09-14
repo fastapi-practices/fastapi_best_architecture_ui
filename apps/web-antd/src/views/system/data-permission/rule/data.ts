@@ -5,6 +5,7 @@ import type { SysDataRuleResult } from '#/api';
 import { $t } from '@vben/locales';
 
 import { getSysDataRuleModelColumnsApi } from '#/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -32,10 +33,13 @@ export function useColumns(
       title: '操作符',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'cyan', label: 'OR', value: 1 },
-          { color: 'success', label: 'AND', value: 0 },
-        ],
+        // options: [
+        //   { color: 'cyan', label: 'OR', value: 1 },
+        //   { color: 'success', label: 'AND', value: 0 },
+        // ],
+        options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR, {
+          asNumber: true,
+        }),
       },
       width: 80,
     },
@@ -44,16 +48,19 @@ export function useColumns(
       title: '表达式',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { label: 'not in', value: 7 },
-          { label: 'in', value: 6 },
-          { label: '<=', value: 5 },
-          { label: '<', value: 4 },
-          { label: '>=', value: 3 },
-          { label: '>', value: 2 },
-          { label: '!=', value: 1 },
-          { label: '==', value: 0 },
-        ],
+        // options: [
+        //   { label: 'not in', value: 7 },
+        //   { label: 'in', value: 6 },
+        //   { label: '<=', value: 5 },
+        //   { label: '<', value: 4 },
+        //   { label: '>=', value: 3 },
+        //   { label: '>', value: 2 },
+        //   { label: '!=', value: 1 },
+        //   { label: '==', value: 0 },
+        // ],
+        options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION, {
+          asNumber: true,
+        }),
       },
       width: 80,
     },
@@ -131,10 +138,13 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: 'OR', value: 1 },
-        { label: 'AND', value: 0 },
-      ],
+      // options: [
+      //   { label: 'OR', value: 1 },
+      //   { label: 'AND', value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_DATA_RULE_OPERATOR, {
+        asNumber: true,
+      }),
       optionType: 'button',
     },
     defaultValue: 0,
@@ -146,16 +156,19 @@ export const schema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       class: 'w-full',
-      options: [
-        { label: 'not in', value: 7 },
-        { label: 'in', value: 6 },
-        { label: '<=', value: 5 },
-        { label: '<', value: 4 },
-        { label: '>=', value: 3 },
-        { label: '>', value: 2 },
-        { label: '!=', value: 1 },
-        { label: '==', value: 0 },
-      ],
+      // options: [
+      //   { label: 'not in', value: 7 },
+      //   { label: 'in', value: 6 },
+      //   { label: '<=', value: 5 },
+      //   { label: '<', value: 4 },
+      //   { label: '>=', value: 3 },
+      //   { label: '>', value: 2 },
+      //   { label: '!=', value: 1 },
+      //   { label: '==', value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_DATA_RULE_EXPRESSION, {
+        asNumber: true,
+      }),
     },
     fieldName: 'expression',
     label: '表达式',

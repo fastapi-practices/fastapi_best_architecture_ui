@@ -2,10 +2,15 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
 import type { DictDataResult, DictTypeResult } from '#/plugins/dict/api';
 
+import { h } from 'vue';
+
 import { $t } from '@vben/locales';
+
+import { Tag } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
 import { getAllDictTypeApi } from '#/plugins/dict/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const queryDictTypeSchema: VbenFormSchema[] = [
   {
@@ -63,10 +68,11 @@ export const dictTypeSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
       optionType: 'button',
     },
     defaultValue: 1,
@@ -101,6 +107,13 @@ export function useDictDataColumns(
     },
     { field: 'label', title: '标签' },
     { field: 'value', title: '值' },
+    {
+      field: 'status',
+      title: '状态',
+      cellRender: {
+        name: 'CellTag',
+      },
+    },
     { field: 'sort', title: '排序' },
     { field: 'remark', title: $t('common.table.mark'), align: 'left' },
     {
@@ -119,6 +132,26 @@ export function useDictDataColumns(
     },
   ];
 }
+
+const COLOR_OPTIONS = [
+  { value: 'processing', label: '主要(primary)' },
+  { value: 'success', label: '成功(success)' },
+  { value: 'error', label: '危险(danger)' },
+  { value: 'warning', label: '警告(warning)' },
+  { value: 'magenta', label: 'magenta' },
+  { value: 'red', label: 'red' },
+  { value: 'volcano', label: 'volcano' },
+  { value: 'orange', label: 'orange' },
+  { value: 'gold', label: 'gold' },
+  { value: 'lime', label: 'lime' },
+  { value: 'green', label: 'green' },
+  { value: 'cyan', label: 'cyan' },
+  { value: 'blue', label: 'blue' },
+  { value: 'geekblue', label: 'geekblue' },
+  { value: 'purple', label: 'purple' },
+  { value: 'default', label: '默认(default)' },
+  { value: 'pink', label: 'pink' },
+];
 
 export const dictDataSchema: VbenFormSchema[] = [
   {
@@ -147,6 +180,35 @@ export const dictDataSchema: VbenFormSchema[] = [
     rules: 'required',
   },
   {
+    component: 'Select',
+    componentProps: {
+      class: 'w-full',
+      options: COLOR_OPTIONS,
+    },
+    renderComponentContent: () => ({
+      option: ({ value }: { value: any }) => {
+        const option = COLOR_OPTIONS.find((opt) => opt.value === value);
+        return option
+          ? h(
+              Tag,
+              {
+                color: value,
+              },
+              { default: () => option.label },
+            )
+          : h(
+              Tag,
+              {
+                color: value,
+              },
+              { default: () => value },
+            );
+      },
+    }),
+    fieldName: 'color',
+    label: '标签样式',
+  },
+  {
     component: 'InputNumber',
     componentProps: {
       class: 'w-full',
@@ -160,10 +222,11 @@ export const dictDataSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
       optionType: 'button',
     },
     defaultValue: 1,

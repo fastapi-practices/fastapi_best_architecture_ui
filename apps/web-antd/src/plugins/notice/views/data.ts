@@ -7,6 +7,8 @@ import { h } from 'vue';
 import { MarkdownEditor } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -17,16 +19,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '通知',
-          value: 0,
-        },
-        {
-          label: '公告',
-          value: 1,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '通知',
+      //     value: 0,
+      //   },
+      //   {
+      //     label: '公告',
+      //     value: 1,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.NOTICE, { asNumber: true }),
     },
     fieldName: 'type',
     label: '类型',
@@ -35,16 +38,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '已启用',
-          value: 1,
-        },
-        {
-          label: '已停用',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '已启用',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '已停用',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -67,10 +71,12 @@ export function useColumns(
       title: '类型',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '通知', value: 0 },
-          { color: 'warning', label: '公告', value: 1 },
-        ],
+        // options: [
+        //   { color: 'success', label: '通知', value: 0 },
+        //   { color: 'warning', label: '公告', value: 1 },
+        // ],
+
+        options: getDictOptions(DictEnum.NOTICE, { asNumber: true }),
       },
     },
     {
@@ -122,10 +128,12 @@ export const schema: VbenFormSchema[] = [
     formItemClass: 'col-span-1 md:col-span-1',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: '通知', value: 0 },
-        { label: '公告', value: 1 },
-      ],
+      // options: [
+      //   { label: '通知', value: 0 },
+      //   { label: '公告', value: 1 },
+      // ],
+
+      options: getDictOptions(DictEnum.NOTICE, { asNumber: true }),
       optionType: 'button',
     },
     defaultValue: 0,
@@ -137,10 +145,11 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asNumber: true }),
       optionType: 'button',
     },
     defaultValue: 1,

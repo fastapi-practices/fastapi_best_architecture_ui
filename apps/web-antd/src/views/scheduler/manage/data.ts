@@ -1,19 +1,19 @@
 import type { VbenFormSchema } from '#/adapter/form';
 
-import { $t } from '@vben/locales';
-
 import { z } from '#/adapter/form';
 import { getTaskRegisteredApi } from '#/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const schema: VbenFormSchema[] = [
   {
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: 'Interval（间隔）', value: 0 },
-        { label: 'Crontab（计划）', value: 1 },
-      ],
+      // options: [
+      //   { label: 'Interval（间隔）', value: 0 },
+      //   { label: 'Crontab（计划）', value: 1 },
+      // ],
+      options: getDictOptions(DictEnum.TASK_STRATEGY_TYPE, { asNumber: true }),
       optionType: 'button',
     },
     defaultValue: 0,
@@ -150,28 +150,29 @@ export const schema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       class: 'w-full',
-      options: [
-        {
-          label: '天',
-          value: 'days',
-        },
-        {
-          label: '小时',
-          value: 'hours',
-        },
-        {
-          label: '分钟',
-          value: 'minutes',
-        },
-        {
-          label: '秒',
-          value: 'seconds',
-        },
-        // {
-        //   label: '微秒',
-        //   value: 'microseconds',
-        // },
-      ],
+      // options: [
+      //   {
+      //     label: '天',
+      //     value: 'days',
+      //   },
+      //   {
+      //     label: '小时',
+      //     value: 'hours',
+      //   },
+      //   {
+      //     label: '分钟',
+      //     value: 'minutes',
+      //   },
+      //   {
+      //     label: '秒',
+      //     value: 'seconds',
+      //   },
+      //   // {
+      //   //   label: '微秒',
+      //   //   value: 'microseconds',
+      //   // },
+      // ],
+      options: getDictOptions(DictEnum.TASK_PERIOD_TYPE),
     },
     dependencies: {
       show: (values) => {
@@ -202,10 +203,12 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+
+      options: getDictOptions(DictEnum.SYS_CHOOSE, { asBoolean: true }),
       optionType: 'button',
     },
     defaultValue: false,

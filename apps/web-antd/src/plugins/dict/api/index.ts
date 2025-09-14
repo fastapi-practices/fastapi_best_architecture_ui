@@ -38,6 +38,7 @@ export interface DictDataResult {
   type_id: number;
   label: string;
   value: string;
+  color?: string;
   sort: number;
   status: number;
   remark: string;
@@ -80,9 +81,9 @@ export async function deleteDictTypeApi(pks: number[]) {
   return await requestClient.post('/api/v1/sys/dict-types', { data: { pks } });
 }
 
-export async function getAllDictDataApi() {
+export async function getDictDataDetailApi(code: string) {
   return await requestClient.get<DictDataResult[]>(
-    '/api/v1/sys/dict-datas/all',
+    `/api/v1/sys/dict-datas/type-codes/${code}`,
   );
 }
 
