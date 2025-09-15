@@ -4,6 +4,8 @@ import type { SysRoleResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -14,16 +16,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '已启用',
-          value: 1,
-        },
-        {
-          label: '已停用',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '已启用',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '已停用',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -46,10 +49,11 @@ export function useColumns(
       title: '过滤数据权限',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: $t('common.enabled'), value: true },
-          { color: 'error', label: $t('common.disabled'), value: false },
-        ],
+        // options: [
+        //   { color: 'success', label: $t('common.enabled'), value: true },
+        //   { color: 'error', label: $t('common.disabled'), value: false },
+        // ],
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     {
@@ -112,10 +116,11 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: true,
@@ -127,10 +132,11 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
       optionType: 'button',
     },
     defaultValue: 1,
@@ -166,13 +172,14 @@ export const drawerColumns: VxeGridProps['columns'] = [
     title: '类型',
     cellRender: {
       name: 'CellTag',
-      options: [
-        { color: 'orange', label: '目录', value: 0 },
-        { color: 'default', label: '菜单', value: 1 },
-        { color: 'blue', label: '按钮', value: 2 },
-        { color: 'warning', label: '内嵌', value: 3 },
-        { color: 'success', label: '外链', value: 4 },
-      ],
+      // options: [
+      //   { color: 'orange', label: '目录', value: 0 },
+      //   { color: 'default', label: '菜单', value: 1 },
+      //   { color: 'blue', label: '按钮', value: 2 },
+      //   { color: 'warning', label: '内嵌', value: 3 },
+      //   { color: 'success', label: '外链', value: 4 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_MENU_TYPE),
     },
   },
   { field: 'perms', title: '权限标识' },

@@ -1,8 +1,7 @@
 import type { VbenFormSchema } from '#/adapter/form';
 
-import { $t } from '@vben/locales';
-
 import { z } from '#/adapter/form';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const emailSchema: VbenFormSchema[] = [
   {
@@ -48,10 +47,11 @@ export const emailSchema: VbenFormSchema[] = [
   {
     component: 'RadioGroup',
     componentProps: {
-      options: [
-        { label: $t('common.enabled'), value: '1' },
-        { label: $t('common.disabled'), value: '0' },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: '1' },
+      //   { label: $t('common.disabled'), value: '0' },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asString: true }),
       optionType: 'button',
     },
     defaultValue: '1',
@@ -63,10 +63,11 @@ export const emailSchema: VbenFormSchema[] = [
   {
     component: 'RadioGroup',
     componentProps: {
-      options: [
-        { label: $t('common.enabled'), value: '1' },
-        { label: $t('common.disabled'), value: '0' },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: '1' },
+      //   { label: $t('common.disabled'), value: '0' },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS, { asString: true }),
       optionType: 'button',
     },
     defaultValue: '0',

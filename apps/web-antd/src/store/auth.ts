@@ -20,11 +20,12 @@ import {
   logoutApi,
 } from '#/api';
 import { $t } from '#/locales';
-import { useWebSocketStore } from '#/store';
+import { useDictStore, useWebSocketStore } from '#/store';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
   const userStore = useUserStore();
+  const dictStore = useDictStore();
   const router = useRouter();
 
   const loginLoading = ref(false);
@@ -141,6 +142,7 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: MyUserInfo | null = null;
     userInfo = await getUserInfoApi();
     userStore.setUserInfo(userInfo);
+    dictStore.resetCache();
     return userInfo;
   }
 

@@ -4,22 +4,25 @@ import { h } from 'vue';
 
 import { Button } from 'ant-design-vue';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export function userSchema(fileList: any): VbenFormSchema[] {
   return [
     {
       component: 'RadioGroup',
       defaultValue: 0,
       componentProps: {
-        options: [
-          {
-            label: '压缩包',
-            value: 0,
-          },
-          {
-            label: 'GIT',
-            value: 1,
-          },
-        ],
+        // options: [
+        //   {
+        //     label: '压缩包',
+        //     value: 0,
+        //   },
+        //   {
+        //     label: 'GIT',
+        //     value: 1,
+        //   },
+        // ],
+        options: getDictOptions(DictEnum.SYS_PLUGIN_TYPE),
       },
       fieldName: 'installType',
       label: '安装方式',

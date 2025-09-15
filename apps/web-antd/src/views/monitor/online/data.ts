@@ -4,6 +4,8 @@ import type { OnlineMonitorResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -34,10 +36,11 @@ export function useColumns(
       title: '状态',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '在线', value: 1 },
-          { color: 'warning', label: '离线', value: 0 },
-        ],
+        // options: [
+        //   { color: 'success', label: '在线', value: 1 },
+        //   { color: 'warning', label: '离线', value: 0 },
+        // ],
+        options: getDictOptions(DictEnum.USER_ONLINE_STATUS),
       },
     },
     { field: 'last_login_time', title: '最后登录时间' },

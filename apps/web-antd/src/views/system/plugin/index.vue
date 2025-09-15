@@ -152,13 +152,13 @@ onMounted(() => {
             />
           </template>
           <template #actions>
-            <span @click="deleteConfirm(info.plugin.name)">
-              <a-button size="small" danger>卸载</a-button>
-            </span>
             <p>
               <span class="icon-[mingcute--version-line] -mb-1 h-5 w-5"></span>
               {{ info.plugin.version }}
             </p>
+            <span @click="deleteConfirm(info.plugin.name)">
+              <a-button size="small" danger>卸载</a-button>
+            </span>
             <span @click="downloadConfirm(info.plugin.name)">
               <a-button size="small">打包</a-button>
             </span>

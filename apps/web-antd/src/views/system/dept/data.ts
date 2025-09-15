@@ -6,6 +6,7 @@ import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
 import { getSysDeptTreeApi } from '#/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -27,16 +28,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '正常',
-          value: 1,
-        },
-        {
-          label: '停用',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '正常',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '停用',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -141,10 +143,11 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
       optionType: 'button',
     },
     defaultValue: 1,

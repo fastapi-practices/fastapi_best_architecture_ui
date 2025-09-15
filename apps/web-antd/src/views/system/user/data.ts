@@ -12,6 +12,7 @@ import { message } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
 import { getSysDeptTreeApi, updateSysUserPermissionApi } from '#/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -28,16 +29,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '正常',
-          value: 1,
-        },
-        {
-          label: '禁用',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '正常',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '禁用',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
       placeholder: $t('common.form.select'),
     },
     fieldName: 'status',

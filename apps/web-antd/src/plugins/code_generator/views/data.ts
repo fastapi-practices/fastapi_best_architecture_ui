@@ -14,6 +14,7 @@ import {
   getAllCodeGenColumnTypeApi,
   getCodeGenDbTableApi,
 } from '#/plugins/code_generator/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -67,10 +68,11 @@ export function useColumns(
       title: '默认时间列',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: $t('common.enabled'), value: true },
-          { color: 'error', label: $t('common.disabled'), value: false },
-        ],
+        // options: [
+        //   { color: 'success', label: $t('common.enabled'), value: true },
+        //   { color: 'error', label: $t('common.disabled'), value: false },
+        // ],
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     { field: 'api_version', title: 'API 版本' },
@@ -201,10 +203,12 @@ export const editSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     fieldName: 'default_datetime_column',
@@ -242,10 +246,12 @@ export function useColumnColumns(
       title: '是否主键',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: $t('common.enabled'), value: true },
-          { color: 'error', label: $t('common.disabled'), value: false },
-        ],
+        // options: [
+        //   { color: 'success', label: $t('common.enabled'), value: true },
+        //   { color: 'error', label: $t('common.disabled'), value: false },
+        // ],
+
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     {
@@ -277,10 +283,12 @@ export function useColumnColumns(
       title: '选填',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: $t('common.enabled'), value: true },
-          { color: 'error', label: $t('common.disabled'), value: false },
-        ],
+        // options: [
+        //   { color: 'success', label: $t('common.enabled'), value: true },
+        //   { color: 'error', label: $t('common.disabled'), value: false },
+        // ],
+
+        options: getDictOptions(DictEnum.SYS_CHOOSE),
       },
     },
     {
@@ -376,10 +384,12 @@ export const columnSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: false,
@@ -391,10 +401,11 @@ export const columnSchema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: true },
-        { label: $t('common.disabled'), value: false },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: true },
+      //   { label: $t('common.disabled'), value: false },
+      // ],
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: false,

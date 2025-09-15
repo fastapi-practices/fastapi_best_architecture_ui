@@ -4,6 +4,8 @@ import type { OperaLogResult } from '#/api';
 
 import { $t } from '@vben/locales';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -19,16 +21,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '正常',
-          value: 1,
-        },
-        {
-          label: '异常',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '正常',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '异常',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_LOGIN_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -68,10 +71,11 @@ export function useColumns(
       title: '状态',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '成功', value: 1 },
-          { color: 'error', label: '失败', value: 0 },
-        ],
+        // options: [
+        //   { color: 'success', label: '成功', value: 1 },
+        //   { color: 'error', label: '失败', value: 0 },
+        // ],
+        options: getDictOptions(DictEnum.SYS_LOGIN_STATUS),
       },
     },
     { field: 'code', title: '状态码' },

@@ -3,6 +3,8 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { $t } from '@vben/locales';
 
+import { DictEnum, getDictOptions } from '#/utils/dict';
+
 export const querySchema: VbenFormSchema[] = [
   {
     component: 'Input',
@@ -18,16 +20,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '成功',
-          value: 1,
-        },
-        {
-          label: '失败',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '成功',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '失败',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_LOGIN_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -48,10 +51,11 @@ export const columns: VxeGridProps['columns'] = [
     title: '状态',
     cellRender: {
       name: 'CellTag',
-      options: [
-        { color: 'success', label: '成功', value: 1 },
-        { color: 'error', label: '失败', value: 0 },
-      ],
+      // options: [
+      //   { color: 'success', label: '成功', value: 1 },
+      //   { color: 'error', label: '失败', value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_LOGIN_STATUS),
     },
   },
   { field: 'ip', title: 'IP 地址' },
@@ -60,7 +64,7 @@ export const columns: VxeGridProps['columns'] = [
   { field: 'os', title: '操作系统' },
   { field: 'browser', title: '浏览器' },
   { field: 'device', title: '设备' },
-  { field: 'msg', title: '消息' },
+  { field: 'msg', title: '消息', width: 150 },
   { field: 'login_time', title: '登录时间', width: 168 },
   {
     field: 'created_time',

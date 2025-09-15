@@ -7,6 +7,7 @@ import { $t } from '@vben/locales';
 import { z } from '#/adapter/form';
 import { getSysMenuTreeApi } from '#/api';
 import { componentKeys } from '#/router/routes';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const querySchema: VbenFormSchema[] = [
   {
@@ -18,16 +19,17 @@ export const querySchema: VbenFormSchema[] = [
     component: 'Select',
     componentProps: {
       allowClear: true,
-      options: [
-        {
-          label: '正常',
-          value: 1,
-        },
-        {
-          label: '停用',
-          value: 0,
-        },
-      ],
+      // options: [
+      //   {
+      //     label: '正常',
+      //     value: 1,
+      //   },
+      //   {
+      //     label: '停用',
+      //     value: 0,
+      //   },
+      // ],
+      options: getDictOptions(DictEnum.SYS_STATUS),
     },
     fieldName: 'status',
     label: $t('common.form.status'),
@@ -53,13 +55,14 @@ export function useColumns(
       width: 80,
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'orange', label: '目录', value: 0 },
-          { color: 'default', label: '菜单', value: 1 },
-          { color: 'blue', label: '按钮', value: 2 },
-          { color: 'warning', label: '内嵌', value: 3 },
-          { color: 'success', label: '外链', value: 4 },
-        ],
+        // options: [
+        //   { color: 'orange', label: '目录', value: 0 },
+        //   { color: 'default', label: '菜单', value: 1 },
+        //   { color: 'blue', label: '按钮', value: 2 },
+        //   { color: 'warning', label: '内嵌', value: 3 },
+        //   { color: 'success', label: '外链', value: 4 },
+        // ],
+        options: getDictOptions(DictEnum.SYS_MENU_TYPE),
       },
     },
     { field: 'sort', title: '排序', width: 50 },
@@ -114,13 +117,14 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: '目录', value: 0 },
-        { label: '菜单', value: 1 },
-        { label: '按钮', value: 2 },
-        { label: '内嵌', value: 3 },
-        { label: '外链', value: 4 },
-      ],
+      // options: [
+      //   { label: '目录', value: 0 },
+      //   { label: '菜单', value: 1 },
+      //   { label: '按钮', value: 2 },
+      //   { label: '内嵌', value: 3 },
+      //   { label: '外链', value: 4 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_MENU_TYPE),
       optionType: 'button',
     },
     defaultValue: 1,
@@ -238,10 +242,11 @@ export const schema: VbenFormSchema[] = [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: [
-        { label: $t('common.enabled'), value: 1 },
-        { label: $t('common.disabled'), value: 0 },
-      ],
+      // options: [
+      //   { label: $t('common.enabled'), value: 1 },
+      //   { label: $t('common.disabled'), value: 0 },
+      // ],
+      options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
     defaultValue: 1,

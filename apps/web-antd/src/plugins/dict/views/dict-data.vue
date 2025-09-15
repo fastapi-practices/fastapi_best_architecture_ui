@@ -62,7 +62,6 @@ const gridOptions: VxeTableGridOptions<DictDataResult> = {
     ajax: {
       query: async ({ page }, formValues) => {
         if (!dictTypeId.value) {
-          message.info($t('获取字典数据后再来吧'));
           return [];
         }
 

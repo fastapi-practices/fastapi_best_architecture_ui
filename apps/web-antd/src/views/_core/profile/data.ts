@@ -11,6 +11,7 @@ import { message } from 'ant-design-vue';
 import { z } from '#/adapter/form';
 import { getPhoneCaptchaApi } from '#/plugins/aliyun_sms/api';
 import { getEmailCaptchaApi } from '#/plugins/email/api';
+import { DictEnum, getDictOptions } from '#/utils/dict';
 
 export const avatarSchema: VbenFormSchema[] = [
   {
@@ -170,10 +171,11 @@ export function useColumns(
       title: '状态',
       cellRender: {
         name: 'CellTag',
-        options: [
-          { color: 'success', label: '在线', value: 1 },
-          { color: 'warning', label: '离线', value: 0 },
-        ],
+        // options: [
+        //   { color: 'success', label: '在线', value: 1 },
+        //   { color: 'warning', label: '离线', value: 0 },
+        // ],
+        options: getDictOptions(DictEnum.USER_ONLINE_STATUS),
       },
     },
     { field: 'last_login_time', title: '最后登录时间' },
