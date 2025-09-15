@@ -7,8 +7,6 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { DICT_CONFIG } from '#/utils/dict';
-
 export interface DictOption {
   disabled?: boolean;
   label: string;
@@ -18,7 +16,7 @@ export interface DictOption {
 
 export function dictToOptions(
   data: DictDataResult[],
-  params: DictOptionsParams = {},
+  params: DictOptionsParams,
 ): DictOption[] {
   const { asNumber = false, asBoolean = false } = params;
   return data.map((item) => {
@@ -45,24 +43,19 @@ export const useDictStore = defineStore('dict', () => {
 
   function generateCacheKey(
     dictName: string,
-    params: DictOptionsParams = {},
+    params: DictOptionsParams,
   ): string {
-    const { asNumber = false, asBoolean = false } = {
-      ...DICT_CONFIG[dictName],
-      ...params,
-    };
+    const { asNumber = false, asBoolean = false } = params;
     return `${dictName}_${asNumber}_${asBoolean}`;
   }
 
   function getDictOptions(
     dictName: string,
-    params: DictOptionsParams = {},
+    params: DictOptionsParams,
   ): DictOption[] {
     if (!dictName) return [];
 
-    // 合并默认配置和传入的 params，传入的 params 优先级更高
-    const mergedParams = { ...DICT_CONFIG[dictName], ...params };
-    const cacheKey = generateCacheKey(dictName, mergedParams);
+    const cacheKey = generateCacheKey(dictName, params);
 
     if (!dictOptionsMap.has(cacheKey)) {
       dictOptionsMap.set(cacheKey, []);
@@ -74,20 +67,17 @@ export const useDictStore = defineStore('dict', () => {
   function setDictInfo(
     dictName: string,
     dictValue: DictDataResult[],
-    params: DictOptionsParams = {},
+    params: DictOptionsParams,
   ) {
-    const mergedParams = { ...DICT_CONFIG[dictName], ...params };
-    const cacheKey = generateCacheKey(dictName, mergedParams);
+    const cacheKey = generateCacheKey(dictName, params);
 
     if (
       dictOptionsMap.has(cacheKey) &&
       dictOptionsMap.get(cacheKey)?.length === 0
     ) {
-      dictOptionsMap
-        .get(cacheKey)
-        ?.push(...dictToOptions(dictValue, mergedParams));
+      dictOptionsMap.get(cacheKey)?.push(...dictToOptions(dictValue, params));
     } else {
-      dictOptionsMap.set(cacheKey, dictToOptions(dictValue, mergedParams));
+      dictOptionsMap.set(cacheKey, dictToOptions(dictValue, params));
     }
   }
 
