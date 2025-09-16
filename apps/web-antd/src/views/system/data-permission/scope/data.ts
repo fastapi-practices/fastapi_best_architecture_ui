@@ -102,8 +102,7 @@ export const schema: VbenFormSchema[] = [
       //   { label: $t('common.enabled'), value: 1 },
       //   { label: $t('common.disabled'), value: 0 },
       // ],
-
-      options: getDictOptions(DictEnum.SYS_CHOOSE),
+      options: getDictOptions(DictEnum.SYS_STATUS),
       optionType: 'button',
     },
     defaultValue: 1,
