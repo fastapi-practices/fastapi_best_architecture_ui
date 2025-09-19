@@ -21,7 +21,7 @@ export enum DictEnum {
 export const DICT_CONFIG: Record<string, DictOptionsParams> = {
   [DictEnum.SYS_STATUS]: { asNumber: true },
   [DictEnum.NOTICE]: { asNumber: true },
-  [DictEnum.SYS_CHOOSE]: { asBoolean: false },
+  [DictEnum.SYS_CHOOSE]: { asBoolean: true },
   [DictEnum.SYS_DATA_RULE_EXPRESSION]: { asNumber: true },
   [DictEnum.SYS_DATA_RULE_OPERATOR]: { asNumber: true },
   [DictEnum.SYS_FRONTEND_CONFIG]: { asBoolean: true },
