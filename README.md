@@ -2,18 +2,9 @@
 
 Front-end Implementation of the [FastAPI Best Architecture](https://github.com/fastapi-practices/fastapi_best_architecture)
 
-## Run
+## Help
 
-```shell
-pnpm install
-pnpm dev
-```
-
-## Build
-
-```shell
-pnpm build
-```
+For more details, please check the [official documentation](https://fastapi-practices.github.io/fastapi_best_architecture_docs/frontend/summary/quick-start.html)
 
 ## Contributors
 
