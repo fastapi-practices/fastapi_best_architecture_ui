@@ -39,7 +39,7 @@ export async function loginApi(data: LoginParams) {
  */
 export async function refreshTokenApi() {
   return miniRequestClient.post<RefreshTokenResult>(
-    '/api/v1/auth/tokens',
+    '/api/v1/auth/refresh',
     undefined,
     {
       withCredentials: true,
