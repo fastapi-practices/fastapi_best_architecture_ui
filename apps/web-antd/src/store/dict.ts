@@ -7,6 +7,8 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
+import { generateDictCacheKey } from '#/utils/dict';
+
 export interface DictOption {
   disabled?: boolean;
   label: string;
@@ -18,14 +20,19 @@ export function dictToOptions(
   data: DictDataResult[],
   params: DictOptionsParams,
 ): DictOption[] {
-  const { asNumber = false, asBoolean = false } = params;
+  const { asBoolean = false, asNumber = false, asString = false } = params;
+
   return data.map((item) => {
     let value: boolean | number | string = item.value;
-    if (asNumber) {
-      value = Number(item.value);
-    } else if (asBoolean) {
+    if (asBoolean) {
       value = item.value === 'true';
+    } else if (asNumber) {
+      value = Number(item.value);
+    } else if (asString) {
+      // asString 时保持原样，因为 value 本身就是 string 类型
+      value = item.value;
     }
+
     return {
       disabled: item.status === 0,
       label: $t(item.label),
@@ -41,21 +48,13 @@ export const useDictStore = defineStore('dict', () => {
     new Map<string, Promise<DictDataResult[]>>(),
   );
 
-  function generateCacheKey(
-    dictName: string,
-    params: DictOptionsParams,
-  ): string {
-    const { asNumber = false, asBoolean = false } = params;
-    return `${dictName}_${asNumber}_${asBoolean}`;
-  }
-
   function getDictOptions(
     dictName: string,
     params: DictOptionsParams,
   ): DictOption[] {
     if (!dictName) return [];
 
-    const cacheKey = generateCacheKey(dictName, params);
+    const cacheKey = generateDictCacheKey(dictName, params);
 
     if (!dictOptionsMap.has(cacheKey)) {
       dictOptionsMap.set(cacheKey, []);
@@ -69,7 +68,7 @@ export const useDictStore = defineStore('dict', () => {
     dictValue: DictDataResult[],
     params: DictOptionsParams,
   ) {
-    const cacheKey = generateCacheKey(dictName, params);
+    const cacheKey = generateDictCacheKey(dictName, params);
 
     if (
       dictOptionsMap.has(cacheKey) &&

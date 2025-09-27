@@ -34,24 +34,35 @@ export const DICT_CONFIG: Record<string, DictOptionsParams> = {
 };
 
 export interface DictOptionsParams {
-  asNumber?: boolean;
   asBoolean?: boolean;
-  asString?: boolean; // 可选，显式支持 string 类型
+  asNumber?: boolean;
+  asString?: boolean;
 }
+
+export const generateDictCacheKey = (
+  dictName: string,
+  params: DictOptionsParams = {},
+): string => {
+  const { asBoolean = false, asNumber = false, asString = false } = params;
+  return `${dictName}_${asBoolean}_${asNumber}_${asString}`;
+};
 
 export function getDictOptions(
   dictName: string,
   params: DictOptionsParams = {},
 ) {
   const { dictRequestCache, setDictInfo, getDictOptions } = useDictStore();
-  const mergedParams = { ...DICT_CONFIG[dictName], ...params };
-  const cacheKey = `${dictName}_${mergedParams.asNumber}_${mergedParams.asBoolean}`;
-  const dataList = getDictOptions(dictName, mergedParams);
+  const param =
+    Object.keys(params).length > 0
+      ? (params ?? {})
+      : DICT_CONFIG[dictName] || {};
+  const cacheKey = generateDictCacheKey(dictName, param);
+  const dataList = getDictOptions(dictName, param);
 
   if (dataList.length === 0 && !dictRequestCache.has(cacheKey)) {
     const requestPromise = getDictDataDetailApi(dictName)
       .then((res: DictDataResult[]) => {
-        setDictInfo(dictName, res, mergedParams);
+        setDictInfo(dictName, res, param);
         return res;
       })
       .catch((error: any) => {
