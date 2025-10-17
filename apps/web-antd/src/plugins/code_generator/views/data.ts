@@ -122,7 +122,7 @@ export const importSchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'table_schema',
     label: '数据库名',
-    help: '当前服务所连接数据库中的表名',
+    help: '当前服务所连接的数据库名',
     rules: 'required',
   },
   {
