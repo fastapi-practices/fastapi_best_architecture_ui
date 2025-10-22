@@ -49,7 +49,10 @@ const gridOptions: VxeTableGridOptions<OperaLogResult> = {
   toolbarConfig: {
     export: true,
     print: true,
-    refresh: { code: 'query' },
+    refresh: true,
+    refreshOptions: {
+      code: 'query',
+    },
     custom: true,
     zoom: true,
   },
