@@ -69,10 +69,10 @@ const gridOptions: VxeTableGridOptions<SysRoleResult> = {
   },
 };
 
-const [Grid, girdApi] = useVbenVxeGrid({ formOptions, gridOptions });
+const [Grid, gridApi] = useVbenVxeGrid({ formOptions, gridOptions });
 
 function onRefresh() {
-  girdApi.query();
+  gridApi.query();
 }
 
 function onActionClick({ code, row }: OnActionClickParams<SysRoleResult>) {
