@@ -78,7 +78,9 @@ export async function updateDictTypeApi(
 }
 
 export async function deleteDictTypeApi(pks: number[]) {
-  return await requestClient.post('/api/v1/sys/dict-types', { data: { pks } });
+  return await requestClient.delete('/api/v1/sys/dict-types', {
+    data: { pks },
+  });
 }
 
 export async function getDictDataDetailApi(code: string) {
@@ -106,5 +108,7 @@ export async function updateDictDataApi(
 }
 
 export async function deleteDictDataApi(pks: number[]) {
-  return await requestClient.post('/api/v1/sys/dict-datas', { data: { pks } });
+  return await requestClient.delete('/api/v1/sys/dict-datas', {
+    data: { pks },
+  });
 }
