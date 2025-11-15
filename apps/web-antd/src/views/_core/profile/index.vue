@@ -3,8 +3,8 @@ import { ref } from 'vue';
 
 import { ColPage } from '@vben/common-ui';
 
-import ComingSoon from '#/views/_core/fallback/coming-soon.vue';
 import BasicInfo from '#/views/_core/profile/basic-info.vue';
+import Binding from '#/views/_core/profile/binding.vue';
 import OnlineDevice from '#/views/_core/profile/online-device.vue';
 import Security from '#/views/_core/profile/security.vue';
 
@@ -53,7 +53,7 @@ const onTabChange = (value: string) => {
         <Security />
       </div>
       <div v-else-if="tabKey === '1'">
-        <ComingSoon />
+        <Binding />
       </div>
       <div v-else>
         <OnlineDevice />
