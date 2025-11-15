@@ -8,7 +8,7 @@ export const MdiWechat = createIconifyIcon('mdi:wechat');
 
 export const MdiGithub = createIconifyIcon('mdi:github');
 
-export const MdiGoogle = createIconifyIcon('mdi:google');
+export const MdiGoogle = createIconifyIcon('logos:google-icon');
 
 export const MdiQqchat = createIconifyIcon('mdi:qqchat');
 
