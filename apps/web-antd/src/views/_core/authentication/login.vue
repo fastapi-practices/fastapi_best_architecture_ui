@@ -2,7 +2,7 @@
 import type { VbenFormSchema } from '@vben/common-ui';
 import type { BasicOption } from '@vben/types';
 
-import { computed, h, ref } from 'vue';
+import { computed, h, onMounted, onUnmounted, ref } from 'vue';
 
 import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -30,18 +30,36 @@ const MOCK_USER_OPTIONS: BasicOption[] = [
 ];
 
 const imageSrc = ref('');
+const captchaEnabled = ref(false);
+const captchaExpireSeconds = ref(0);
+let refreshTimer: null | ReturnType<typeof setTimeout> = null;
+
 const refreshCaptcha = async () => {
   try {
     const captcha = await authStore.captcha();
-    imageSrc.value = `data:image/png;base64, ${captcha}`;
+    captchaEnabled.value = captcha.is_enabled;
+    captchaExpireSeconds.value = captcha.expire_seconds;
+    imageSrc.value = `data:image/png;base64, ${captcha.image}`;
+
+    if (refreshTimer) {
+      clearTimeout(refreshTimer);
+      refreshTimer = null;
+    }
+
+    // 自动刷新（提前3秒刷新）
+    if (captcha.is_enabled && captcha.expire_seconds > 0) {
+      const refreshDelay = Math.max((captcha.expire_seconds - 3) * 1000, 1000);
+      refreshTimer = setTimeout(() => {
+        refreshCaptcha();
+      }, refreshDelay);
+    }
   } catch (error) {
     console.error(error);
   }
 };
-refreshCaptcha();
 
 const formSchema = computed((): VbenFormSchema[] => {
-  return [
+  const baseFields: VbenFormSchema[] = [
     {
       component: 'VbenSelect',
       componentProps: {
@@ -90,42 +108,64 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
-      component: 'VbenInput',
-      componentProps: {
-        placeholder: $t('page.auth.captchaPlaceholder'),
-      },
-      fieldName: 'captcha',
-      label: $t('authentication.password'),
-      rules: z.string().length(4, { message: $t('page.auth.captchaRequired') }),
-      formItemClass: 'w-2/3',
-    },
-    {
-      component: 'VbenInput',
-      fieldName: 'uuid',
-      formItemClass: 'hidden',
-      dependencies: {
-        trigger: (_, form) => {
-          form.setValues({
-            uuid: accessStore.captchaUuid,
-          });
-        },
-        triggerFields: ['captchaImg'],
-      },
-    },
-    {
-      component: h(Image),
-      componentProps: {
-        src: imageSrc.value,
-        width: 120,
-        height: 40,
-        preview: false,
-        onClick: refreshCaptcha,
-      },
-      fieldName: 'captchaImg',
-      formItemClass: 'ml-auto -mt-[74px]',
-    },
   ];
+
+  if (captchaEnabled.value) {
+    baseFields.push(
+      {
+        component: 'VbenInput',
+        componentProps: {
+          placeholder: $t('page.auth.captchaPlaceholder'),
+        },
+        fieldName: 'captcha',
+        label: $t('authentication.password'),
+        rules: z
+          .string()
+          .min(1, { message: $t('page.auth.captchaRequired') })
+          .optional()
+          .default(''),
+        formItemClass: 'w-2/3',
+      },
+      {
+        component: 'VbenInput',
+        fieldName: 'captcha_uuid',
+        formItemClass: 'hidden',
+        dependencies: {
+          trigger: (_, form) => {
+            form.setValues({
+              captcha_uuid: accessStore.captchaUuid,
+            });
+          },
+          triggerFields: ['captchaImg'],
+        },
+      },
+      {
+        component: h(Image),
+        componentProps: {
+          src: imageSrc.value,
+          width: 120,
+          height: 40,
+          preview: false,
+          onClick: refreshCaptcha,
+        },
+        fieldName: 'captchaImg',
+        formItemClass: 'ml-auto -mt-[74px]',
+      },
+    );
+  }
+
+  return baseFields;
+});
+
+onMounted(() => {
+  refreshCaptcha();
+});
+
+onUnmounted(() => {
+  if (refreshTimer) {
+    clearTimeout(refreshTimer);
+    refreshTimer = null;
+  }
 });
 </script>
 

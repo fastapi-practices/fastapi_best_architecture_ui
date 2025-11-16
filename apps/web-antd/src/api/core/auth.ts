@@ -1,8 +1,9 @@
 import { miniRequestClient, requestClient } from '#/api/request';
 
 export interface CaptchaResult {
+  is_enabled: boolean;
+  expire_seconds: number;
   uuid: string;
-  img_type: string;
   image: string;
 }
 
