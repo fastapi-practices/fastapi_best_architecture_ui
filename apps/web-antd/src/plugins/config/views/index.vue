@@ -4,15 +4,23 @@ import { nextTick, ref, watch } from 'vue';
 import { Page } from '@vben/common-ui';
 
 import Email from '#/plugins/config/views/email.vue';
+import Login from '#/plugins/config/views/login.vue';
 import ComingSoon from '#/views/_core/fallback/coming-soon.vue';
 
 const activeKey = ref('0');
 
+const loginRef = ref();
 const emailRef = ref();
 
 watch(
   activeKey,
   async (newValue) => {
+    if (newValue === '2') {
+      await nextTick();
+      if (loginRef.value) {
+        await loginRef.value.fetchConfigList();
+      }
+    }
     if (newValue === '3') {
       await nextTick();
       if (emailRef.value) {
@@ -56,7 +64,7 @@ watch(
             <span class="icon-[majesticons--lock-line] -mb-1 size-5"></span>
             登录配置
           </template>
-          <ComingSoon />
+          <Login ref="loginRef" />
         </a-tab-pane>
         <a-tab-pane key="3">
           <template #tab>
