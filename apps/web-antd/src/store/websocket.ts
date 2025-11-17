@@ -51,6 +51,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
     }
 
     try {
+      // console.log('正在初始化 WebSocket 连接...');
       // 创建 Socket 连接，携带认证信息
       socket.value = io(WS_URL, {
         ...WS_CONFIG,
@@ -64,7 +65,7 @@ export const useWebSocketStore = defineStore('websocket', () => {
       registerCoreEvents();
       return true;
     } catch (error) {
-      console.error('WebSocket 连接失败:', error);
+      console.error('WebSocket 初始化失败:', error);
       return false;
     }
   };
@@ -82,16 +83,30 @@ export const useWebSocketStore = defineStore('websocket', () => {
 
     const onConnectError = (error: Error) => {
       console.error('WebSocket 连接错误:', error);
+      isConnected.value = false;
       handleConnectionError();
     };
 
-    const onDisconnect = () => {
+    const onDisconnect = (reason: string) => {
+      console.warn('WebSocket 已断开:', reason);
       isConnected.value = false;
     };
 
     socket.value.on('connect', onConnect);
     socket.value.on('connect_error', onConnectError);
     socket.value.on('disconnect', onDisconnect);
+
+    // 监听 Manager 的重连事件
+    socket.value.io.on('reconnect_attempt', (attempt: number) => {
+      console.warn(
+        `WebSocket 重连尝试 ${attempt}/${WS_CONFIG.reconnectionAttempts}`,
+      );
+    });
+
+    socket.value.io.on('reconnect_failed', () => {
+      console.error('WebSocket 重连失败，已达到最大重连次数');
+      isConnected.value = false;
+    });
 
     // 保存核心事件到清理列表
     eventCleanupFunctions.value.push(
@@ -159,7 +174,10 @@ export const useWebSocketStore = defineStore('websocket', () => {
    * @param callback 可选，特定回调函数
    */
   const off = (event: string, callback?: any) => {
-    if (!socket.value) return;
+    if (!socket.value) {
+      console.warn('WebSocket 未初始化');
+      return;
+    }
 
     if (callback) {
       socket.value.off(event, callback);
