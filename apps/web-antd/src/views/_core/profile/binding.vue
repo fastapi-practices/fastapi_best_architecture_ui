@@ -15,7 +15,8 @@ import {
   getOAuth2Bindings,
 } from '#/plugins/oauth2/api';
 
-const bindings = ref<string[]>();
+const bindings = ref<string[]>([]);
+const loading = ref<boolean>(false);
 
 const securityOptions = computed(() => [
   {
@@ -39,10 +40,13 @@ const securityOptions = computed(() => [
 ]);
 
 const getBindings = async () => {
+  loading.value = true;
   try {
     bindings.value = await getOAuth2Bindings();
   } catch (error) {
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -95,46 +99,54 @@ onMounted(() => {
 </script>
 
 <template>
-  <a-list :data-source="securityOptions" :split="false" class="-ml-4">
-    <template #renderItem="{ item }">
-      <a-list-item>
-        <template #actions>
-          <a-button
-            v-if="!item.status"
-            type="primary"
-            @click="OAuth2Binding({ source: item.source })"
-          >
-            绑定
-          </a-button>
-          <a-button
-            v-else
-            danger
-            @click="deleteConfirm({ source: item.source })"
-          >
-            解绑
-          </a-button>
-        </template>
-        <a-list-item-meta :description="item.description">
-          <template #avatar>
-            <MdiGithub v-if="item.source === 'Github'" class="mt-1.5 size-8" />
-            <MdiGoogle v-if="item.source === 'Google'" class="mt-1.5 size-8" />
-            <img
-              v-if="item.source === 'LinuxDo'"
-              src="https://linux.do/logo-32.svg"
-              class="mt-1.5"
-            />
-          </template>
-          <template #title>
-            {{ item.source }}
-            <span
-              class="ml-2 text-xs"
-              :class="item.status ? 'text-green-500' : 'text-orange-500'"
+  <a-spin :spinning="loading">
+    <a-list :data-source="securityOptions" :split="false" class="-ml-4">
+      <template #renderItem="{ item }">
+        <a-list-item>
+          <template #actions>
+            <a-button
+              v-if="!item.status"
+              type="primary"
+              @click="OAuth2Binding({ source: item.source })"
             >
-              {{ item.statusString }}
-            </span>
+              绑定
+            </a-button>
+            <a-button
+              v-else
+              danger
+              @click="deleteConfirm({ source: item.source })"
+            >
+              解绑
+            </a-button>
           </template>
-        </a-list-item-meta>
-      </a-list-item>
-    </template>
-  </a-list>
+          <a-list-item-meta :description="item.description">
+            <template #avatar>
+              <MdiGithub
+                v-if="item.source === 'Github'"
+                class="mt-1.5 size-8"
+              />
+              <MdiGoogle
+                v-if="item.source === 'Google'"
+                class="mt-1.5 size-8"
+              />
+              <img
+                v-if="item.source === 'LinuxDo'"
+                src="https://linux.do/logo-32.svg"
+                class="mt-1.5"
+              />
+            </template>
+            <template #title>
+              {{ item.source }}
+              <span
+                class="ml-2 text-xs"
+                :class="item.status ? 'text-green-500' : 'text-orange-500'"
+              >
+                {{ item.statusString }}
+              </span>
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
+      </template>
+    </a-list>
+  </a-spin>
 </template>
