@@ -146,24 +146,25 @@ const searchLog = (task: string) => {
   router.replace({ path: `/scheduler/record`, query: { name: task } });
 };
 
+let cleanupWS: (() => void) | null = null;
 const intervalId = ref<any>(null);
-const emitTWS = () => {
+const emitWS = () => {
   wsStore.emit('task_worker_status');
 };
 
 onMounted(async () => {
   await fetchTaskSchedulerList();
-  wsStore.on('task_worker_status', (data: any[]) => {
+  cleanupWS = wsStore.on('task_worker_status', (data: any[]) => {
     taskWorkerStatus.value = data;
   });
-  emitTWS();
-  intervalId.value = setInterval(emitTWS, 5000);
+  emitWS();
+  intervalId.value = setInterval(emitWS, 5000);
 });
 
 onUnmounted(() => {
-  wsStore.off('task_worker_status', () => {
-    taskWorkerStatus.value = [];
-  });
+  if (cleanupWS) {
+    cleanupWS();
+  }
   if (intervalId.value) {
     clearInterval(intervalId.value);
   }
