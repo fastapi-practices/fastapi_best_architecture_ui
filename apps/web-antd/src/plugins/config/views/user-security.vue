@@ -11,18 +11,19 @@ import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { getAllConfigApi, updateConfigApi } from '#/plugins/config/api';
-import { emailSchema } from '#/plugins/config/views/data';
+import { userSecuritySchema } from '#/plugins/config/views/data';
 
 const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
-  schema: emailSchema,
+  schema: userSecuritySchema,
   commonConfig: {
     componentProps: {
       class: 'w-1/4',
     },
     disabled: true,
-    labelClass: 'justify-start ml-2',
-    labelWidth: 120,
+    labelClass: 'justify-start ml-2 self-start',
+    labelWidth: 180,
+    wrapperClass: 'flex-col items-start',
     hideRequiredMark: true,
   },
 });
@@ -30,12 +31,12 @@ const [Form, formApi] = useVbenForm({
 const editButtonShow = ref<boolean>(true);
 const loading = ref<boolean>(false);
 
-const emailData = ref<ConfigResult[]>([]);
+const userSecurityData = ref<ConfigResult[]>([]);
 const fetchConfigList = async () => {
   loading.value = true;
   try {
-    emailData.value = await getAllConfigApi({ type: 'EMAIL' });
-    emailData.value.forEach((config: any) => {
+    userSecurityData.value = await getAllConfigApi({ type: 'USER_SECURITY' });
+    userSecurityData.value.forEach((config: any) => {
       formApi.setState((prev: any) => {
         return {
           schema: prev.schema?.map((item: any) => {
@@ -58,17 +59,17 @@ const fetchConfigList = async () => {
   }
 };
 
-const saveEmailConfig = async () => {
+const saveUserSecurityConfig = async () => {
   const { valid } = await formApi.validate();
   if (valid) {
     const data: Record<string, any> = await formApi.getValues();
-    emailData.value.forEach((config: any) => {
+    userSecurityData.value.forEach((config: any) => {
       if (Object.prototype.hasOwnProperty.call(data, config.key)) {
         config.value = data[config.key];
       }
     });
     try {
-      await updateConfigApi(emailData.value);
+      await updateConfigApi(userSecurityData.value);
       message.success($t('ui.actionMessage.operationSuccess'));
       editButtonShow.value = true;
       formApi.setState({ commonConfig: { disabled: true } });
@@ -104,7 +105,7 @@ defineExpose({
       <VbenButton
         v-show="!editButtonShow"
         class="ml-1.5 mt-3"
-        @click="saveEmailConfig"
+        @click="saveUserSecurityConfig"
       >
         <MaterialSymbolsEdit class="mr-1" />
         保存
