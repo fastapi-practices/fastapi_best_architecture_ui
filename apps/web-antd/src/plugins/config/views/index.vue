@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
@@ -13,30 +13,33 @@ const userSecurityRef = ref();
 const loginRef = ref();
 const emailRef = ref();
 
-watch(
-  activeKey,
-  async (newValue) => {
-    if (newValue === '0') {
-      await nextTick();
-      if (userSecurityRef.value) {
-        await userSecurityRef.value.fetchConfigList();
-      }
+watch(activeKey, async (newValue) => {
+  if (newValue === '0') {
+    await nextTick();
+    if (userSecurityRef.value) {
+      await userSecurityRef.value.fetchConfigList();
     }
-    if (newValue === '1') {
-      await nextTick();
-      if (loginRef.value) {
-        await loginRef.value.fetchConfigList();
-      }
+  }
+  if (newValue === '1') {
+    await nextTick();
+    if (loginRef.value) {
+      await loginRef.value.fetchConfigList();
     }
-    if (newValue === '2') {
-      await nextTick();
-      if (emailRef.value) {
-        await emailRef.value.fetchConfigList();
-      }
+  }
+  if (newValue === '2') {
+    await nextTick();
+    if (emailRef.value) {
+      await emailRef.value.fetchConfigList();
     }
-  },
-  { immediate: true },
-);
+  }
+});
+
+onMounted(async () => {
+  await nextTick();
+  if (userSecurityRef.value) {
+    await userSecurityRef.value.fetchConfigList();
+  }
+});
 </script>
 
 <template>
