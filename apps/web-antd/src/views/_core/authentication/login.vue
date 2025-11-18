@@ -128,12 +128,12 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       {
         component: 'VbenInput',
-        fieldName: 'captcha_uuid',
+        fieldName: 'uuid',
         formItemClass: 'hidden',
         dependencies: {
           trigger: (_, form) => {
             form.setValues({
-              captcha_uuid: accessStore.captchaUuid,
+              uuid: accessStore.captchaUuid,
             });
           },
           triggerFields: ['captchaImg'],
