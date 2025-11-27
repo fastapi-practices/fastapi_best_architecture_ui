@@ -55,93 +55,103 @@ export interface CodeGenBusinessImportParams {
 
 export async function getCodeGenBusinessDetailApi(pk: number) {
   return requestClient.get<CodeGenBusinessResult>(
-    `/api/v1/generates/businesses/${pk}`,
+    `/api/v1/code-generation/businesses/${pk}`,
   );
 }
 
 export async function getAllCodeGenBusinessApi() {
   return requestClient.get<CodeGenBusinessResult[]>(
-    '/api/v1/generates/businesses/all',
+    '/api/v1/code-generation/businesses/all',
   );
 }
 
 export async function createCodeGenBusinessApi(data: CodeGenBusinessParams) {
-  return requestClient.post(`/api/v1/generates/businesses`, data);
+  return requestClient.post(`/api/v1/code-generation/businesses`, data);
 }
 
 export async function updateCodeGenBusinessApi(
   pk: number,
   data: CodeGenBusinessParams,
 ) {
-  return requestClient.put(`/api/v1/generates/businesses/${pk}`, data);
+  return requestClient.put(`/api/v1/code-generation/businesses/${pk}`, data);
 }
 
 export async function deleteCodeGenBusinessApi(pk: number) {
-  return requestClient.delete(`/api/v1/generates/businesses/${pk}`);
+  return requestClient.delete(`/api/v1/code-generation/businesses/${pk}`);
 }
 
 export async function getCodeGenBusinessListApi(
   params: QueryCodeGenBusinessParams,
 ) {
   return requestClient.get<PaginationResult<CodeGenBusinessResult>>(
-    `/api/v1/generates/businesses`,
+    `/api/v1/code-generation/businesses`,
     { params },
   );
 }
 
 export async function getAllCodeGenBusinessColumnApi(pk: number) {
   return requestClient.get<PaginationResult<CodeGenColumnResult>>(
-    `/api/v1/generates/businesses/${pk}/columns`,
+    `/api/v1/code-generation/businesses/${pk}/columns`,
   );
 }
 
 export async function getAllCodeGenColumnTypeApi() {
-  return requestClient.get<string[]>(`/api/v1/generates/columns/types`);
+  return requestClient.get<string[]>(`/api/v1/code-generation/columns/types`);
 }
 
 export async function getCodeGenColumnDetailApi(pk: number) {
-  return requestClient.get(`/api/v1/generates/columns/${pk}`);
+  return requestClient.get(`/api/v1/code-generation/columns/${pk}`);
 }
 
 export async function createCodeGenColumnApi(data: CodeGenColumnParams) {
-  return requestClient.post(`/api/v1/generates/columns`, data);
+  return requestClient.post(`/api/v1/code-generation/columns`, data);
 }
 
 export async function updateCodeGenColumnApi(
   pk: number,
   data: CodeGenColumnParams,
 ) {
-  return requestClient.put(`/api/v1/generates/columns/${pk}`, data);
+  return requestClient.put(`/api/v1/code-generation/columns/${pk}`, data);
 }
 
 export async function deleteCodeGenColumnApi(pk: number) {
-  return requestClient.delete(`/api/v1/generates/columns/${pk}`);
+  return requestClient.delete(`/api/v1/code-generation/columns/${pk}`);
 }
 
 export async function getCodeGenDbTableApi(params: Recordable<any>) {
-  return requestClient.get<string[]>(`/api/v1/generates/codes/tables`, {
-    params,
-  });
+  return requestClient.get<string[]>(
+    `/api/v1/code-generation/generations/tables`,
+    {
+      params,
+    },
+  );
 }
 
 export async function importCodeGenDbTableApi(
   data: CodeGenBusinessImportParams,
 ) {
-  return requestClient.post(`/api/v1/generates/codes/imports`, data);
+  return requestClient.post(
+    `/api/v1/code-generation/generations/imports`,
+    data,
+  );
 }
 
 export async function previewCodeGenApi(pk: number) {
-  return requestClient.get(`/api/v1/generates/codes/${pk}/previews`);
+  return requestClient.get(`/api/v1/code-generation/generations/${pk}/preview`);
 }
 
 export async function getCodeGenPathApi(pk: number) {
-  return requestClient.get<string[]>(`/api/v1/generates/codes/${pk}/paths`);
+  return requestClient.get<string[]>(
+    `/api/v1/code-generation/generations/${pk}/paths`,
+  );
 }
 
 export async function generateCodeApi(pk: number) {
-  return requestClient.post(`/api/v1/generates/codes/${pk}/generation`);
+  return requestClient.post(`/api/v1/code-generation/generations/${pk}`);
 }
 
 export async function downloadCodeApi(pk: number) {
-  return requestClient.download<Blob>(`/api/v1/generates/codes/${pk}`);
+  return requestClient.download<Blob>(
+    `/api/v1/code-generation/generations/${pk}`,
+  );
 }
