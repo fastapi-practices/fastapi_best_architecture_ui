@@ -1,46 +1,119 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '@vben/common-ui';
+
+import type {
+  OnActionClickParams,
+  VxeTableGridOptions,
+} from '#/adapter/vxe-table';
 import type { CreateTaskSchedulerParams, TaskSchedulerResult } from '#/api';
 
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-import {
-  confirm,
-  EllipsisText,
-  Page,
-  useVbenModal,
-  VbenButton,
-} from '@vben/common-ui';
+import { confirm, Page, useVbenModal, VbenButton } from '@vben/common-ui';
+import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   createTaskSchedulerApi,
   deleteTaskSchedulerApi,
   executeTaskSchedulerApi,
-  getAllTaskSchedulerApi,
+  getTaskSchedulerListApi,
   updateTaskSchedulerApi,
   updateTaskSchedulerStatusApi,
 } from '#/api';
 import { router } from '#/router';
 import { useWebSocketStore } from '#/store';
 
-import { schema } from './data';
+import { querySchema, schema, useColumns } from './data';
 
 const wsStore = useWebSocketStore();
 
 const taskWorkerStatus = ref<any[]>([]);
-const taskSchedulerList = ref<TaskSchedulerResult[]>();
 
-const fetchTaskSchedulerList = async () => {
-  try {
-    taskSchedulerList.value = await getAllTaskSchedulerApi();
-  } catch (error) {
-    console.error(error);
-  }
+const formOptions: VbenFormProps = {
+  collapsed: true,
+  showCollapseButton: true,
+  submitButtonOptions: {
+    content: $t('common.form.query'),
+  },
+  schema: querySchema,
 };
+
+function onActionClick({
+  code,
+  row,
+}: OnActionClickParams<TaskSchedulerResult>) {
+  switch (code) {
+    case 'delete': {
+      confirm({
+        icon: 'warning',
+        content: '确认删除此任务计划吗？',
+      }).then(async () => {
+        try {
+          await deleteTaskSchedulerApi(row.id);
+          message.success($t('ui.actionMessage.deleteSuccess'));
+          onRefresh();
+        } catch (error) {
+          console.error(error);
+        }
+      });
+      break;
+    }
+    case 'edit': {
+      modalApi.setData(row).open();
+      break;
+    }
+    case 'log': {
+      searchLog(row.task);
+      break;
+    }
+  }
+}
+
+const gridOptions: VxeTableGridOptions<TaskSchedulerResult> = {
+  rowConfig: {
+    keyField: 'id',
+  },
+  checkboxConfig: {
+    highlight: true,
+  },
+  height: 'auto',
+  exportConfig: {},
+  printConfig: {},
+  toolbarConfig: {
+    export: true,
+    print: true,
+    refresh: true,
+    refreshOptions: {
+      code: 'query',
+    },
+    custom: true,
+    zoom: true,
+  },
+  columns: useColumns(onActionClick),
+  proxyConfig: {
+    ajax: {
+      query: async ({ page }, formValues) => {
+        return await getTaskSchedulerListApi({
+          page: page.currentPage,
+          size: page.pageSize,
+          ...formValues,
+        });
+      },
+    },
+  },
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({ formOptions, gridOptions });
+
+function onRefresh() {
+  gridApi.query();
+}
 
 const [Form, formApi] = useVbenForm({
   wrapperClass: 'grid-cols-1 md:grid-cols-2',
@@ -91,7 +164,7 @@ const [Modal, modalApi] = useVbenModal({
         message.success($t('ui.actionMessage.operationSuccess'));
         await modalApi.close();
         await formApi.resetForm();
-        await fetchTaskSchedulerList();
+        onRefresh();
       } catch (error) {
         console.error(error);
       } finally {
@@ -118,21 +191,6 @@ const [Modal, modalApi] = useVbenModal({
   },
 });
 
-function deleteConfirm(pk: number) {
-  confirm({
-    icon: 'warning',
-    content: '确认删除此任务计划吗？',
-  }).then(async () => {
-    try {
-      await deleteTaskSchedulerApi(pk);
-      message.success($t('ui.actionMessage.deleteSuccess'));
-      await fetchTaskSchedulerList();
-    } catch (error) {
-      console.error(error);
-    }
-  });
-}
-
 const executeTask = async (pk: number) => {
   try {
     await executeTaskSchedulerApi(pk);
@@ -146,6 +204,16 @@ const searchLog = (task: string) => {
   router.replace({ path: `/scheduler/record`, query: { name: task } });
 };
 
+const handleStatusChange = async (row: TaskSchedulerResult) => {
+  try {
+    await updateTaskSchedulerStatusApi(row.id);
+    message.success($t('ui.actionMessage.operationSuccess'));
+    onRefresh();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 let cleanupWS: (() => void) | null = null;
 const intervalId = ref<any>(null);
 const emitWS = () => {
@@ -153,7 +221,6 @@ const emitWS = () => {
 };
 
 onMounted(async () => {
-  await fetchTaskSchedulerList();
   cleanupWS = wsStore.on('task_worker_status', (data: any[]) => {
     taskWorkerStatus.value = data;
   });
@@ -172,107 +239,45 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Page>
-    <VbenButton @click="() => modalApi.setData(null).open()">
-      创建任务
-    </VbenButton>
+  <Page auto-content-height>
+    <Grid>
+      <template #toolbar-actions>
+        <VbenButton @click="() => modalApi.setData(null).open()">
+          <MaterialSymbolsAdd class="size-5" />
+          创建任务
+        </VbenButton>
+      </template>
+      <template #schedule="{ row }">
+        <span>
+          <a-tag>{{ row.crontab }}</a-tag>
+        </span>
+      </template>
+      <template #enabled="{ row }">
+        <a-switch
+          v-model:checked="row.enabled"
+          :checked-value="true"
+          checked-children="启用"
+          un-checked-children="禁用"
+          @click="handleStatusChange(row)"
+        />
+      </template>
+      <template #total_run_count="{ row }">
+        {{ row.total_run_count }} 次
+      </template>
+      <template #execute="{ row }">
+        <a-tooltip
+          v-if="taskWorkerStatus.length === 0"
+          title="任务执行服务暂不可用，请联系系统管理员"
+        >
+          <a-button size="small" disabled>执行</a-button>
+        </a-tooltip>
+        <a-button v-else size="small" @click="executeTask(row.id)">
+          执行
+        </a-button>
+      </template>
+    </Grid>
     <Modal :title="modalTitle">
       <Form />
     </Modal>
-    <a-alert
-      v-if="taskWorkerStatus.length === 0"
-      class="mt-4"
-      message="任务执行服务暂不可用，请联系系统管理员"
-      type="warning"
-      show-icon
-    />
-    <div class="mt-4">
-      <!-- 网格容器 -->
-      <div class="grid gap-6 lg:grid-cols-4">
-        <a-card v-for="ts in taskSchedulerList" :key="ts.name">
-          <template #title>
-            {{ ts.name }}
-          </template>
-          <template #extra>
-            <a-switch
-              v-model:checked="ts.enabled"
-              :checked-value="true"
-              checked-children="启用"
-              un-checked-children="禁用"
-              @click="
-                updateTaskSchedulerStatusApi(ts.id).then(
-                  message.success($t('ui.actionMessage.operationSuccess')),
-                )
-              "
-            />
-          </template>
-          <template #actions>
-            <a-button size="small" danger @click="deleteConfirm(ts.id)">
-              删除
-            </a-button>
-            <a-button size="small" type="text" @click="searchLog(ts.task)">
-              日志
-            </a-button>
-            <a-button size="small" @click="modalApi.setData(ts).open()">
-              编辑
-            </a-button>
-            <a-button
-              size="small"
-              :disabled="taskWorkerStatus.length === 0"
-              @click="executeTask(ts.id)"
-            >
-              手动执行
-            </a-button>
-          </template>
-          <EllipsisText
-            tooltip-when-ellipsis
-            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
-          >
-            <span class="text-gray-500">任务调用：</span>
-            {{ ts.task }}
-            <template #tooltip>
-              {{ ts.task }}
-            </template>
-          </EllipsisText>
-          <p>
-            <span class="text-gray-500">开始时间：</span>
-            {{ ts.start_time || 'N/A' }}
-          </p>
-          <p>
-            <span class="text-gray-500">过期时间：</span>
-            {{ ts.expire_seconds ? `${ts.expire_seconds} seconds` : 'N/A' }}
-          </p>
-          <p>
-            <span class="text-gray-500">触发策略：</span>
-            <span v-if="ts.type === 0">
-              <a-tag :bordered="false" color="cyan">Interval</a-tag>
-              <a-tag>{{ ts.interval_every }} {{ ts.interval_period }} </a-tag>
-            </span>
-            <span v-else>
-              <a-tag :bordered="false" color="purple">Crontab</a-tag>
-              <a-tag>{{ ts.crontab }}</a-tag>
-            </span>
-          </p>
-          <p>
-            <span class="text-gray-500">最近执行：</span>
-            {{ ts.last_run_time || 'N/A' }}
-          </p>
-          <p>
-            <span class="text-gray-500"> 执行总计： </span>
-            {{ ts.total_run_count }} 次
-          </p>
-          <EllipsisText
-            tooltip-when-ellipsis
-            :tooltip-overlay-style="{ wordBreak: 'break-all' }"
-          >
-            <span class="text-gray-500">任务描述：</span>
-            {{ ts.remark || 'N/A' }}
-            <template #tooltip>
-              {{ ts.remark }}
-            </template>
-          </EllipsisText>
-        </a-card>
-      </div>
-    </div>
   </Page>
 </template>
