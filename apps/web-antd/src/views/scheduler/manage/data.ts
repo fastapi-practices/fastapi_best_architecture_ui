@@ -1,8 +1,119 @@
 import type { VbenFormSchema } from '#/adapter/form';
+import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
+import type { TaskSchedulerResult } from '#/api';
+
+import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
 import { getTaskRegisteredApi } from '#/api';
 import { DictEnum, getDictOptions } from '#/utils/dict';
+
+export const querySchema: VbenFormSchema[] = [
+  {
+    component: 'Input',
+    fieldName: 'name',
+    label: '任务名称',
+  },
+  {
+    component: 'Select',
+    componentProps: {
+      allowClear: true,
+      options: getDictOptions(DictEnum.TASK_STRATEGY_TYPE),
+    },
+    fieldName: 'type',
+    label: '策略类型',
+  },
+];
+
+export function useColumns(
+  onActionClick?: OnActionClickFn<TaskSchedulerResult>,
+): VxeGridProps['columns'] {
+  return [
+    {
+      field: 'seq',
+      title: $t('common.table.id'),
+      type: 'seq',
+      width: 50,
+    },
+    {
+      field: 'name',
+      title: '任务名称',
+      minWidth: 120,
+    },
+    {
+      field: 'task',
+      title: 'Celery 任务',
+      minWidth: 200,
+      showOverflow: true,
+    },
+    {
+      field: 'type',
+      title: '策略类型',
+      width: 150,
+      cellRender: {
+        name: 'CellTag',
+        options: getDictOptions(DictEnum.TASK_STRATEGY_TYPE),
+      },
+    },
+    {
+      field: 'schedule',
+      title: '触发策略',
+      minWidth: 150,
+      slots: { default: 'schedule' },
+      titleSuffix: {
+        icon: 'vxe-icon-question-circle-fill',
+        content:
+          'Crontab 表达式：https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html#crontab-schedules',
+      },
+    },
+    {
+      field: 'enabled',
+      title: '状态',
+      width: 100,
+      slots: { default: 'enabled' },
+    },
+    {
+      field: 'total_run_count',
+      title: '执行总计',
+      width: 100,
+      slots: { default: 'total_run_count' },
+    },
+    {
+      field: 'last_run_time',
+      title: '最近执行',
+      width: 168,
+    },
+    {
+      field: 'execute',
+      title: '手动执行',
+      align: 'center',
+      fixed: 'right',
+      width: 80,
+      slots: { default: 'execute' },
+    },
+    {
+      field: 'operation',
+      title: $t('common.table.operation'),
+      align: 'center',
+      fixed: 'right',
+      width: 160,
+      cellRender: {
+        attrs: {
+          onClick: onActionClick,
+        },
+        name: 'CellOperation',
+        options: [
+          {
+            code: 'log',
+            text: '日志',
+          },
+          'edit',
+          'delete',
+        ],
+      },
+    },
+  ];
+}
 
 export const schema: VbenFormSchema[] = [
   {

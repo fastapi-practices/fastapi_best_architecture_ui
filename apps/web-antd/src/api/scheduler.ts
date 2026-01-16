@@ -11,6 +11,13 @@ export interface TaskResultParams {
   size?: number;
 }
 
+export interface TaskSchedulerParams {
+  name?: string;
+  type?: number;
+  page?: number;
+  size?: number;
+}
+
 export interface TaskResult {
   id: number;
   task_id: string;
@@ -73,6 +80,13 @@ export async function deleteTaskResultApi(pks: number[]) {
 
 export async function getAllTaskSchedulerApi() {
   return requestClient.get<TaskSchedulerResult[]>('/api/v1/schedulers/all');
+}
+
+export async function getTaskSchedulerListApi(params?: TaskSchedulerParams) {
+  return requestClient.get<PaginationResult<TaskSchedulerResult>>(
+    '/api/v1/schedulers',
+    { params },
+  );
 }
 
 export async function getTaskSchedulerApi(pk: number) {
