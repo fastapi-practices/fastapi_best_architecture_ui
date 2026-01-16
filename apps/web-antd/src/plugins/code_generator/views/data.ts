@@ -40,46 +40,34 @@ export function useColumns(
     {
       field: 'doc_comment',
       title: '文档描述',
-      titlePrefix: { content: '用于 python 代码类、函数、参数文档' },
+      titleSuffix: { content: '用于 python 代码类、函数、参数文档' },
     },
     {
       field: 'class_name',
       title: '实体类名',
-      titlePrefix: {
+      titleSuffix: {
         content: '用于 python 代码基础类名',
       },
     },
     {
       field: 'schema_name',
       title: 'Schema 类名',
-      titlePrefix: {
+      titleSuffix: {
         content: '用于 python Schema 代码基础类名',
       },
     },
     {
       field: 'filename',
       title: '文件名',
-      titlePrefix: {
+      titleSuffix: {
         content: '用于 python 代码基础文件名',
       },
     },
-    {
-      field: 'default_datetime_column',
-      title: '默认时间列',
-      cellRender: {
-        name: 'CellTag',
-        // options: [
-        //   { color: 'success', label: $t('common.enabled'), value: true },
-        //   { color: 'error', label: $t('common.disabled'), value: false },
-        // ],
-        options: getDictOptions(DictEnum.SYS_CHOOSE),
-      },
-    },
-    { field: 'api_version', title: 'API 版本' },
+    { field: 'api_version', title: '版本' },
     {
       field: 'gen_path',
       title: '生成路径',
-      titlePrefix: {
+      titleSuffix: {
         content: '默认生成到 app 根路径，也可以自定义生成路径',
       },
       align: 'left',
