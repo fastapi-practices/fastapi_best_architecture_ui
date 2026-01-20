@@ -95,7 +95,7 @@ function onActionClick({
       drawerApi
         .setData({
           pk: row.id,
-          default_datetime_column: row.default_datetime_column,
+          datetime_mixin: row.datetime_mixin,
         })
         .open();
       break;
