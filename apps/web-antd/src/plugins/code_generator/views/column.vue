@@ -204,15 +204,9 @@ const [PreviewModal, previewModalApi] = useVbenModal({
           主键 ID 列状态：<a-tag color="success">自动生成</a-tag>
           默认时间列状态：
           <a-tag
-            :color="
-              drawerApi.getData().default_datetime_column
-                ? 'success'
-                : 'warning'
-            "
+            :color="drawerApi.getData().datetime_mixin ? 'success' : 'warning'"
           >
-            {{
-              drawerApi.getData().default_datetime_column ? '已配置' : '未配置'
-            }}
+            {{ drawerApi.getData().datetime_mixin ? '已配置' : '未配置' }}
           </a-tag>
         </template>
       </a-alert>

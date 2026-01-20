@@ -199,7 +199,7 @@ export const editSchema: VbenFormSchema[] = [
       options: getDictOptions(DictEnum.SYS_CHOOSE),
       optionType: 'button',
     },
-    fieldName: 'default_datetime_column',
+    fieldName: 'datetime_mixin',
     label: '默认时间列',
     rules: 'required',
   },

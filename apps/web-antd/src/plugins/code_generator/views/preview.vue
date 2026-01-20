@@ -142,8 +142,8 @@ function copyCodeContent(code: string) {
         auto-content-height
         :height-offset="-35"
         :resizable="false"
-        :left-width="20"
-        :right-width="80"
+        :left-width="30"
+        :right-width="70"
       >
         <template #left>
           <div class="mr-2 h-full overflow-y-auto">
@@ -170,7 +170,7 @@ function copyCodeContent(code: string) {
           :language="language"
         />
         <a-button
-          class="fixed right-16 top-24"
+          class="fixed right-12 top-24"
           @click="copyCodeContent(codeContent)"
         >
           复制
