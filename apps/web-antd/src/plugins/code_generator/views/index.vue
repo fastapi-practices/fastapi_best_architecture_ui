@@ -11,7 +11,7 @@ import type {
   CodeGenBusinessResult,
 } from '#/plugins/code_generator/api';
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { Page, useVbenDrawer, useVbenModal, VbenButton } from '@vben/common-ui';
 import { MaterialSymbolsAdd } from '@vben/icons';
@@ -22,6 +22,7 @@ import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
+  createCodeGenBusinessApi,
   deleteCodeGenBusinessApi,
   getCodeGenBusinessListApi,
   importCodeGenDbTableApi,
@@ -101,8 +102,7 @@ function onActionClick({
       break;
     }
     case 'edit': {
-      checkedCodeGenBusiness.value = row.id;
-      editModalApi.setData(row).open();
+      modalApi.setData(row).open();
       break;
     }
   }
@@ -137,38 +137,53 @@ const [ImportModal, importModalApi] = useVbenModal({
   },
 });
 
-const [EditForm, editFormApi] = useVbenForm({
+const [Form, formApi] = useVbenForm({
   wrapperClass: 'grid-cols-1 md:grid-cols-2',
   showDefaultActions: false,
   schema: editSchema,
 });
 
-const checkedCodeGenBusiness = ref<number>(0);
+interface formCodeGenBusinessParams extends CodeGenBusinessParams {
+  id?: number;
+}
 
-const [EditModal, editModalApi] = useVbenModal({
+const formData = ref<formCodeGenBusinessParams>();
+
+const modalTitle = computed(() => {
+  return formData.value?.id
+    ? $t('ui.actionTitle.edit', ['代码生成业务'])
+    : $t('ui.actionTitle.create', ['代码生成业务']);
+});
+
+const [Modal, modalApi] = useVbenModal({
   class: 'w-5/12',
   destroyOnClose: true,
   async onConfirm() {
-    const { valid } = await editFormApi.validate();
+    const { valid } = await formApi.validate();
     if (valid) {
-      editModalApi.lock();
-      const data = await editFormApi.getValues<CodeGenBusinessParams>();
+      modalApi.lock();
+      const data = await formApi.getValues<CodeGenBusinessParams>();
       try {
-        await updateCodeGenBusinessApi(checkedCodeGenBusiness.value, data);
+        await (formData.value?.id
+          ? updateCodeGenBusinessApi(formData.value.id, data)
+          : createCodeGenBusinessApi(data));
         message.success($t('ui.actionMessage.operationSuccess'));
-        await editModalApi.close();
+        await modalApi.close();
         onRefresh();
       } finally {
-        editModalApi.unlock();
+        modalApi.unlock();
       }
     }
   },
   onOpenChange(isOpen) {
     if (isOpen) {
-      const data = editModalApi.getData<CodeGenBusinessParams>();
-      editFormApi.resetForm();
+      const data = modalApi.getData<formCodeGenBusinessParams>();
+      formApi.resetForm();
       if (data) {
-        editFormApi.setValues(data);
+        formData.value = data;
+        formApi.setValues(formData.value);
+      } else {
+        formData.value = undefined;
       }
     }
   },
@@ -183,18 +198,26 @@ const [Drawer, drawerApi] = useVbenDrawer({
   <Page auto-content-height>
     <Grid>
       <template #toolbar-actions>
-        <VbenButton @click="importModalApi.setData(null).open()">
+        <VbenButton @click="() => modalApi.setData(null).open()">
+          <MaterialSymbolsAdd class="size-5" />
+          添加
+        </VbenButton>
+        <VbenButton
+          class="ml-2"
+          variant="outline"
+          @click="importModalApi.setData(null).open()"
+        >
           <MaterialSymbolsAdd class="size-5" />
           导入
         </VbenButton>
       </template>
     </Grid>
+    <Modal :title="modalTitle">
+      <Form />
+    </Modal>
     <ImportModal title="导入表">
       <ImportForm />
     </ImportModal>
-    <EditModal title="修改代码生成业务">
-      <EditForm />
-    </EditModal>
     <Drawer />
   </Page>
 </template>

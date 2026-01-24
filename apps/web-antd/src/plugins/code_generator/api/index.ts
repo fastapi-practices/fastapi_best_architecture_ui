@@ -20,6 +20,7 @@ export interface CodeGenBusinessParams {
   filename?: string;
   datetime_mixin?: boolean;
   api_version?: string;
+  tag?: string;
   gen_path?: string;
   remark?: string;
 }

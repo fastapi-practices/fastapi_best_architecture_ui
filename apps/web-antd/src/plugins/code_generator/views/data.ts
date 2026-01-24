@@ -65,6 +65,13 @@ export function useColumns(
     },
     { field: 'api_version', title: '版本' },
     {
+      field: 'tag',
+      title: '标签',
+      titleSuffix: {
+        content: '用于 API 文档分组标签',
+      },
+    },
+    {
       field: 'gen_path',
       title: '生成路径',
       titleSuffix: {
@@ -186,6 +193,11 @@ export const editSchema: VbenFormSchema[] = [
     fieldName: 'api_version',
     label: 'API 版本',
     rules: 'required',
+  },
+  {
+    component: 'Input',
+    fieldName: 'tag',
+    label: '标签',
   },
   {
     component: 'RadioGroup',
