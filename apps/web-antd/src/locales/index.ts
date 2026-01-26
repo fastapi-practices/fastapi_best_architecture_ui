@@ -107,4 +107,55 @@ async function setupI18n(app: App, options: LocaleSetupOptions = {}) {
   });
 }
 
-export { $t, antdLocale, setupI18n };
+/**
+ * 根据译文反向查找key
+ * @param keyword 搜索关键字
+ */
+async function findKeysByTranslation(keyword: string): Promise<string[]> {
+  if (!keyword) return [];
+
+  const keys = new Set<string>();
+
+  // Helper to traverse object and find keys
+  const traverse = (obj: any, prefix = '') => {
+    for (const [key, value] of Object.entries(obj)) {
+      const currentKey = prefix ? `${prefix}.${key}` : key;
+      if (typeof value === 'string') {
+        if (value.includes(keyword)) {
+          keys.add(currentKey);
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        traverse(value, currentKey);
+      }
+    }
+  };
+
+  // Get all available languages from the maps
+  const appLangs = Object.keys(localesMap);
+  const pluginLangs = Object.keys(pluginLocalesMap);
+  const allLangs = [
+    ...new Set([...appLangs, ...pluginLangs]),
+  ] as SupportedLanguagesType[];
+
+  // Load all messages
+  for (const lang of allLangs) {
+    try {
+      const [appLocaleMessages, pluginLocalMessages] = await Promise.all([
+        localesMap[lang]?.(),
+        pluginLocalesMap[lang]?.(),
+      ]);
+
+      const messages = {
+        ...appLocaleMessages?.default,
+        ...pluginLocalMessages?.default,
+      };
+      traverse(messages);
+    } catch (error) {
+      console.warn(`Failed to search keys in lang ${lang}`, error);
+    }
+  }
+
+  return [...keys];
+}
+
+export { $t, antdLocale, findKeysByTranslation, setupI18n };

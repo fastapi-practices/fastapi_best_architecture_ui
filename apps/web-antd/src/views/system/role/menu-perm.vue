@@ -20,6 +20,7 @@ import {
   updateSysRoleDataScopesApi,
   updateSysRoleMenuApi,
 } from '#/api';
+import { findKeysByTranslation } from '#/locales';
 
 import {
   drawerColumns,
@@ -113,6 +114,12 @@ const gridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
   proxyConfig: {
     ajax: {
       query: async (_, formValues) => {
+        if (formValues.title) {
+          const keys = await findKeysByTranslation(formValues.title);
+          if (keys.length > 0) {
+            formValues.title_keys = keys.join(',');
+          }
+        }
         return await getSysMenuTreeApi(formValues);
       },
     },

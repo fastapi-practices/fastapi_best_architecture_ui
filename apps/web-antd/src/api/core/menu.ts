@@ -45,6 +45,7 @@ export interface SysMenuParams {
 
 export interface SysMenuTreeParams {
   title?: string;
+  title_keys?: string;
   status: number;
 }
 
