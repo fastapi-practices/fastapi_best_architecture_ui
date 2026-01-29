@@ -2,16 +2,12 @@
 import { MdiGithub, MdiGoogle } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import {
-  getOAuth2Github,
-  getOAuth2Google,
-  getOAuth2LinuxDo,
-} from '#/plugins/oauth2/api';
+import { getOAuth2Github, getOAuth2Google } from '#/plugins/oauth2/api';
 
 defineOptions({ name: 'OAuth2Login' });
 
 interface OAuth2Source {
-  source: 'Github' | 'Google' | 'LinuxDo';
+  source: 'Github' | 'Google';
 }
 
 const OAuth2 = async (oa: OAuth2Source) => {
@@ -23,10 +19,6 @@ const OAuth2 = async (oa: OAuth2Source) => {
       }
       case 'Google': {
         window.location.href = await getOAuth2Google();
-        break;
-      }
-      case 'LinuxDo': {
-        window.location.href = await getOAuth2LinuxDo();
         break;
       }
       // No default
@@ -52,13 +44,6 @@ const OAuth2 = async (oa: OAuth2Source) => {
       </a-button>
       <a-button class="mb-3" type="ghost" @click="OAuth2({ source: 'Google' })">
         <MdiGoogle class="size-6" />
-      </a-button>
-      <a-button
-        class="mb-3"
-        type="ghost"
-        @click="OAuth2({ source: 'LinuxDo' })"
-      >
-        <img src="https://linux.do/logo-24.svg" />
       </a-button>
     </div>
   </div>

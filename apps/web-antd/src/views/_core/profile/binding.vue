@@ -31,12 +31,6 @@ const securityOptions = computed(() => [
     status: bindings.value?.includes('Google'),
     statusString: bindings.value?.includes('Google') ? '已绑定' : '未绑定',
   },
-  {
-    source: 'LinuxDo',
-    description: '绑定 LinuxDo 账号',
-    status: bindings.value?.includes('LinuxDo'),
-    statusString: bindings.value?.includes('LinuxDo') ? '已绑定' : '未绑定',
-  },
 ]);
 
 const getBindings = async () => {
@@ -60,12 +54,6 @@ const OAuth2Binding = async (ob: OAuth2BindingParams) => {
         break;
       }
       case 'Google': {
-        window.location.href = await getOAuth2BindingAuthUrl({
-          source: ob.source,
-        });
-        break;
-      }
-      case 'LinuxDo': {
         window.location.href = await getOAuth2BindingAuthUrl({
           source: ob.source,
         });
@@ -128,11 +116,6 @@ onMounted(() => {
               <MdiGoogle
                 v-if="item.source === 'Google'"
                 class="mt-1.5 size-8"
-              />
-              <img
-                v-if="item.source === 'LinuxDo'"
-                src="https://linux.do/logo-32.svg"
-                class="mt-1.5"
               />
             </template>
             <template #title>
