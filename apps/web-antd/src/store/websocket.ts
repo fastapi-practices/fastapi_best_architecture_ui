@@ -103,6 +103,10 @@ export const useWebSocketStore = defineStore('websocket', () => {
       );
     });
 
+    socket.value.io.on('reconnect', () => {
+      isConnected.value = true;
+    });
+
     socket.value.io.on('reconnect_failed', () => {
       console.error('WebSocket 重连失败，已达到最大重连次数');
       isConnected.value = false;
@@ -132,8 +136,8 @@ export const useWebSocketStore = defineStore('websocket', () => {
    * @param data 发送的数据
    */
   const emit = (event: string, data?: any): boolean => {
-    if (!socket.value) {
-      console.warn('WebSocket 未初始化');
+    if (!socket.value || !isConnected.value) {
+      console.warn('WebSocket 未连接');
       return false;
     }
 
