@@ -51,7 +51,7 @@
         "redis_mode": "Mode",
         "role": "Role",
         "tcp_port": "TCP Port",
-        "uptime_in_days": "Uptime (Days)",
+        "uptime": "Uptime",
         "connected_clients": "Connected Clients",
         "blocked_clients": "Blocked Clients",
         "used_memory_human": "Used Memory",

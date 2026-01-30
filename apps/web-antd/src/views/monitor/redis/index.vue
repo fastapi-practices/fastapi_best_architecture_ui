@@ -50,8 +50,8 @@ const redisDescriptionItems = computed(() => [
     value: redisInfo.value?.tcp_port,
   },
   {
-    label: $t('page.monitor.redis.info.uptime_in_days'),
-    value: redisInfo.value?.uptime_in_days,
+    label: $t('page.monitor.redis.info.uptime'),
+    value: redisInfo.value?.uptime,
   },
   {
     label: $t('page.monitor.redis.info.connected_clients'),

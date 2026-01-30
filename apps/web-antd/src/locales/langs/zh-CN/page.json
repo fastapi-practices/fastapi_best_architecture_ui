@@ -51,7 +51,7 @@
         "redis_mode": "运行模式",
         "role": "节点角色",
         "tcp_port": "监听端口",
-        "uptime_in_days": "运行天数",
+        "uptime": "运行时长",
         "connected_clients": "已连接客户端数",
         "blocked_clients": "阻塞客户端数",
         "used_memory_human": "已使用内存",
