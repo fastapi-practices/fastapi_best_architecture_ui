@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 
 import type { EchartsUIType } from '@vben/plugins/echarts';
 
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 
@@ -18,7 +18,7 @@ const props = defineProps({
 const chartRef = ref<EchartsUIType>();
 const { renderEcharts } = useEcharts(chartRef);
 
-onMounted(() => {
+const renderChart = () => {
   renderEcharts({
     progress: {
       show: true,
@@ -53,7 +53,19 @@ onMounted(() => {
       formatter: '{a} <br/>{b} : {c} M',
     },
   });
+};
+
+onMounted(() => {
+  renderChart();
 });
+
+watch(
+  () => props.memory,
+  () => {
+    renderChart();
+  },
+  { deep: true },
+);
 </script>
 
 <template>

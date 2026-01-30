@@ -37,7 +37,7 @@ const serviceData = computed(() => {
   if (setServerData.value.service) {
     Object.keys(setServerData.value.service).forEach((key) => {
       data.push({
-        label: key,
+        label: $t(`page.monitor.server.service.${key}`),
         value: setServerData.value.service[key],
       });
     });
@@ -50,7 +50,7 @@ const osData = computed(() => {
   if (setServerData.value.system) {
     Object.keys(setServerData.value.system).forEach((key) => {
       data.push({
-        label: key,
+        label: $t(`page.monitor.server.system.${key}`),
         value: setServerData.value.system[key],
       });
     });
@@ -118,7 +118,7 @@ onMounted(async () => {
   <div class="flex flex-col items-center px-6">
     <div class="mt-6 flex w-full space-x-6">
       <div class="flex-1">
-        <a-card :loading="loading" title="CPU">
+        <a-card :loading="loading" :title="$t('page.monitor.server.cpu.title')">
           <div class="mt-6 flex w-full space-x-6 px-6">
             <div class="flex-1">
               <a-statistic
@@ -190,7 +190,10 @@ onMounted(async () => {
       </div>
     </div>
     <div class="mt-6 w-full space-y-6">
-      <a-card :loading="loading" :title="$t('page.monitor.server.service')">
+      <a-card
+        :loading="loading"
+        :title="$t('page.monitor.server.service.title')"
+      >
         <a-descriptions>
           <a-descriptions-item
             v-for="item in serviceData"
@@ -201,7 +204,10 @@ onMounted(async () => {
           </a-descriptions-item>
         </a-descriptions>
       </a-card>
-      <a-card :loading="loading" :title="$t('page.monitor.server.system')">
+      <a-card
+        :loading="loading"
+        :title="$t('page.monitor.server.system.title')"
+      >
         <a-descriptions size="middle" :column="4">
           <a-descriptions-item
             v-for="item in osData"

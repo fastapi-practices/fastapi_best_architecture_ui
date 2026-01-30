@@ -45,59 +45,69 @@
           "title": "Memory Status"
         }
       },
-      "desc": {
-        "title": "Basic Information"
-      },
       "info": {
-        "arch": "Arch",
-        "clients": "Connections",
-        "commands_processed": "Commands Processed",
-        "connections_received": "Connections Received",
-        "keys_command_stats": "Keys Stats",
-        "keys_num": "Keys Num",
-        "memory_human": "Allocated Memory",
-        "mode": "Mode",
-        "os": "OS",
-        "rejected_connections": "Rejected Connections",
+        "title": "Server Info",
+        "redis_version": "Version",
+        "redis_mode": "Mode",
         "role": "Role",
-        "title": "Basic Info",
+        "tcp_port": "TCP Port",
         "uptime": "Uptime",
-        "used_cpu": "Used CPU",
-        "used_cpu_children": "Used CPU Children",
-        "version": "Version"
-      },
-      "stats": {
-        "title": {
-          "used_memory": "Used Memory"
-        }
+        "connected_clients": "Connected Clients",
+        "blocked_clients": "Blocked Clients",
+        "used_memory_human": "Used Memory",
+        "used_memory_rss_human": "RSS Memory",
+        "maxmemory_human": "Max Memory",
+        "mem_fragmentation_ratio": "Fragmentation Ratio",
+        "total_commands_processed": "Commands Processed",
+        "instantaneous_ops_per_sec": "Ops/Sec",
+        "rejected_connections": "Rejected Connections",
+        "keys_num": "Keys"
       }
     },
     "server": {
       "cpu": {
-        "current_freq": "Current Freq",
-        "logical_num": "Logical Num",
-        "physical_num": "Physical Num",
-        "usage": "Usage"
+        "title": "CPU",
+        "current_freq": "Current Freq (MHz)",
+        "logical_num": "Logical Cores",
+        "physical_num": "Physical Cores",
+        "usage": "CPU Usage"
       },
       "disk": {
-        "device": "Device",
-        "dir": "Dir",
-        "free": "Free",
         "title": "Disk",
+        "device": "Device",
+        "dir": "Mount Point",
+        "free": "Free",
         "total": "Total",
         "type": "Type",
         "usage": "Usage",
         "used": "Used"
       },
       "memory": {
-        "free": "Free",
         "title": "Memory",
+        "free": "Free",
         "total": "Total",
         "usage": "Usage",
         "used": "Used"
       },
-      "service": "Service",
-      "system": "System"
+      "service": {
+        "title": "Service Info",
+        "name": "Service Name",
+        "version": "Version",
+        "home": "Home Path",
+        "cpu_usage": "CPU Usage",
+        "mem_vms": "Virtual Memory",
+        "mem_rss": "Physical Memory",
+        "mem_free": "Free Memory",
+        "startup": "Startup Time",
+        "elapsed": "Elapsed Time"
+      },
+      "system": {
+        "title": "System Info",
+        "name": "Hostname",
+        "ip": "IP Address",
+        "os": "OS",
+        "arch": "Architecture"
+      }
     }
   }
 }

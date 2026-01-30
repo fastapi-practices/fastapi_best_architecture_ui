@@ -13,7 +13,7 @@ const redisStats = ref<Record<string, any>[]>([]);
 const usedMemory = ref<number>(0);
 const redisUsedMemory = computed(() => [
   {
-    name: $t('page.monitor.redis.stats.title.used_memory'),
+    name: $t('page.monitor.redis.info.used_memory_human'),
     value: usedMemory.value,
   },
 ]);
@@ -34,19 +34,11 @@ fetchRedisData();
 
 const redisDescriptionItems = computed(() => [
   {
-    label: $t('page.monitor.redis.info.version'),
+    label: $t('page.monitor.redis.info.redis_version'),
     value: redisInfo.value?.redis_version,
   },
   {
-    label: $t('page.monitor.redis.info.os'),
-    value: redisInfo.value?.os,
-  },
-  {
-    label: $t('page.monitor.redis.info.arch'),
-    value: redisInfo.value?.arch_bits,
-  },
-  {
-    label: $t('page.monitor.redis.info.mode'),
+    label: $t('page.monitor.redis.info.redis_mode'),
     value: redisInfo.value?.redis_mode,
   },
   {
@@ -54,52 +46,80 @@ const redisDescriptionItems = computed(() => [
     value: redisInfo.value?.role,
   },
   {
-    label: $t('page.monitor.redis.info.memory_human'),
+    label: $t('page.monitor.redis.info.tcp_port'),
+    value: redisInfo.value?.tcp_port,
+  },
+  {
+    label: $t('page.monitor.redis.info.uptime'),
+    value: redisInfo.value?.uptime,
+  },
+  {
+    label: $t('page.monitor.redis.info.connected_clients'),
+    value: redisInfo.value?.connected_clients,
+  },
+  {
+    label: $t('page.monitor.redis.info.blocked_clients'),
+    value: redisInfo.value?.blocked_clients,
+  },
+  {
+    label: $t('page.monitor.redis.info.used_memory_human'),
     value: redisInfo.value?.used_memory_human,
   },
   {
-    label: $t('page.monitor.redis.info.connections_received'),
-    value: redisInfo.value?.total_connections_received,
+    label: $t('page.monitor.redis.info.used_memory_rss_human'),
+    value: redisInfo.value?.used_memory_rss_human,
   },
   {
-    label: $t('page.monitor.redis.info.clients'),
-    value: redisInfo.value?.blocked_clients,
+    label: $t('page.monitor.redis.info.maxmemory_human'),
+    value: redisInfo.value?.maxmemory_human,
+  },
+  {
+    label: $t('page.monitor.redis.info.mem_fragmentation_ratio'),
+    value: redisInfo.value?.mem_fragmentation_ratio,
+  },
+  {
+    label: $t('page.monitor.redis.info.total_commands_processed'),
+    value: redisInfo.value?.total_commands_processed,
+  },
+  {
+    label: $t('page.monitor.redis.info.instantaneous_ops_per_sec'),
+    value: redisInfo.value?.instantaneous_ops_per_sec,
   },
   {
     label: $t('page.monitor.redis.info.rejected_connections'),
     value: redisInfo.value?.rejected_connections,
   },
   {
-    label: $t('page.monitor.redis.info.commands_processed'),
-    value: redisInfo.value?.total_commands_processed,
-  },
-  {
-    label: $t('page.monitor.redis.info.keys_command_stats'),
-    value:
-      Number(redisInfo.value?.keyspace_hits) +
-      Number(redisInfo.value?.keyspace_misses),
-  },
-  {
     label: $t('page.monitor.redis.info.keys_num'),
     value: redisInfo.value?.keys_num,
   },
-  {
-    label: $t('page.monitor.redis.info.used_cpu'),
-    value: redisInfo.value?.used_cpu_sys,
-  },
-  {
-    label: $t('page.monitor.redis.info.used_cpu_children'),
-    value: redisInfo.value?.used_cpu_sys_children,
-  },
-  {
-    label: $t('page.monitor.redis.info.uptime'),
-    value: redisInfo.value?.uptime_in_seconds,
-  },
 ]);
+
+const parseMemoryToMB = (memStr: string): number => {
+  if (!memStr) return 0;
+  const match = memStr.match(/^([\d.]+)([BKMG]?)$/i);
+  if (!match || !match[1]) return 0;
+  const value = Number.parseFloat(match[1]);
+  const unit = (match[2] || 'B').toUpperCase();
+  switch (unit) {
+    case 'G': {
+      return value * 1024;
+    }
+    case 'K': {
+      return value / 1024;
+    }
+    case 'M': {
+      return value;
+    }
+    default: {
+      return value / 1024 / 1024;
+    }
+  }
+};
 
 watch(redisInfo, (val) => {
   usedMemory.value = Number.parseFloat(
-    (Number(val.used_memory) / 1024 / 1024).toFixed(2),
+    parseMemoryToMB(val.used_memory_human).toFixed(2),
   );
 });
 </script>
@@ -107,7 +127,7 @@ watch(redisInfo, (val) => {
 <template>
   <div class="flex flex-col items-center px-4">
     <div class="mt-4 w-full">
-      <a-card :title="$t('page.monitor.redis.desc.title')" :loading="loading">
+      <a-card :title="$t('page.monitor.redis.info.title')" :loading="loading">
         <a-descriptions>
           <a-descriptions-item
             v-for="item in redisDescriptionItems"
