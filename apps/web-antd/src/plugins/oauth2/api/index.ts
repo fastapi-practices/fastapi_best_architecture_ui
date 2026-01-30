@@ -8,7 +8,7 @@ export interface OAuth2BindingResult {
 }
 
 export interface OAuth2BindingParams {
-  source: 'Github' | 'Google' | 'LinuxDo';
+  source: 'Github' | 'Google';
 }
 
 export async function getOAuth2Github() {
@@ -17,10 +17,6 @@ export async function getOAuth2Github() {
 
 export async function getOAuth2Google() {
   return requestClient.get<string>('/api/v1/oauth2/google');
-}
-
-export async function getOAuth2LinuxDo() {
-  return requestClient.get<string>('/api/v1/oauth2/linux-do');
 }
 
 export async function getOAuth2Bindings() {
