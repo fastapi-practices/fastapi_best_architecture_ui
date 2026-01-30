@@ -157,7 +157,7 @@ onMounted(() => {
               {{ info.plugin.version }}
             </p>
             <span @click="deleteConfirm(info.plugin.name)">
-              <a-button size="small" danger>卸载</a-button>
+              <a-button type="dashed" size="small" danger>卸载</a-button>
             </span>
             <span @click="downloadConfirm(info.plugin.name)">
               <a-button size="small">打包</a-button>
