@@ -8,7 +8,7 @@ import type { ClassType, MaybeComputedRef } from '@vben-core/typings';
 
 import type { FormApi } from './form-api';
 
-export type FormLayout = 'horizontal' | 'vertical';
+export type FormLayout = 'horizontal' | 'inline' | 'vertical';
 
 export type BaseFormComponentType =
   | 'DefaultButton'
@@ -255,6 +255,8 @@ export interface FormSchema<
   fieldName: string;
   /** 帮助信息 */
   help?: CustomRenderType;
+  /** 是否隐藏表单项 */
+  hide?: boolean;
   /** 表单项 */
   label?: CustomRenderType;
   // 自定义组件内部渲染
@@ -277,7 +279,8 @@ export interface FormRenderProps<
    */
   arrayToStringFields?: ArrayToStringFields;
   /**
-   * 是否展开，在showCollapseButton=true下生效
+   * 是否折叠，在showCollapseButton=true下生效
+   * true:折叠 false:展开
    */
   collapsed?: boolean;
   /**
@@ -347,9 +350,9 @@ export interface ActionButtonOptions extends VbenButtonProps {
 export interface VbenFormProps<
   T extends BaseFormComponentType = BaseFormComponentType,
 > extends Omit<
-    FormRenderProps<T>,
-    'componentBindEventMap' | 'componentMap' | 'form'
-  > {
+  FormRenderProps<T>,
+  'componentBindEventMap' | 'componentMap' | 'form'
+> {
   /**
    * 操作按钮是否反转（提交按钮前置）
    */
@@ -376,6 +379,10 @@ export interface VbenFormProps<
    * 表单字段映射
    */
   fieldMappingTime?: FieldMappingTime;
+  /**
+   * 表单收起展开状态变化回调
+   */
+  handleCollapsedChange?: (collapsed: boolean) => void;
   /**
    * 表单重置回调
    */

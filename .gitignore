@@ -49,6 +49,7 @@ vite.config.ts.*
 *.sln
 *.sw?
 .history
+.cursor
 
 # 升级 vben 时需要删除的文件(夹)
 .github
@@ -57,6 +58,7 @@ vite.config.ts.*
 backend-mock
 web-ele
 web-naive
+web-tdesign
 docs
 playground
 scripts/deploy/build-local-docker-image.sh

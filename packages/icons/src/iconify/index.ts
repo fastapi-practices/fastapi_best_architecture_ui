@@ -4,16 +4,6 @@ export * from '@vben-core/icons';
 
 export const MdiKeyboardEsc = createIconifyIcon('mdi:keyboard-esc');
 
-export const MdiWechat = createIconifyIcon('mdi:wechat');
-
-export const MdiGithub = createIconifyIcon('mdi:github');
-
-export const MdiGoogle = createIconifyIcon('logos:google-icon');
-
-export const MdiQqchat = createIconifyIcon('mdi:qqchat');
-
-export const RiDingding = createIconifyIcon('ri:dingding-fill');
-
 export const MaterialSymbolsAdd = createIconifyIcon('material-symbols:add');
 
 export const MaterialSymbolsEdit = createIconifyIcon('material-symbols:edit');

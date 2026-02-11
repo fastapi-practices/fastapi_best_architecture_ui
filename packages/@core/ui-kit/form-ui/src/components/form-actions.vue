@@ -47,7 +47,7 @@ async function handleSubmit(e: Event) {
     return;
   }
 
-  const values = toRaw(await props.formApi.getValues());
+  const values = toRaw(await props.formApi.getValues()) ?? {};
   await props.handleSubmit?.(values);
 }
 
@@ -56,7 +56,7 @@ async function handleReset(e: Event) {
   e?.stopPropagation();
   const props = unref(rootProps);
 
-  const values = toRaw(await props.formApi?.getValues());
+  const values = toRaw(await props.formApi?.getValues()) ?? {};
 
   if (isFunction(props.handleReset)) {
     await props.handleReset?.(values);
@@ -82,11 +82,11 @@ const actionWrapperClass = computed(() => {
 
   const cls = [
     'flex',
-    'w-full',
     'items-center',
     'gap-3',
     props.compact ? 'pb-2' : 'pb-4',
     props.layout === 'vertical' ? 'self-end' : 'self-center',
+    props.layout === 'inline' ? '' : 'w-full',
     props.actionWrapperClass,
   ];
 
