@@ -64,7 +64,7 @@ export function useColumns(
       },
     },
     { field: 'title', title: '操作标题', align: 'left', width: 200 },
-    { field: 'path', title: '请求路径', align: 'left', width: 300 },
+    { field: 'path', title: '请求路径', align: 'left', width: 250 },
     { field: 'browser', title: '浏览器' },
     {
       field: 'status',

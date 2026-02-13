@@ -4,6 +4,8 @@ import type {
   SysUpdateUserNicknameParams,
 } from '#/api';
 
+import { computed } from 'vue';
+
 import { useVbenModal } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { useUserStore } from '@vben/stores';
@@ -83,6 +85,32 @@ const [nicknameModal, nicknameModalApi] = useVbenModal({
     }
   },
 });
+
+const basicInfoItems = computed(() => [
+  {
+    key: 'username',
+    label: '用户名',
+    content: userStore.userInfo?.username,
+  },
+  {
+    key: 'phone',
+    label: '手机',
+    content: userStore.userInfo?.phone || '暂无',
+  },
+  {
+    key: 'email',
+    label: '邮箱',
+    content: userStore.userInfo?.email,
+  },
+  {
+    key: 'dept',
+    label: '部门',
+  },
+  {
+    key: 'roles',
+    label: '角色',
+  },
+]);
 </script>
 
 <template>
@@ -120,36 +148,29 @@ const [nicknameModal, nicknameModalApi] = useVbenModal({
         <p class="text-sm text-gray-500">{{ userStore.userInfo?.id }}</p>
       </div>
     </div>
-    <a-descriptions class="ml-6" :column="1">
-      <a-descriptions-item label="用户名">
-        {{ userStore.userInfo?.username }}
-      </a-descriptions-item>
-      <a-descriptions-item label="手机">
-        {{ userStore.userInfo?.phone || '暂无' }}
-      </a-descriptions-item>
-      <a-descriptions-item label="邮箱">
-        {{ userStore.userInfo?.email }}
-      </a-descriptions-item>
-      <a-descriptions-item label="部门">
-        <span v-if="userStore.userInfo?.dept">
-          <a-tag :key="userStore.userInfo?.dept" color="green">
-            {{ userStore.userInfo?.dept }}
-          </a-tag>
-        </span>
-        <span v-else>未绑定</span>
-      </a-descriptions-item>
-      <a-descriptions-item label="角色">
-        <div class="flex flex-wrap gap-2">
-          <a-tag
-            v-for="role in userStore.userInfo?.roles"
-            :key="role"
-            color="purple"
-            class="whitespace-nowrap"
-          >
-            {{ role }}
-          </a-tag>
-        </div>
-      </a-descriptions-item>
+    <a-descriptions class="ml-6" :column="1" :items="basicInfoItems">
+      <template #contentRender="{ item }">
+        <template v-if="item.key === 'dept'">
+          <span v-if="userStore.userInfo?.dept">
+            <a-tag :key="userStore.userInfo?.dept" color="green">
+              {{ userStore.userInfo?.dept }}
+            </a-tag>
+          </span>
+          <span v-else>未绑定</span>
+        </template>
+        <template v-else-if="item.key === 'roles'">
+          <div class="flex flex-wrap gap-2">
+            <a-tag
+              v-for="role in userStore.userInfo?.roles"
+              :key="role"
+              color="purple"
+              class="whitespace-nowrap"
+            >
+              {{ role }}
+            </a-tag>
+          </div>
+        </template>
+      </template>
     </a-descriptions>
     <template #actions>
       最后登录时间：{{ userStore.userInfo?.last_login_time }}

@@ -34,64 +34,79 @@ fetchRedisData();
 
 const redisDescriptionItems = computed(() => [
   {
+    key: 'redis_version',
     label: $t('page.monitor.redis.info.redis_version'),
-    value: redisInfo.value?.redis_version,
+    content: redisInfo.value?.redis_version,
   },
   {
+    key: 'redis_mode',
     label: $t('page.monitor.redis.info.redis_mode'),
-    value: redisInfo.value?.redis_mode,
+    content: redisInfo.value?.redis_mode,
   },
   {
+    key: 'role',
     label: $t('page.monitor.redis.info.role'),
-    value: redisInfo.value?.role,
+    content: redisInfo.value?.role,
   },
   {
+    key: 'tcp_port',
     label: $t('page.monitor.redis.info.tcp_port'),
-    value: redisInfo.value?.tcp_port,
+    content: redisInfo.value?.tcp_port,
   },
   {
+    key: 'uptime',
     label: $t('page.monitor.redis.info.uptime'),
-    value: redisInfo.value?.uptime,
+    content: redisInfo.value?.uptime,
   },
   {
+    key: 'connected_clients',
     label: $t('page.monitor.redis.info.connected_clients'),
-    value: redisInfo.value?.connected_clients,
+    content: redisInfo.value?.connected_clients,
   },
   {
+    key: 'blocked_clients',
     label: $t('page.monitor.redis.info.blocked_clients'),
-    value: redisInfo.value?.blocked_clients,
+    content: redisInfo.value?.blocked_clients,
   },
   {
+    key: 'used_memory_human',
     label: $t('page.monitor.redis.info.used_memory_human'),
-    value: redisInfo.value?.used_memory_human,
+    content: redisInfo.value?.used_memory_human,
   },
   {
+    key: 'used_memory_rss_human',
     label: $t('page.monitor.redis.info.used_memory_rss_human'),
-    value: redisInfo.value?.used_memory_rss_human,
+    content: redisInfo.value?.used_memory_rss_human,
   },
   {
+    key: 'maxmemory_human',
     label: $t('page.monitor.redis.info.maxmemory_human'),
-    value: redisInfo.value?.maxmemory_human,
+    content: redisInfo.value?.maxmemory_human,
   },
   {
+    key: 'mem_fragmentation_ratio',
     label: $t('page.monitor.redis.info.mem_fragmentation_ratio'),
-    value: redisInfo.value?.mem_fragmentation_ratio,
+    content: redisInfo.value?.mem_fragmentation_ratio,
   },
   {
+    key: 'total_commands_processed',
     label: $t('page.monitor.redis.info.total_commands_processed'),
-    value: redisInfo.value?.total_commands_processed,
+    content: redisInfo.value?.total_commands_processed,
   },
   {
+    key: 'instantaneous_ops_per_sec',
     label: $t('page.monitor.redis.info.instantaneous_ops_per_sec'),
-    value: redisInfo.value?.instantaneous_ops_per_sec,
+    content: redisInfo.value?.instantaneous_ops_per_sec,
   },
   {
+    key: 'rejected_connections',
     label: $t('page.monitor.redis.info.rejected_connections'),
-    value: redisInfo.value?.rejected_connections,
+    content: redisInfo.value?.rejected_connections,
   },
   {
+    key: 'keys_num',
     label: $t('page.monitor.redis.info.keys_num'),
-    value: redisInfo.value?.keys_num,
+    content: redisInfo.value?.keys_num,
   },
 ]);
 
@@ -128,15 +143,7 @@ watch(redisInfo, (val) => {
   <div class="flex flex-col items-center px-4">
     <div class="mt-4 w-full">
       <a-card :title="$t('page.monitor.redis.info.title')" :loading="loading">
-        <a-descriptions>
-          <a-descriptions-item
-            v-for="item in redisDescriptionItems"
-            :label="item.label"
-            :key="item.label"
-          >
-            {{ item.value }}
-          </a-descriptions-item>
-        </a-descriptions>
+        <a-descriptions :items="redisDescriptionItems" />
       </a-card>
     </div>
     <div class="mt-4 flex w-full space-x-4">

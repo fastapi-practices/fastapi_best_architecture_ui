@@ -37,8 +37,9 @@ const serviceData = computed(() => {
   if (setServerData.value.service) {
     Object.keys(setServerData.value.service).forEach((key) => {
       data.push({
+        key,
         label: $t(`page.monitor.server.service.${key}`),
-        value: setServerData.value.service[key],
+        content: setServerData.value.service[key],
       });
     });
   }
@@ -50,8 +51,9 @@ const osData = computed(() => {
   if (setServerData.value.system) {
     Object.keys(setServerData.value.system).forEach((key) => {
       data.push({
+        key,
         label: $t(`page.monitor.server.system.${key}`),
-        value: setServerData.value.system[key],
+        content: setServerData.value.system[key],
       });
     });
   }
@@ -194,29 +196,13 @@ onMounted(async () => {
         :loading="loading"
         :title="$t('page.monitor.server.service.title')"
       >
-        <a-descriptions>
-          <a-descriptions-item
-            v-for="item in serviceData"
-            :label="item.label"
-            :key="item.label"
-          >
-            {{ item.value }}
-          </a-descriptions-item>
-        </a-descriptions>
+        <a-descriptions :items="serviceData" />
       </a-card>
       <a-card
         :loading="loading"
         :title="$t('page.monitor.server.system.title')"
       >
-        <a-descriptions size="middle" :column="4">
-          <a-descriptions-item
-            v-for="item in osData"
-            :label="item.label"
-            :key="item.label"
-          >
-            {{ item.value }}
-          </a-descriptions-item>
-        </a-descriptions>
+        <a-descriptions size="middle" :column="4" :items="osData" />
       </a-card>
       <a-card :loading="loading" :title="$t('page.monitor.server.disk.title')">
         <Grid />

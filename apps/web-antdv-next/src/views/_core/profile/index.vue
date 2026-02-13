@@ -42,9 +42,6 @@ const onTabChange = (value: string) => {
       </div>
     </template>
     <a-card
-      :head-style="{
-        borderBottom: 'none',
-      }"
       :tab-list="tabList"
       :active-tab-key="tabKey"
       @tab-change="(key: string) => onTabChange(key)"

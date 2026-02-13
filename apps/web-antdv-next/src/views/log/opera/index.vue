@@ -8,7 +8,7 @@ import type {
 } from '#/adapter/vxe-table';
 import type { LoginLogResult, OperaLogResult } from '#/api';
 
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import {
   confirm,
@@ -108,6 +108,39 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
 const operaLogDetails = ref<OperaLogResult>();
 
+const operaLogDescItems = computed(() => {
+  const d = operaLogDetails.value;
+  return [
+    { key: 'trace_id', label: '追踪 ID', content: d?.trace_id },
+    { key: 'username', label: '用户名', content: d?.username },
+    { key: 'method', label: '请求方法', content: d?.method },
+    { key: 'path', label: '请求路径', content: d?.path },
+    { key: 'title', label: '操作标题', content: d?.title },
+    { key: 'os', label: '操作系统', content: d?.os },
+    { key: 'device', label: '设备', content: d?.device },
+    { key: 'browser', label: '浏览器', content: d?.browser },
+    { key: 'ip', label: '请求 IP', content: d?.ip },
+    {
+      key: 'country',
+      label: '国家',
+      content: d?.country === 'None' || !d?.country ? 'N/A' : d?.country,
+    },
+    {
+      key: 'region',
+      label: '地区',
+      content: d?.region === 'None' || !d?.region ? 'N/A' : d?.region,
+    },
+    { key: 'city', label: '城市', content: d?.city },
+    { key: 'code', label: '状态码', content: d?.code },
+    { key: 'status', label: '状态' },
+    { key: 'opera_time', label: '操作时间', content: d?.opera_time },
+    { key: 'cost_time', label: '耗时' },
+    { key: 'user_agent', label: '用户代理', content: d?.user_agent, span: 2 },
+    { key: 'args', label: '请求参数', span: 2 },
+    { key: 'msg', label: '响应消息', content: d?.msg },
+  ];
+});
+
 const checkedRows = ref<number[]>([]);
 const deleteDisable = ref<boolean>(true);
 const deleteLoading = ref<boolean>(false);
@@ -152,93 +185,38 @@ watch(checkedRows, () => {
       </template>
     </Grid>
     <Drawer title="操作日志详情">
-      <a-descriptions
-        class="ml-1"
-        :label-style="{ color: '#6b7280' }"
-        :column="2"
-      >
-        <a-descriptions-item label="追踪 ID">
-          {{ operaLogDetails?.trace_id }}
-        </a-descriptions-item>
-        <a-descriptions-item label="用户名">
-          {{ operaLogDetails?.username }}
-        </a-descriptions-item>
-        <a-descriptions-item label="请求方法">
-          {{ operaLogDetails?.method }}
-        </a-descriptions-item>
-        <a-descriptions-item label="请求路径">
-          {{ operaLogDetails?.path }}
-        </a-descriptions-item>
-        <a-descriptions-item label="操作标题">
-          {{ operaLogDetails?.title }}
-        </a-descriptions-item>
-        <a-descriptions-item label="操作系统">
-          {{ operaLogDetails?.os }}
-        </a-descriptions-item>
-        <a-descriptions-item label="设备">
-          {{ operaLogDetails?.device }}
-        </a-descriptions-item>
-        <a-descriptions-item label="浏览器">
-          {{ operaLogDetails?.browser }}
-        </a-descriptions-item>
-        <a-descriptions-item label="请求 IP">
-          {{ operaLogDetails?.ip }}
-        </a-descriptions-item>
-        <a-descriptions-item label="国家">
-          {{
-            operaLogDetails?.country === 'None' || !operaLogDetails?.country
-              ? 'N/A'
-              : operaLogDetails?.country
-          }}
-        </a-descriptions-item>
-        <a-descriptions-item label="地区">
-          {{
-            operaLogDetails?.region === 'None' || !operaLogDetails?.region
-              ? 'N/A'
-              : operaLogDetails?.region
-          }}
-        </a-descriptions-item>
-        <a-descriptions-item label="城市">
-          {{ operaLogDetails?.city }}
-        </a-descriptions-item>
-        <a-descriptions-item label="状态码">
-          {{ operaLogDetails?.code }}
-        </a-descriptions-item>
-        <a-descriptions-item label="状态">
-          <a-tag v-if="operaLogDetails?.status === 1" color="success">
-            成功
-          </a-tag>
-          <a-tag v-else color="error"> 失败 </a-tag>
-        </a-descriptions-item>
-        <a-descriptions-item label="操作时间">
-          {{ operaLogDetails?.opera_time }}
-        </a-descriptions-item>
-        <a-descriptions-item label="耗时">
-          <a-tag v-if="(operaLogDetails?.cost_time || 0) < 200" color="success">
-            {{ operaLogDetails?.cost_time }} ms
-          </a-tag>
-          <a-tag v-else color="warning">
-            {{ operaLogDetails?.cost_time }} ms
-          </a-tag>
-        </a-descriptions-item>
-        <a-descriptions-item label="用户代理" :span="2">
-          {{ operaLogDetails?.user_agent }}
-        </a-descriptions-item>
-        <a-descriptions-item label="请求参数" :span="2">
-          <JsonViewer
-            class="mr-8 w-full"
-            :value="operaLogDetails?.args"
-            :copyable="!!operaLogDetails?.args"
-            boxed
-            expanded
-            :expand-depth="3"
-            :show-array-index="false"
-            @copied="message.success('已复制请求参数')"
-          />
-        </a-descriptions-item>
-        <a-descriptions-item label="响应消息">
-          {{ operaLogDetails?.msg }}
-        </a-descriptions-item>
+      <a-descriptions class="ml-1" :column="2" :items="operaLogDescItems">
+        <template #contentRender="{ item }">
+          <template v-if="item.key === 'status'">
+            <a-tag v-if="operaLogDetails?.status === 1" color="success">
+              成功
+            </a-tag>
+            <a-tag v-else color="error"> 失败 </a-tag>
+          </template>
+          <template v-else-if="item.key === 'cost_time'">
+            <a-tag
+              v-if="(operaLogDetails?.cost_time || 0) < 200"
+              color="success"
+            >
+              {{ operaLogDetails?.cost_time }} ms
+            </a-tag>
+            <a-tag v-else color="warning">
+              {{ operaLogDetails?.cost_time }} ms
+            </a-tag>
+          </template>
+          <template v-else-if="item.key === 'args'">
+            <JsonViewer
+              class="mr-8 w-full"
+              :value="operaLogDetails?.args"
+              :copyable="!!operaLogDetails?.args"
+              boxed
+              expanded
+              :expand-depth="3"
+              :show-array-index="false"
+              @copied="message.success('已复制请求参数')"
+            />
+          </template>
+        </template>
       </a-descriptions>
     </Drawer>
   </Page>
