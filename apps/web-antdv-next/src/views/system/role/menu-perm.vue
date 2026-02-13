@@ -29,6 +29,10 @@ import {
 import ExtraDataRuleDrawer from './data-perm.vue';
 
 const activeKey = ref('0');
+const tabItems = [
+  { key: '0', label: '菜单权限' },
+  { key: '1', label: '数据权限' },
+];
 const clickRow = ref<number>(0);
 const defaultCheckedRoleMenuKeys = ref<number[]>([]);
 const checkStrictly = ref<boolean>(true);
@@ -172,7 +176,17 @@ const dataScopeGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
     autoLoad: false,
     ajax: {
       query: async () => {
-        return await getSysDataScopesApi();
+        const [data, checkedKeys] = await Promise.all([
+          getSysDataScopesApi(),
+          getSysRoleDataScopesApi(clickRow.value),
+        ]);
+        defaultCheckedDataScopesKeys.value = checkedKeys;
+        dataScopeGridApi.setGridOptions({
+          checkboxConfig: {
+            checkRowKeys: checkedKeys,
+          },
+        });
+        return data;
       },
     },
   },
@@ -197,14 +211,6 @@ function onActionClick({ code, row }: OnActionClickParams<SysDataScopeResult>) {
 
 watch(activeKey, async (newValue) => {
   if (newValue === '1') {
-    defaultCheckedDataScopesKeys.value = await getSysRoleDataScopesApi(
-      clickRow.value,
-    );
-    dataScopeGridApi.setGridOptions({
-      checkboxConfig: {
-        checkRowKeys: defaultCheckedDataScopesKeys.value,
-      },
-    });
     await dataScopeGridApi.query();
   }
 });
@@ -218,57 +224,59 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
 </script>
 <template>
   <Drawer>
-    <a-tabs v-model:active-key="activeKey" type="card">
-      <a-tab-pane key="0" tab="菜单权限">
-        <Grid>
-          <template #toolbar-actions>
-            <a-radio-group
-              v-model:value="checkStrictly"
-              class="h-8"
-              button-style="solid"
-            >
-              <a-radio-button :value="true">父子独立</a-radio-button>
-              <a-radio-button :value="false">父子联动</a-radio-button>
-            </a-radio-group>
-            <a-alert class="mx-2 h-8" type="info">
-              <template #message>
-                <div>
-                  已关联
-                  <span class="mx-1 font-semibold text-primary">
-                    {{ defaultCheckedRoleMenuKeys.length }}
-                  </span>
-                  个节点（非实时）
-                </div>
-              </template>
-            </a-alert>
-          </template>
-          <template #toolbar-tools>
-            <a-button class="mr-2" type="primary" @click="expandAll">
-              展开全部
-            </a-button>
-            <a-button type="primary" @click="collapseAll">折叠全部</a-button>
-          </template>
-        </Grid>
-      </a-tab-pane>
-      <a-tab-pane key="1" tab="数据权限">
-        <div class="h-[775px]">
-          <DataScopeGrid>
+    <a-tabs v-model:active-key="activeKey" type="card" :items="tabItems">
+      <template #contentRender="{ item }">
+        <template v-if="item.key === '0'">
+          <Grid>
             <template #toolbar-actions>
-              <a-alert class="h-8" type="info">
+              <a-radio-group
+                v-model:value="checkStrictly"
+                class="h-8"
+                button-style="solid"
+              >
+                <a-radio-button :value="true">父子独立</a-radio-button>
+                <a-radio-button :value="false">父子联动</a-radio-button>
+              </a-radio-group>
+              <a-alert class="mx-2 h-8" type="info">
                 <template #message>
                   <div>
                     已关联
                     <span class="mx-1 font-semibold text-primary">
-                      {{ defaultCheckedDataScopesKeys.length }}
+                      {{ defaultCheckedRoleMenuKeys.length }}
                     </span>
-                    个数据范围节点（非实时）
+                    个节点（非实时）
                   </div>
                 </template>
               </a-alert>
             </template>
-          </DataScopeGrid>
-        </div>
-      </a-tab-pane>
+            <template #toolbar-tools>
+              <a-button class="mr-2" type="primary" @click="expandAll">
+                展开全部
+              </a-button>
+              <a-button type="primary" @click="collapseAll">折叠全部</a-button>
+            </template>
+          </Grid>
+        </template>
+        <template v-else-if="item.key === '1'">
+          <div class="h-[775px]">
+            <DataScopeGrid>
+              <template #toolbar-actions>
+                <a-alert class="h-8" type="info">
+                  <template #message>
+                    <div>
+                      已关联
+                      <span class="mx-1 font-semibold text-primary">
+                        {{ defaultCheckedDataScopesKeys.length }}
+                      </span>
+                      个数据范围节点（非实时）
+                    </div>
+                  </template>
+                </a-alert>
+              </template>
+            </DataScopeGrid>
+          </div>
+        </template>
+      </template>
     </a-tabs>
   </Drawer>
   <DataRuleDrawer />
