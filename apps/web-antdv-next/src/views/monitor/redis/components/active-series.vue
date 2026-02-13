@@ -10,7 +10,6 @@ import { EchartsUI, useEcharts } from '@vben/plugins/echarts';
 const props = defineProps({
   memory: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true,
     default: () => [] as Record<string, any>[],
   },
 });

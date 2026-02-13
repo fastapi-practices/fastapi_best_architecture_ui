@@ -11,7 +11,6 @@ import { usePreferences } from '@vben/preferences';
 const props = defineProps({
   stats: {
     type: Array as PropType<Record<string, any>[]>,
-    required: true,
     default: () => [] as Record<string, any>[],
   },
 });

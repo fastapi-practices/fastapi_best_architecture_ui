@@ -43,9 +43,9 @@
     "@vueuse/core": "catalog:",
     "antdv-next": "catalog:",
     "dayjs": "catalog:",
-    "mitt": "^3.0.1",
+    "mitt": "catalog:",
     "pinia": "catalog:",
-    "socket.io-client": "^4.8.1",
+    "socket.io-client": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
   }
