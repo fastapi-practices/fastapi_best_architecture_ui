@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { h, nextTick, onMounted, ref, watch } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
@@ -12,6 +12,25 @@ const activeKey = ref('0');
 const userSecurityRef = ref();
 const loginRef = ref();
 const emailRef = ref();
+
+const tabItems = [
+  {
+    key: '0',
+    label: '安全配置',
+    icon: () => h('span', { class: 'icon-[carbon--security] -mb-1 size-5' }),
+  },
+  {
+    key: '1',
+    label: '登录配置',
+    icon: () =>
+      h('span', { class: 'icon-[majesticons--lock-line] -mb-1 size-5' }),
+  },
+  {
+    key: '2',
+    label: '邮件配置',
+    icon: () => h('span', { class: 'icon-[ic--outline-email] -mb-1 size-5' }),
+  },
+];
 
 watch(activeKey, async (newValue) => {
   if (newValue === '0') {
@@ -46,36 +65,21 @@ onMounted(async () => {
   <Page auto-content-height>
     <a-card
       class="h-full overflow-y-auto rounded-[var(--radius)]"
-      :bordered="false"
+      variant="borderless"
     >
       <a-tabs
         class="h-full"
         v-model:active-key="activeKey"
-        tab-position="left"
+        tab-placement="start"
         animated
         :tab-bar-style="{ width: '16%' }"
+        :items="tabItems"
       >
-        <a-tab-pane key="0">
-          <template #tab>
-            <span class="icon-[carbon--security] -mb-1 size-5"></span>
-            安全配置
-          </template>
-          <UserSecurity ref="userSecurityRef" />
-        </a-tab-pane>
-        <a-tab-pane key="1">
-          <template #tab>
-            <span class="icon-[majesticons--lock-line] -mb-1 size-5"></span>
-            登录配置
-          </template>
-          <Login ref="loginRef" />
-        </a-tab-pane>
-        <a-tab-pane key="2">
-          <template #tab>
-            <span class="icon-[ic--outline-email] -mb-1 size-5"></span>
-            邮件配置
-          </template>
-          <Email ref="emailRef" />
-        </a-tab-pane>
+        <template #contentRender="{ item }">
+          <UserSecurity v-if="item.key === '0'" ref="userSecurityRef" />
+          <Login v-else-if="item.key === '1'" ref="loginRef" />
+          <Email v-else-if="item.key === '2'" ref="emailRef" />
+        </template>
       </a-tabs>
     </a-card>
   </Page>

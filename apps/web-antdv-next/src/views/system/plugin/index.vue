@@ -126,14 +126,18 @@ onMounted(() => {
     <a-alert
       v-show="pluginChanged"
       class="mt-4"
-      message="检测到插件状态存在变更，为了确保系统能够正常运行，请尽快联系系统管理员进行相关调整"
+      title="检测到插件状态存在变更，为了确保系统能够正常运行，请尽快联系系统管理员进行相关调整"
       type="warning"
       show-icon
     />
     <div class="mt-4">
       <!-- 网格容器 -->
       <div class="grid gap-6 lg:grid-cols-4">
-        <a-card v-for="info in pluginInfo" :key="info.plugin.name">
+        <a-card
+          v-for="info in pluginInfo"
+          :key="info.plugin.name"
+          class="flex flex-col [&>.ant-card-body]:flex-1"
+        >
           <template #title>
             {{ info.plugin.summary }}
             <span class="ml-1 text-sm">
@@ -141,7 +145,6 @@ onMounted(() => {
             </span>
           </template>
           <p>{{ info.plugin.description }}</p>
-          <br />
           <template #extra>
             <a-switch
               v-model:checked="info.plugin.enable"

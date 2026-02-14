@@ -50,7 +50,7 @@ const [Grid] = useVbenVxeGrid({
     <Grid>
       <template #toolbar-actions>
         <a-alert class="mb-2" type="warning" show-icon>
-          <template #message>
+          <template #title>
             此页面仅用于数据展示，如需操作，请前往 【系统管理】 -> 【数据权限】
           </template>
         </a-alert>

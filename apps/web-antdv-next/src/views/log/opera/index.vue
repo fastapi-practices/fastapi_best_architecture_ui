@@ -185,7 +185,12 @@ watch(checkedRows, () => {
       </template>
     </Grid>
     <Drawer title="操作日志详情">
-      <a-descriptions class="ml-1" :column="2" :items="operaLogDescItems">
+      <a-descriptions
+        :styles="{ label: { color: '#6b7280' } }"
+        class="ml-1"
+        :column="2"
+        :items="operaLogDescItems"
+      >
         <template #contentRender="{ item }">
           <template v-if="item.key === 'status'">
             <a-tag v-if="operaLogDetails?.status === 1" color="success">

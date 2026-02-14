@@ -65,7 +65,6 @@ export function useColumns(
     },
     { field: 'title', title: '操作标题', align: 'left', width: 200 },
     { field: 'path', title: '请求路径', align: 'left', width: 250 },
-    { field: 'browser', title: '浏览器' },
     {
       field: 'status',
       title: '状态',
@@ -78,7 +77,6 @@ export function useColumns(
         options: getDictOptions(DictEnum.SYS_LOGIN_STATUS),
       },
     },
-    { field: 'code', title: '状态码' },
     { field: 'cost_time', title: '耗时（ms）' },
     { field: 'opera_time', title: '操作时间' },
     {

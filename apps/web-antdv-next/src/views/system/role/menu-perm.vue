@@ -238,7 +238,7 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
                 <a-radio-button :value="false">父子联动</a-radio-button>
               </a-radio-group>
               <a-alert class="mx-2 h-8" type="info">
-                <template #message>
+                <template #title>
                   <div>
                     已关联
                     <span class="mx-1 font-semibold text-primary">
@@ -262,7 +262,7 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
             <DataScopeGrid>
               <template #toolbar-actions>
                 <a-alert class="h-8" type="info">
-                  <template #message>
+                  <template #title>
                     <div>
                       已关联
                       <span class="mx-1 font-semibold text-primary">

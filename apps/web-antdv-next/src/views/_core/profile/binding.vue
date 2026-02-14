@@ -88,37 +88,23 @@ onMounted(() => {
 
 <template>
   <a-spin :spinning="loading">
-    <a-list :data-source="securityOptions" :split="false" class="-ml-4">
-      <template #renderItem="{ item }">
-        <a-list-item>
-          <template #actions>
-            <a-button
-              v-if="!item.status"
-              type="primary"
-              @click="OAuth2Binding({ source: item.source })"
-            >
-              绑定
-            </a-button>
-            <a-button
-              v-else
-              danger
-              @click="deleteConfirm({ source: item.source })"
-            >
-              解绑
-            </a-button>
-          </template>
-          <a-list-item-meta :description="item.description">
-            <template #avatar>
-              <SvgGithubIcon
-                v-if="item.source === 'Github'"
-                class="mt-1.5 size-8"
-              />
-              <SvgGoogleIcon
-                v-if="item.source === 'Google'"
-                class="mt-1.5 size-8"
-              />
-            </template>
-            <template #title>
+    <div class="-ml-4">
+      <div
+        v-for="(item, index) in securityOptions"
+        :key="index"
+        class="flex items-center justify-between px-4 py-3"
+      >
+        <div class="flex items-center gap-4">
+          <SvgGithubIcon
+            v-if="item.source === 'Github'"
+            class="mt-1.5 size-8"
+          />
+          <SvgGoogleIcon
+            v-if="item.source === 'Google'"
+            class="mt-1.5 size-8"
+          />
+          <div>
+            <div>
               {{ item.source }}
               <span
                 class="ml-2 text-xs"
@@ -126,10 +112,21 @@ onMounted(() => {
               >
                 {{ item.statusString }}
               </span>
-            </template>
-          </a-list-item-meta>
-        </a-list-item>
-      </template>
-    </a-list>
+            </div>
+            <div class="text-sm text-gray-500">{{ item.description }}</div>
+          </div>
+        </div>
+        <a-button
+          v-if="!item.status"
+          type="primary"
+          @click="OAuth2Binding({ source: item.source })"
+        >
+          绑定
+        </a-button>
+        <a-button v-else danger @click="deleteConfirm({ source: item.source })">
+          解绑
+        </a-button>
+      </div>
+    </div>
   </a-spin>
 </template>

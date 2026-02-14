@@ -126,7 +126,7 @@ onMounted(async () => {
               <a-statistic
                 :title="$t('page.monitor.server.cpu.usage')"
                 :value="cpuData.usage"
-                :value-style="usageStyle('cpu')"
+                :styles="{ content: usageStyle('cpu') }"
                 suffix=" %"
               />
             </div>
@@ -183,7 +183,7 @@ onMounted(async () => {
               <a-statistic
                 :title="$t('page.monitor.server.memory.usage')"
                 :value="memData.usage"
-                :value-style="usageStyle('memory')"
+                :styles="{ content: usageStyle('memory') }"
                 suffix=" %"
               />
             </div>

@@ -114,12 +114,7 @@ const basicInfoItems = computed(() => [
 </script>
 
 <template>
-  <a-card
-    title="基本信息"
-    :head-style="{
-      borderBottom: 'none',
-    }"
-  >
+  <a-card title="基本信息" :styles="{ header: { borderBottom: 'none' } }">
     <div class="mb-8 mt-2 text-center">
       <a-tooltip>
         <template #title>点击上传头像</template>

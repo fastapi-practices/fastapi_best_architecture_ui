@@ -219,7 +219,7 @@ const [PreviewModal, previewModalApi] = useVbenModal({
     <Grid />
     <template #extra>
       <a-alert :show-icon="false" class="mr-3">
-        <template #message>
+        <template #title>
           主键 ID 列状态：<a-tag color="success">自动生成</a-tag>
           默认时间列状态：
           <a-tag

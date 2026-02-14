@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Key } from 'antdv-next/dist/table/interface';
-
 import type { Component } from 'vue';
 
 import type { Recordable } from '@vben/types';
@@ -108,8 +106,8 @@ function findIcon(path: string) {
   return markRaw(defaultFolderIcon);
 }
 
-function handleSelect(selectedKeys: Key[]) {
-  const [currentFile = ''] = selectedKeys as string[];
+function handleSelect(selectedKeys: string[]) {
+  const [currentFile = ''] = selectedKeys;
   const currentCode = codes.value?.[currentFile];
   if (!currentCode) return;
 

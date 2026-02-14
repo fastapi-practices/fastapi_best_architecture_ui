@@ -66,7 +66,7 @@ catalog:
   '@vueuse/core': ^14.1.0
   '@vueuse/integrations': ^14.1.0
   '@vueuse/motion': ^3.0.3
-  antdv-next: ^1.0.2
+  antdv-next: ^1.0.3
   archiver: ^7.0.1
   autoprefixer: ^10.4.24
   axios: ^1.13.4
@@ -122,6 +122,7 @@ catalog:
   lefthook: ^2.1.0
   lodash.clonedeep: ^4.5.0
   lucide-vue-next: ^0.553.0
+  md-editor-v3: ^6.3.1
   mitt: ^3.0.1
   nitropack: ^2.13.1
   nprogress: ^0.2.0
@@ -167,7 +168,6 @@ catalog:
   turbo: ^2.8.3
   typescript: ^5.9.3
   unbuild: ^3.6.1
-  vditor: ^3.11.1
   vee-validate: ^4.15.1
   vite: ^7.3.1
   vite-plugin-compression: ^0.5.1

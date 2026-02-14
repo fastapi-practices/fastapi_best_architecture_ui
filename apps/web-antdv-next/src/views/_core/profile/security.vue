@@ -163,26 +163,20 @@ const openModal = (type: string) => {
 </script>
 
 <template>
-  <a-list :data-source="securityOptions" :split="false" class="-ml-4">
-    <template #renderItem="{ item }">
-      <a-list-item>
-        <template #actions>
-          <VbenButton
-            :variant="item.status ? 'outline' : 'default'"
-            @click="openModal(item.type)"
-          >
-            {{ item.status ? '修改' : '绑定' }}
-          </VbenButton>
-        </template>
-        <a-list-item-meta :description="item.description">
-          <template #avatar>
-            <a-avatar size="large">
-              <template #icon>
-                <span :class="item.class"></span>
-              </template>
-            </a-avatar>
+  <div class="-ml-4">
+    <div
+      v-for="(item, index) in securityOptions"
+      :key="index"
+      class="flex items-center justify-between px-4 py-3"
+    >
+      <div class="flex items-center gap-4">
+        <a-avatar size="large">
+          <template #icon>
+            <span :class="item.class"></span>
           </template>
-          <template #title>
+        </a-avatar>
+        <div>
+          <div>
             {{ item.title }}
             <span
               class="ml-2 text-xs"
@@ -190,11 +184,18 @@ const openModal = (type: string) => {
             >
               {{ item.statusString }}
             </span>
-          </template>
-        </a-list-item-meta>
-      </a-list-item>
-    </template>
-  </a-list>
+          </div>
+          <div class="text-sm text-gray-500">{{ item.description }}</div>
+        </div>
+      </div>
+      <VbenButton
+        :variant="item.status ? 'outline' : 'default'"
+        @click="openModal(item.type)"
+      >
+        {{ item.status ? '修改' : '绑定' }}
+      </VbenButton>
+    </div>
+  </div>
   <phoneModal title="绑定手机号">
     <phoneForm />
   </phoneModal>
