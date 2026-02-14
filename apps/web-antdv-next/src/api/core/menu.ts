@@ -73,14 +73,43 @@ export async function getSysMenuTreeApi(params: SysMenuTreeParams) {
     });
   };
 
+  const filterMenuTree = (
+    menuData: SysMenuTreeResult[],
+    keyword: string,
+  ): SysMenuTreeResult[] => {
+    const lowerKeyword = keyword.toLowerCase();
+    const result: SysMenuTreeResult[] = [];
+    for (const item of menuData) {
+      const filteredChildren = item.children?.length
+        ? filterMenuTree(item.children, keyword)
+        : [];
+      const isMatch = item.title.toLowerCase().includes(lowerKeyword);
+      if (isMatch || filteredChildren.length > 0) {
+        result.push({
+          ...item,
+          children: isMatch ? item.children : filteredChildren,
+        });
+      }
+    }
+    return result;
+  };
+
+  const { title, ...restParams } = params;
+
   const data = await requestClient.get<SysMenuTreeResult[]>(
     '/api/v1/sys/menus',
     {
-      params,
+      params: restParams,
     },
   );
 
-  return transformMenuTitles(data);
+  const translatedData = transformMenuTitles(data);
+
+  if (title) {
+    return filterMenuTree(translatedData, title);
+  }
+
+  return translatedData;
 }
 
 export async function createSysMenuApi(data: SysMenuParams) {
