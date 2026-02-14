@@ -1,0 +1,114 @@
+{
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "codeLogin": "验证码登录",
+    "qrcodeLogin": "二维码登录",
+    "forgetPassword": "忘记密码",
+    "captchaPlaceholder": "请输入验证码",
+    "captchaRequired": "验证码是必须的",
+    "profile": "个人中心"
+  },
+  "dashboard": {
+    "title": "概览",
+    "analytics": "分析页",
+    "workspace": "工作台"
+  },
+  "menu": {
+    "system": "系统管理",
+    "scheduler": "任务调度",
+    "schedulerManage": "任务管理",
+    "schedulerRecord": "执行记录",
+    "log": "日志管理",
+    "login": "登录日志",
+    "monitor": "系统监控",
+    "opera": "操作日志",
+    "online": "在线用户",
+    "redis": "Redis",
+    "server": "服务器",
+    "sysDataPermission": "数据权限",
+    "sysDataScope": "数据范围",
+    "sysDataRule": "数据规则",
+    "sysPlugin": "插件管理",
+    "sysDept": "部门管理",
+    "sysMenu": "菜单管理",
+    "sysRole": "角色管理",
+    "sysUser": "用户管理",
+    "profile": "个人中心"
+  },
+  "monitor": {
+    "redis": {
+      "cards": {
+        "commands": {
+          "title": "命令统计"
+        },
+        "memory": {
+          "title": "内存使用"
+        }
+      },
+      "info": {
+        "title": "服务器信息",
+        "redis_version": "版本",
+        "redis_mode": "运行模式",
+        "role": "节点角色",
+        "tcp_port": "监听端口",
+        "uptime": "运行时长",
+        "connected_clients": "已连接客户端数",
+        "blocked_clients": "阻塞客户端数",
+        "used_memory_human": "已使用内存",
+        "used_memory_rss_human": "RSS 内存",
+        "maxmemory_human": "最大内存限制",
+        "mem_fragmentation_ratio": "内存碎片率",
+        "total_commands_processed": "命令处理总数",
+        "instantaneous_ops_per_sec": "每秒操作数",
+        "rejected_connections": "拒绝连接数",
+        "keys_num": "键总数"
+      }
+    },
+    "server": {
+      "cpu": {
+        "title": "CPU 信息",
+        "current_freq": "当前频率 (MHz)",
+        "logical_num": "逻辑核心数",
+        "physical_num": "物理核心数",
+        "usage": "CPU 使用率"
+      },
+      "disk": {
+        "title": "磁盘信息",
+        "device": "设备名称",
+        "dir": "挂载点",
+        "free": "可用",
+        "total": "总容量",
+        "type": "文件系统类型",
+        "usage": "使用率",
+        "used": "已使用"
+      },
+      "memory": {
+        "free": "可用",
+        "title": "内存信息",
+        "total": "总量",
+        "usage": "使用率",
+        "used": "已使用"
+      },
+      "service": {
+        "title": "服务信息",
+        "name": "服务名称",
+        "version": "版本",
+        "home": "安装路径",
+        "cpu_usage": "CPU 使用率",
+        "mem_vms": "虚拟内存",
+        "mem_rss": "物理内存",
+        "mem_free": "可用内存",
+        "startup": "启动时间",
+        "elapsed": "运行时长"
+      },
+      "system": {
+        "title": "系统信息",
+        "name": "主机名",
+        "ip": "IP 地址",
+        "os": "操作系统",
+        "arch": "系统架构"
+      }
+    }
+  }
+}

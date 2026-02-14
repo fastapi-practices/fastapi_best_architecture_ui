@@ -1,0 +1,114 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "codeLogin": "Code Login",
+    "qrcodeLogin": "Qr Code Login",
+    "forgetPassword": "Forget Password",
+    "captchaPlaceholder": "Please enter the captcha",
+    "captchaRequired": "The captcha is required",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "analytics": "Analytics",
+    "workspace": "Workspace"
+  },
+  "menu": {
+    "system": "System",
+    "scheduler": "Scheduler",
+    "schedulerManage": "Manage",
+    "schedulerRecord": "Record",
+    "log": "System Log",
+    "login": "Login",
+    "monitor": "System Monitor",
+    "opera": "Opera",
+    "online": "Online",
+    "redis": "Redis",
+    "server": "Server",
+    "sysDataPermission": "Data Permission",
+    "sysDataScope": "Data Scope",
+    "sysDataRule": "Data Rule",
+    "sysPlugin": "Plugin",
+    "sysDept": "Dept",
+    "sysMenu": "User",
+    "sysRole": "Role",
+    "sysUser": "User",
+    "profile": "Profile"
+  },
+  "monitor": {
+    "redis": {
+      "cards": {
+        "commands": {
+          "title": "Command Statistics"
+        },
+        "memory": {
+          "title": "Memory Status"
+        }
+      },
+      "info": {
+        "title": "Server Info",
+        "redis_version": "Version",
+        "redis_mode": "Mode",
+        "role": "Role",
+        "tcp_port": "TCP Port",
+        "uptime": "Uptime",
+        "connected_clients": "Connected Clients",
+        "blocked_clients": "Blocked Clients",
+        "used_memory_human": "Used Memory",
+        "used_memory_rss_human": "RSS Memory",
+        "maxmemory_human": "Max Memory",
+        "mem_fragmentation_ratio": "Fragmentation Ratio",
+        "total_commands_processed": "Commands Processed",
+        "instantaneous_ops_per_sec": "Ops/Sec",
+        "rejected_connections": "Rejected Connections",
+        "keys_num": "Keys"
+      }
+    },
+    "server": {
+      "cpu": {
+        "title": "CPU",
+        "current_freq": "Current Freq (MHz)",
+        "logical_num": "Logical Cores",
+        "physical_num": "Physical Cores",
+        "usage": "CPU Usage"
+      },
+      "disk": {
+        "title": "Disk",
+        "device": "Device",
+        "dir": "Mount Point",
+        "free": "Free",
+        "total": "Total",
+        "type": "Type",
+        "usage": "Usage",
+        "used": "Used"
+      },
+      "memory": {
+        "title": "Memory",
+        "free": "Free",
+        "total": "Total",
+        "usage": "Usage",
+        "used": "Used"
+      },
+      "service": {
+        "title": "Service Info",
+        "name": "Service Name",
+        "version": "Version",
+        "home": "Home Path",
+        "cpu_usage": "CPU Usage",
+        "mem_vms": "Virtual Memory",
+        "mem_rss": "Physical Memory",
+        "mem_free": "Free Memory",
+        "startup": "Startup Time",
+        "elapsed": "Elapsed Time"
+      },
+      "system": {
+        "title": "System Info",
+        "name": "Hostname",
+        "ip": "IP Address",
+        "os": "OS",
+        "arch": "Architecture"
+      }
+    }
+  }
+}

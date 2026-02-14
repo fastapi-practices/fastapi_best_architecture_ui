@@ -1,7 +1,7 @@
 networks:
   fba_network:
-#    name: fba_network
-#    driver: bridge
+    # name: fba_network
+    # driver: bridge
     external: true
 
 volumes:
@@ -17,8 +17,8 @@ services:
       dockerfile: Dockerfile
     image: fba_ui:latest
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     container_name: fba_ui
     restart: always
     command:
