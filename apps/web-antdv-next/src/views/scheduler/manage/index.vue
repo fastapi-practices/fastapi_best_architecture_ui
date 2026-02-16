@@ -14,6 +14,7 @@ import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'antdv-next';
+import { Cron } from 'croner';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
@@ -28,12 +29,58 @@ import {
 } from '#/api';
 import { router } from '#/router';
 import { useWebSocketStore } from '#/store';
+import CronBuilder from '#/views/scheduler/manage/cron-builder.vue';
 
-import { querySchema, schema, useColumns } from './data';
+import { createSchema, querySchema, useColumns } from './data';
 
 const wsStore = useWebSocketStore();
 
 const taskWorkerStatus = ref<any[]>([]);
+
+const periodLabelMap: Record<string, string> = {
+  days: '天',
+  hours: '小时',
+  minutes: '分钟',
+  seconds: '秒',
+};
+
+const periodToSeconds: Record<string, number> = {
+  days: 86_400,
+  hours: 3600,
+  minutes: 60,
+  seconds: 1,
+};
+
+function getScheduleLabel(row: TaskSchedulerResult): string {
+  if (row.type === 0) {
+    const label =
+      periodLabelMap[row.interval_period || 'seconds'] || row.interval_period;
+    return `每 ${row.interval_every || '?'} ${label}`;
+  }
+  return row.crontab || '';
+}
+
+function getNextRuns(row: TaskSchedulerResult): Date[] {
+  try {
+    if (row.type === 0) {
+      const every = row.interval_every;
+      const period = row.interval_period || 'seconds';
+      if (!every || every <= 0) return [];
+      const intervalMs = every * (periodToSeconds[period] || 1) * 1000;
+      const baseTime = row.last_run_time
+        ? new Date(row.last_run_time)
+        : new Date();
+      return Array.from(
+        { length: 5 },
+        (_, i) => new Date(baseTime.getTime() + intervalMs * (i + 1)),
+      );
+    }
+    if (!row.crontab) return [];
+    return new Cron(row.crontab).nextRuns(5);
+  } catch {
+    return [];
+  }
+}
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -115,10 +162,20 @@ function onRefresh() {
   gridApi.query();
 }
 
+const cronBuilderVisible = ref(false);
+
+function openCrontabBuilder() {
+  cronBuilderVisible.value = true;
+}
+
+function onCronConfirm(value: string) {
+  formApi.setFieldValue('crontab', value);
+}
+
 const [Form, formApi] = useVbenForm({
   wrapperClass: 'grid-cols-1 md:grid-cols-2',
   showDefaultActions: false,
-  schema,
+  schema: createSchema(openCrontabBuilder),
 });
 
 interface formTaskSchedulerParams extends CreateTaskSchedulerParams {
@@ -141,22 +198,6 @@ const [Modal, modalApi] = useVbenModal({
     if (valid) {
       modalApi.lock();
       const data = await formApi.getValues<CreateTaskSchedulerParams>();
-      const args = ref();
-      if (data.args) {
-        try {
-          args.value = JSON.parse(data.args);
-        } catch {
-          const argsStr = data.args.trim().startsWith('[')
-            ? data.args.trim().slice(1, -1)
-            : data.args;
-          args.value = argsStr.split(',').map((item) => {
-            const trimmed = item.trim();
-            const num = Number(trimmed);
-            return Number.isNaN(num) ? trimmed : num;
-          });
-        }
-        data.args = JSON.stringify(args.value);
-      }
       try {
         await (formData.value?.id
           ? updateTaskSchedulerApi(formData.value?.id, data)
@@ -201,7 +242,7 @@ const executeTask = async (pk: number) => {
 };
 
 const searchLog = (task: string) => {
-  router.replace({ path: `/scheduler/record`, query: { name: task } });
+  router.push({ path: '/scheduler/record', query: { name: task } });
 };
 
 const handleStatusChange = async (row: TaskSchedulerResult) => {
@@ -248,9 +289,26 @@ onUnmounted(() => {
         </VbenButton>
       </template>
       <template #schedule="{ row }">
-        <span>
-          <a-tag>{{ row.crontab }}</a-tag>
-        </span>
+        <a-popover placement="top">
+          <template #content>
+            <div class="text-sm">
+              <div class="mb-1 font-medium">接下来 5 次运行时间：</div>
+              <template v-if="getNextRuns(row).length > 0">
+                <div
+                  v-for="(time, idx) in getNextRuns(row)"
+                  :key="idx"
+                  class="py-0.5"
+                >
+                  {{ dayjs(time).format('YYYY-MM-DD HH:mm:ss') }}
+                </div>
+              </template>
+              <div v-else class="text-gray-400">无法计算运行时间</div>
+            </div>
+          </template>
+          <a-tag class="cursor-pointer">
+            {{ getScheduleLabel(row) }}
+          </a-tag>
+        </a-popover>
       </template>
       <template #enabled="{ row }">
         <a-switch
@@ -279,5 +337,10 @@ onUnmounted(() => {
     <Modal :title="modalTitle">
       <Form />
     </Modal>
+    <CronBuilder
+      v-model:open="cronBuilderVisible"
+      :value="formApi.form?.values?.crontab"
+      @confirm="onCronConfirm"
+    />
   </Page>
 </template>

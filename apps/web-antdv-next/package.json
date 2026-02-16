@@ -42,6 +42,7 @@
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
     "antdv-next": "catalog:",
+    "croner": "catalog:",
     "dayjs": "catalog:",
     "mitt": "catalog:",
     "pinia": "catalog:",
