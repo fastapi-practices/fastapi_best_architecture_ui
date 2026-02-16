@@ -111,11 +111,11 @@ const operaLogDetails = ref<OperaLogResult>();
 const operaLogDescItems = computed(() => {
   const d = operaLogDetails.value;
   return [
-    { key: 'trace_id', label: '追踪 ID', content: d?.trace_id },
+    { key: 'trace_id', label: '追踪 ID', content: d?.trace_id, span: 2 },
+    { key: 'path', label: '请求路径', content: d?.path, span: 2 },
     { key: 'username', label: '用户名', content: d?.username },
-    { key: 'method', label: '请求方法', content: d?.method },
-    { key: 'path', label: '请求路径', content: d?.path },
     { key: 'title', label: '操作标题', content: d?.title },
+    { key: 'method', label: '请求方法', content: d?.method },
     { key: 'os', label: '操作系统', content: d?.os },
     { key: 'device', label: '设备', content: d?.device },
     { key: 'browser', label: '浏览器', content: d?.browser },
