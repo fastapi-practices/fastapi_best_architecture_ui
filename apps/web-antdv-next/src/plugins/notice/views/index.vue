@@ -191,8 +191,8 @@ const [PreviewModal, previewModalApi] = useVbenModal({
       <Form />
     </Modal>
     <PreviewModal>
-      <div class="mb-5 text-center text-3xl">{{ preViewTitle }}</div>
-      <MarkdownPreviewer :value="preViewContent" />
+      <div class="mb-3 text-center text-3xl">{{ preViewTitle }}</div>
+      <MarkdownPreviewer class="p-3" :value="preViewContent" />
     </PreviewModal>
   </Page>
 </template>

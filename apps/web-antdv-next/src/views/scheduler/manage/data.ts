@@ -334,6 +334,18 @@ export function createSchema(
       },
       fieldName: 'crontab',
       label: '执行计划',
+      rules: z
+        .string()
+        .optional()
+        .refine(
+          (val) =>
+            !val ||
+            val.trim() === '' ||
+            /^(?:[\d*/,-]+\s+){4}[\d*/,-]+$/.test(val.trim()),
+          {
+            message: '无效的 Crontab 表达式',
+          },
+        ),
       help: 'Crontab 表达式：https://docs.celeryq.dev/en/latest/userguide/periodic-tasks.html#crontab-schedules',
       renderComponentContent: () => ({
         suffix: () =>

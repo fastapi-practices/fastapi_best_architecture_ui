@@ -208,7 +208,7 @@ watch(
     @cancel="handleCancel"
   >
     <div class="flex flex-col gap-3">
-      <div class="flex flex-wrap gap-1.5 border-b border-border pb-2">
+      <div class="flex flex-wrap gap-1.5 border-border pt-1">
         <a-tag
           v-for="preset in CRONTAB_PRESETS"
           :key="preset.value"
@@ -473,7 +473,7 @@ watch(
         </div>
       </div>
 
-      <div class="flex gap-3 border-t border-border pt-3">
+      <div class="flex gap-3 border-border">
         <div class="flex-1">
           <div class="grid grid-cols-3 gap-2">
             <div
