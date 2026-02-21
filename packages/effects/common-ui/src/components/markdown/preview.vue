@@ -41,12 +41,5 @@ const previewStyle = computed(() => {
     :theme="theme"
     language="zh-CN"
     :style="previewStyle"
-    class="md-preview-wrapper"
   />
 </template>
-
-<style scoped>
-.md-preview-wrapper :deep(.md-editor-preview-wrapper) {
-  padding: 16px;
-}
-</style>
