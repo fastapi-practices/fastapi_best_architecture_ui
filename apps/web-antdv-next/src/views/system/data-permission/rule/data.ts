@@ -167,7 +167,15 @@ export const schema: VbenFormSchema[] = [
     rules: 'selectRequired',
   },
   {
-    component: 'Input',
+    component: 'AutoComplete',
+    componentProps: {
+      allowClear: true,
+      class: 'w-full',
+      filterOption: (input: string, option: any) =>
+        (option?.value || '').toLowerCase().includes(input.toLowerCase()) ||
+        (option?.label || '').toLowerCase().includes(input.toLowerCase()),
+      options: [],
+    },
     fieldName: 'value',
     label: '规则值',
     rules: 'required',
