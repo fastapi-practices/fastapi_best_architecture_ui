@@ -169,11 +169,14 @@ export const schema: VbenFormSchema[] = [
   {
     component: 'AutoComplete',
     componentProps: {
+      placeholder: '请输入值或选择参数',
       allowClear: true,
       class: 'w-full',
-      filterOption: (input: string, option: any) =>
-        (option?.value || '').toLowerCase().includes(input.toLowerCase()) ||
-        (option?.label || '').toLowerCase().includes(input.toLowerCase()),
+      showSearch: {
+        filterOption: (input: string, option: any) =>
+          (option?.value || '').toLowerCase().includes(input.toLowerCase()) ||
+          (option?.label || '').toLowerCase().includes(input.toLowerCase()),
+      },
       options: [],
     },
     fieldName: 'value',

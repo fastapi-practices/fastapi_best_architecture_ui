@@ -56,8 +56,8 @@ catalog:
   '@types/qrcode': ^1.5.6
   '@types/qs': ^6.14.0
   '@types/sortablejs': ^1.15.9
-  '@typescript-eslint/eslint-plugin': ^8.56.0
-  '@typescript-eslint/parser': ^8.56.0
+  '@typescript-eslint/eslint-plugin': ^8.56.1
+  '@typescript-eslint/parser': ^8.56.1
   '@vee-validate/zod': ^4.15.1
   '@vitejs/plugin-vue': ^6.0.4
   '@vitejs/plugin-vue-jsx': ^5.1.4
@@ -66,7 +66,7 @@ catalog:
   '@vueuse/core': ^14.2.1
   '@vueuse/integrations': ^14.2.1
   '@vueuse/motion': ^3.0.3
-  antdv-next: ^1.0.4
+  antdv-next: ^1.0.5
   archiver: ^7.0.1
   autoprefixer: ^10.4.24
   axios: ^1.13.5
@@ -81,7 +81,7 @@ catalog:
   consola: ^3.4.2
   croner: ^9.1.0
   cross-env: ^10.1.0
-  cspell: ^9.6.4
+  cspell: ^9.7.0
   cssnano: ^7.1.2
   cz-git: ^1.12.0
   czg: ^1.12.0
