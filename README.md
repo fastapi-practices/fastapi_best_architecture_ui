@@ -18,10 +18,6 @@ For more details, please check the [official documentation](https://fastapi-prac
 - [Vben Admin](https://www.vben.pro/)
 - ...
 
-## Sponsor us
-
-If this program has helped you, you can sponsor us with some coffee beans: [:coffee: Sponsor :coffee:](https://wu-clan.github.io/sponsor/)
-
 ## License
 
 This project is licensed under the terms of the [MIT](https://github.com/fastapi-practices/fba_ui/blob/master/LICENSE) license
