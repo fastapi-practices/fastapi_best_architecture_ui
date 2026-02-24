@@ -38,13 +38,20 @@ const OAuth2 = async (oa: OAuth2Source) => {
       </span>
       <span class="w-[35%] border-b border-input dark:border-gray-600"></span>
     </div>
-    <div class="mt-5 flex flex-wrap justify-center">
-      <a-button class="mb-3" type="ghost" @click="OAuth2({ source: 'Github' })">
-        <SvgGithubIcon class="size-6" />
-      </a-button>
-      <a-button class="mb-3" type="ghost" @click="OAuth2({ source: 'Google' })">
-        <SvgGoogleIcon class="size-6" />
-      </a-button>
-    </div>
+
+    <a-flex class="mt-4" justify="center" gap="large">
+      <a-tooltip :title="$t('authentication.githubLogin')" placement="top">
+        <SvgGithubIcon
+          class="size-6 cursor-pointer"
+          @click="OAuth2({ source: 'Github' })"
+        />
+      </a-tooltip>
+      <a-tooltip :title="$t('authentication.googleLogin')" placement="top">
+        <SvgGoogleIcon
+          class="size-6 cursor-pointer"
+          @click="OAuth2({ source: 'Google' })"
+        />
+      </a-tooltip>
+    </a-flex>
   </div>
 </template>
