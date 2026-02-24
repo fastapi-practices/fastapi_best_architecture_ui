@@ -22,6 +22,7 @@ import {
   deleteSysDataRuleApi,
   getSysDataRuleListApi,
   getSysDataRuleModelsApi,
+  getSysDataRuleTemplateVariablesApi,
   updateSysDataRuleApi,
 } from '#/api';
 
@@ -157,6 +158,19 @@ const openAddModal = (row: any, isAdd: boolean) => {
             })),
           },
           fieldName: 'model',
+        },
+      ]);
+    });
+    getSysDataRuleTemplateVariablesApi().then((res) => {
+      formApi.updateSchema([
+        {
+          componentProps: {
+            options: res.map((item) => ({
+              label: `${item.key}（${item.comment}）`,
+              value: item.key,
+            })),
+          },
+          fieldName: 'value',
         },
       ]);
     });

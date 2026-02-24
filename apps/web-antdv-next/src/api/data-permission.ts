@@ -45,6 +45,11 @@ export interface SysDataRuleModelColumnsResult {
   comment: string;
 }
 
+export interface SysDataRuleTemplateVariableResult {
+  key: string;
+  comment: string;
+}
+
 export interface CreateSysDataRuleParams {
   name: string;
   model: string;
@@ -106,6 +111,12 @@ export async function getSysDataRuleModelsApi() {
 export async function getSysDataRuleModelColumnsApi(model: string) {
   return requestClient.get<SysDataRuleModelColumnsResult[]>(
     `/api/v1/sys/data-rules/models/${model}/columns`,
+  );
+}
+
+export async function getSysDataRuleTemplateVariablesApi() {
+  return requestClient.get<SysDataRuleTemplateVariableResult[]>(
+    '/api/v1/sys/data-rules/value-template-variables',
   );
 }
 
