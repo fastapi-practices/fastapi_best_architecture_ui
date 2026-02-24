@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 
+import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
@@ -117,11 +118,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center px-6">
-    <div class="mt-6 flex w-full space-x-6">
+  <Page auto-content-height>
+    <div class="flex space-x-6">
       <div class="flex-1">
         <a-card :loading="loading" :title="$t('page.monitor.server.cpu.title')">
-          <div class="mt-6 flex w-full space-x-6 px-6">
+          <div class="flex space-x-6 px-6">
             <div class="flex-1">
               <a-statistic
                 :title="$t('page.monitor.server.cpu.usage')"
@@ -157,7 +158,7 @@ onMounted(async () => {
           :loading="loading"
           :title="$t('page.monitor.server.memory.title')"
         >
-          <div class="mt-6 flex w-full space-x-6 px-6">
+          <div class="flex space-x-6 px-6">
             <div class="flex-1">
               <a-statistic
                 :title="$t('page.monitor.server.memory.total')"
@@ -191,7 +192,7 @@ onMounted(async () => {
         </a-card>
       </div>
     </div>
-    <div class="mt-6 w-full space-y-6">
+    <div class="mt-6 space-y-6">
       <a-card
         :loading="loading"
         :title="$t('page.monitor.server.service.title')"
@@ -208,5 +209,5 @@ onMounted(async () => {
         <Grid />
       </a-card>
     </div>
-  </div>
+  </Page>
 </template>
