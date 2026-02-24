@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@codemirror/lang-python": "catalog:",
+    "@codemirror/lang-sql": "catalog:",
     "@codemirror/theme-one-dark": "catalog:",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
