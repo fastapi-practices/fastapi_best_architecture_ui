@@ -28,6 +28,7 @@ catalog:
   '@changesets/git': ^3.0.4
   '@clack/prompts': ^0.11.0
   '@codemirror/lang-python': ^6.2.1
+  '@codemirror/lang-sql': ^6.2.1
   '@codemirror/theme-one-dark': ^6.1.3
   '@commitlint/cli': ^19.8.1
   '@commitlint/config-conventional': ^19.8.1

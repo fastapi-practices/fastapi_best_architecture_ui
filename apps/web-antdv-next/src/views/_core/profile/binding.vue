@@ -20,13 +20,13 @@ const loading = ref<boolean>(false);
 
 const securityOptions = computed(() => [
   {
-    source: 'Github',
+    source: 'Github' as const,
     description: '绑定 Github 账号',
     status: bindings.value?.includes('Github'),
     statusString: bindings.value?.includes('Github') ? '已绑定' : '未绑定',
   },
   {
-    source: 'Google',
+    source: 'Google' as const,
     description: '绑定 Google 账号',
     status: bindings.value?.includes('Google'),
     statusString: bindings.value?.includes('Google') ? '已绑定' : '未绑定',

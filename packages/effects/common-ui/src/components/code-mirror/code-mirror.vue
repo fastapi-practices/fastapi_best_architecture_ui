@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
+import type { LanguageSupport } from './data';
+
+import { computed, nextTick, ref, watch } from 'vue';
 import CodeMirror from 'vue-codemirror6';
 
 import { usePreferences } from '@vben-core/preferences';
@@ -7,32 +9,34 @@ import { usePreferences } from '@vben-core/preferences';
 import { python } from '@codemirror/lang-python';
 import { oneDark } from '@codemirror/theme-one-dark';
 
-interface Props {
-  /**
-   * 语言
-   */
-  language?: string;
-  /**
-   * 只读
-   */
-  readonly?: boolean;
-}
+import { languageSupportMap } from './data';
 
-const props = withDefaults(defineProps<Props>(), {
-  language: 'python',
-  readonly: true,
-});
+const props = withDefaults(
+  defineProps<{
+    /**
+     * 语言
+     */
+    language?: LanguageSupport;
+    /**
+     * 只读
+     */
+    readonly?: boolean;
+  }>(),
+  {
+    language: 'python',
+    readonly: false,
+  },
+);
 
 const { isDark } = usePreferences();
 
-const codeMirrorRef =
-  useTemplateRef<InstanceType<typeof CodeMirror>>('codeMirrorRef');
-
 const modelValue = defineModel({ default: '', type: String });
 
-const lang = computed(() => python());
+const lang = computed(() => languageSupportMap[props.language] ?? python());
 
 const langChanged = ref(true);
+
+const extensions = [oneDark];
 
 watch(
   () => props.language,
@@ -47,10 +51,9 @@ watch(
   <CodeMirror
     v-if="langChanged"
     v-bind="$attrs"
-    ref="codeMirrorRef"
     v-model="modelValue"
     :dark="isDark"
-    :extensions="[oneDark]"
+    :extensions="extensions"
     :lang="lang"
     :readonly="props.readonly"
     basic

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
 
+import type { LanguageSupport } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
 import { markRaw, ref } from 'vue';
@@ -27,7 +28,7 @@ interface TreeNode {
 
 const treeData = ref<TreeNode[]>([]);
 const codes = ref<null | Recordable<any>>(null);
-const language = ref<string>('html');
+const language = ref<LanguageSupport>('python');
 const modalTitle = ref<string>('代码预览');
 const codeContent = ref<string>('点击左侧树节点查看代码');
 
@@ -40,7 +41,7 @@ const [Modal, modalApi] = useVbenModal({
   async onOpenChange(isOpen) {
     if (!isOpen) {
       codes.value = null;
-      language.value = 'html';
+      language.value = 'python';
       modalTitle.value = '代码预览';
       codeContent.value = '点击左侧树节点查看代码';
       return null;
@@ -116,13 +117,14 @@ function handleSelect(selectedKeys: string[]) {
   codeContent.value = currentCode;
 }
 
-const typeMap: Record<string, string> = {
+const typeMap: Record<string, LanguageSupport> = {
   '.py': 'python',
+  '.sql': 'sql',
 };
 
 function changeLanguageType(filename: string) {
-  const lang = Object.entries(typeMap).find(([ext]) => filename.endsWith(ext));
-  language.value = lang ? lang[1] : 'html';
+  const entry = Object.entries(typeMap).find(([ext]) => filename.endsWith(ext));
+  language.value = entry?.[1] ?? 'python';
 }
 
 const { copy } = useClipboard({ legacy: true });
