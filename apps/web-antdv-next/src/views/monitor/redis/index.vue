@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
+import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { getRedisMonitorApi } from '#/api';
@@ -140,29 +141,29 @@ watch(redisInfo, (val) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center px-4">
-    <div class="mt-4 w-full">
-      <a-card :title="$t('page.monitor.redis.info.title')" :loading="loading">
-        <a-descriptions :items="redisDescriptionItems" />
-      </a-card>
-    </div>
-    <div class="mt-4 flex w-full space-x-4">
-      <div class="flex-1">
+  <Page auto-content-height content-class="flex flex-col">
+    <a-card :title="$t('page.monitor.redis.info.title')" :loading="loading">
+      <a-descriptions :items="redisDescriptionItems" />
+    </a-card>
+    <div class="mt-4 flex min-h-0 flex-1 space-x-4">
+      <div class="flex min-h-0 flex-1 flex-col">
         <a-card
+          class="flex flex-1 flex-col"
           :title="$t('page.monitor.redis.cards.commands.title')"
           :loading="loading"
         >
-          <CommandsSeries :stats="redisStats" />
+          <CommandsSeries class="min-h-0 flex-1" :stats="redisStats" />
         </a-card>
       </div>
-      <div class="flex-1">
+      <div class="flex min-h-0 flex-1 flex-col">
         <a-card
+          class="flex flex-1 flex-col"
           :title="$t('page.monitor.redis.cards.memory.title')"
           :loading="loading"
         >
-          <ActiveSeries :memory="redisUsedMemory" />
+          <ActiveSeries class="min-h-0 flex-1" :memory="redisUsedMemory" />
         </a-card>
       </div>
     </div>
-  </div>
+  </Page>
 </template>
