@@ -129,7 +129,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
       editModalApi.setData(row).open();
       break;
     }
-    case 'more': {
+    case 'reset_password': {
       editUser.value = row.id;
       resetPwdModalApi.setData(null).open();
       break;
@@ -137,7 +137,7 @@ function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
   }
 }
 
-const fetchSysUserListByDept = (selectedKeys: number[]) => {
+const fetchSysUserListByDept = (selectedKeys: (number | string)[]) => {
   try {
     gridApi.query({ dept: selectedKeys[0] });
   } catch (error) {
@@ -291,7 +291,7 @@ onMounted(() => {
             default-expand-all
             @select="fetchSysUserListByDept"
           >
-            <template #title="{ name }">
+            <template #titleRender="{ name }">
               <span v-if="name.includes(searchDeptValue)">
                 {{ name.substring(0, name.indexOf(searchDeptValue)) }}
                 <span style="color: #f50">{{ searchDeptValue }}</span>
