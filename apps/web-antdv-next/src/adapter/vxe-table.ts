@@ -9,16 +9,7 @@ import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
 import { get, isFunction, isString } from '@vben/utils';
 
 import { objectOmit } from '@vueuse/core';
-import {
-  Button,
-  Dropdown,
-  Image,
-  Menu,
-  MenuItem,
-  Popconfirm,
-  Switch,
-  Tag,
-} from 'antdv-next';
+import { Button, Dropdown, Image, Popconfirm, Switch, Tag } from 'antdv-next';
 
 import { $t } from '#/locales';
 import { DictEnum, getDictOptions } from '#/utils/dict';
@@ -253,19 +244,12 @@ setupVbenVxeTable({
 
         function renderDropdown(opt: Recordable<any>) {
           const menuItems =
-            opt.items?.map((item: Recordable<any>) =>
-              h(
-                MenuItem,
-                {
-                  key: item.code || item.text,
-                  icon: item.icon ?? undefined,
-                  disabled: item.disabled ?? undefined,
-                },
-                {
-                  default: () => item.text,
-                },
-              ),
-            ) || [];
+            opt.items?.map((item: Recordable<any>) => ({
+              key: item.code || item.text,
+              label: item.text,
+              icon: item.icon ?? undefined,
+              disabled: item.disabled ?? undefined,
+            })) || [];
 
           return h(
             Dropdown,
@@ -282,24 +266,16 @@ setupVbenVxeTable({
                 );
               },
               placement: 'bottomLeft',
+              ...props,
               ...opt,
+              menu: {
+                items: menuItems,
+                onClick: ({ key }: { key: string }) =>
+                  attrs?.onClick?.({ code: key, row }),
+              },
             },
             {
               default: () => renderBtn({ ...opt, icon: 'tabler:dots' }, false),
-              overlay: () =>
-                h(
-                  Menu,
-                  {
-                    onClick: () =>
-                      attrs?.onClick?.({
-                        code: opt.code,
-                        row,
-                      }),
-                  },
-                  {
-                    default: () => menuItems,
-                  },
-                ),
             },
           );
         }
