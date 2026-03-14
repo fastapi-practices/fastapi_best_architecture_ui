@@ -26,6 +26,9 @@ catalog:
   '@changesets/cli': ^2.30.0
   '@changesets/git': ^3.0.4
   '@clack/prompts': ^1.1.0
+  '@codemirror/lang-python': ^6.2.1
+  '@codemirror/lang-sql': ^6.10.0
+  '@codemirror/theme-one-dark': ^6.1.3
   '@commitlint/cli': ^20.4.4
   '@commitlint/config-conventional': ^20.4.4
   '@ctrl/tinycolor': ^4.2.0
@@ -119,6 +122,7 @@ catalog:
   lefthook: ^2.1.4
   lodash.clonedeep: ^4.5.0
   lucide-vue-next: ^0.577.0
+  md-editor-v3: ^6.4.0
   medium-zoom: ^1.1.0
   naive-ui: ^2.44.1
   nitropack: ^2.13.1
@@ -181,6 +185,7 @@ catalog:
   vue-json-viewer: ^3.0.4
   vue-router: ^5.0.3
   vue-tippy: ^6.7.1
+  vue-codemirror6: ^1.4.3
   vue-tsc: ^3.2.5
   vxe-pc-ui: ^4.13.5
   vxe-table: ^4.18.2
