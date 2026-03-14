@@ -84,6 +84,7 @@ catalog:
   clsx: ^2.1.1
   commitlint-plugin-function-rules: ^4.3.2
   consola: ^3.4.2
+  croner: ^9.1.0
   cross-env: ^10.1.0
   cspell: ^9.7.0
   cz-git: ^1.12.0
@@ -123,6 +124,7 @@ catalog:
   lodash.clonedeep: ^4.5.0
   lucide-vue-next: ^0.577.0
   md-editor-v3: ^6.4.0
+  mitt: ^3.0.1
   medium-zoom: ^1.1.0
   naive-ui: ^2.44.1
   nitropack: ^2.13.1
@@ -149,6 +151,7 @@ catalog:
   sass: ^1.98.0
   sass-embedded: ^1.98.0
   secure-ls: ^2.0.0
+  socket.io-client: ^4.8.3
   sortablejs: ^1.15.7
   stylelint: ^17.4.0
   stylelint-config-recess-order: ^7.6.1
