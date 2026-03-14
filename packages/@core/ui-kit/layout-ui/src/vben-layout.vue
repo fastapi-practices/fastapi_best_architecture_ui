@@ -64,7 +64,14 @@ const props = withDefaults(defineProps<Props>(), {
   zIndex: 200,
 });
 
-const emit = defineEmits<{ sideMouseLeave: []; toggleSidebar: [] }>();
+const emit = defineEmits<{
+  sideMouseLeave: [];
+  toggleSidebar: [];
+  'update:sidebar-width': [value: number];
+}>();
+const sidebarDraggable = defineModel<boolean>('sidebarDraggable', {
+  default: true,
+});
 const sidebarCollapse = defineModel<boolean>('sidebarCollapse', {
   default: false,
 });
@@ -120,13 +127,16 @@ const headerWrapperHeight = computed(() => {
 });
 
 const getSideCollapseWidth = computed(() => {
-  const { sidebarCollapseShowTitle, sidebarMixedWidth, sideCollapseWidth } =
-    props;
+  const {
+    sidebarCollapseShowTitle,
+    sidebarExtraCollapsedWidth,
+    sideCollapseWidth,
+  } = props;
 
   return sidebarCollapseShowTitle ||
     isSidebarMixedNav.value ||
     isHeaderMixedNav.value
-    ? sidebarMixedWidth
+    ? sidebarExtraCollapsedWidth
     : sideCollapseWidth;
 });
 
@@ -237,9 +247,7 @@ const mainStyle = computed(() => {
       sidebarExtraVisible.value;
 
     if (isSideNavEffective) {
-      const sideCollapseWidth = sidebarCollapse.value
-        ? getSideCollapseWidth.value
-        : props.sidebarMixedWidth;
+      const sideCollapseWidth = props.sidebarMixedWidth;
       const sideWidth = sidebarExtraCollapse.value
         ? props.sidebarExtraCollapsedWidth
         : props.sidebarWidth;
@@ -248,10 +256,14 @@ const mainStyle = computed(() => {
       sidebarAndExtraWidth = `${sideCollapseWidth + sideWidth}px`;
       width = `calc(100% - ${sidebarAndExtraWidth})`;
     } else {
-      sidebarAndExtraWidth =
-        sidebarExpandOnHovering.value && !sidebarExpandOnHover.value
-          ? `${getSideCollapseWidth.value}px`
-          : `${getSidebarWidth.value}px`;
+      let sidebarWidth = getSidebarWidth.value;
+      if (sidebarExpandOnHovering.value && !sidebarExpandOnHover.value) {
+        sidebarWidth =
+          isSidebarMixedNav.value || isHeaderMixedNav.value
+            ? props.sidebarMixedWidth
+            : getSideCollapseWidth.value;
+      }
+      sidebarAndExtraWidth = `${sidebarWidth}px`;
       width = `calc(100% - ${sidebarAndExtraWidth})`;
     }
   }
@@ -263,7 +275,7 @@ const mainStyle = computed(() => {
 
 // 计算 tabbar 的样式
 const tabbarStyle = computed((): CSSProperties => {
-  let width = '';
+  let width: string;
   let marginLeft = 0;
 
   // 如果不是混合导航，tabbar 的宽度为 100%
@@ -486,6 +498,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
   <div class="relative flex min-h-full w-full">
     <LayoutSidebar
       v-if="sidebarEnableState"
+      v-model:draggable="sidebarDraggable"
       v-model:collapse="sidebarCollapse"
       v-model:expand-on-hover="sidebarExpandOnHover"
       v-model:expand-on-hovering="sidebarExpandOnHovering"
@@ -507,6 +520,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
       :width="getSidebarWidth"
       :z-index="sidebarZIndex"
       @leave="() => emit('sideMouseLeave')"
+      @update:width="(val) => emit('update:sidebar-width', val)"
     >
       <template v-if="isSideMode && !isMixedNav" #logo>
         <slot name="logo"></slot>
@@ -613,7 +627,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
     <div
       v-if="maskVisible"
       :style="maskStyle"
-      class="fixed left-0 top-0 h-full w-full bg-overlay transition-[background-color] duration-200"
+      class="fixed top-0 left-0 size-full bg-overlay transition-[background-color] duration-200"
       @click="handleClickMask"
     ></div>
   </div>

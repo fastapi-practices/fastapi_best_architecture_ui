@@ -51,11 +51,19 @@ vite.config.ts.*
 .history
 .cursor
 
+# AI
+.agent
+.agents
+.claude
+.codex
+skills-lock.json
+
 # 升级 vben 时需要删除的文件(夹)
 .github
 .vscode
 .changeset
 backend-mock
+web-antd
 web-ele
 web-naive
 web-tdesign
