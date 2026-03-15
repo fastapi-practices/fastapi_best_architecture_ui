@@ -107,8 +107,12 @@ function findIcon(path: string) {
   return markRaw(defaultFolderIcon);
 }
 
-function handleSelect(selectedKeys: string[]) {
-  const [currentFile = ''] = selectedKeys;
+function handleSelect(selectedKeys: Array<number | string>) {
+  const [selectedKey] = selectedKeys;
+  const currentFile =
+    selectedKey === null || selectedKey === undefined
+      ? ''
+      : String(selectedKey);
   const currentCode = codes.value?.[currentFile];
   if (!currentCode) return;
 

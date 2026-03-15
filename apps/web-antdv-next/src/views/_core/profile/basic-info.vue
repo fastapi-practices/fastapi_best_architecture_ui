@@ -128,7 +128,7 @@ const basicInfoItems = computed(() => [
       <p class="mt-5 text-lg">
         {{ userStore.userInfo?.nickname }}
         <a-button
-          type="ghost"
+          ghost
           size="small"
           @click="nicknameModalApi.setData(null).open()"
         >
