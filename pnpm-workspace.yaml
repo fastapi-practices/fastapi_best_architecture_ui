@@ -12,6 +12,7 @@ packages:
   - scripts/*
   - docs
   - playground
+  - apps/web-antdv-next/src/plugins/
 
 overrides:
   '@ast-grep/napi': 'catalog:'
