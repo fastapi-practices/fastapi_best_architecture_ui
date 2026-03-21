@@ -17,9 +17,7 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
   schema: emailSchema,
   commonConfig: {
-    componentProps: {
-      class: 'w-1/4',
-    },
+    controlClass: 'w-full max-w-80',
     disabled: true,
     labelClass: 'justify-start ml-2',
     labelWidth: 120,

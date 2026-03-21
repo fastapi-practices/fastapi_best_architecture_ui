@@ -44,13 +44,13 @@ const gridOptions: VxeTableGridOptions<CodeGenColumnResult[]> = {
   height: 'auto',
   virtualYConfig: {
     enabled: true,
-    gt: 0,
   },
   pagerConfig: {
     enabled: false,
   },
   columns: useColumnColumns(onActionClick),
   proxyConfig: {
+    autoLoad: false,
     ajax: {
       query: async () => {
         return await getAllCodeGenBusinessColumnApi(drawerApi.getData().pk);
@@ -93,6 +93,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
   cancelText: '预览',
   confirmText: '下载',
   class: 'w-2/3',
+  onOpenChange(isOpen) {
+    if (isOpen) {
+      gridApi.setLoading(true);
+    }
+  },
+  async onOpened() {
+    await gridApi.query();
+    gridApi.setLoading(false);
+  },
   onCancel: () => {
     previewModalApi.setData({ pk: drawerApi.getData().pk }).open();
   },

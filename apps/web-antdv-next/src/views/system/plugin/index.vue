@@ -132,11 +132,19 @@ onMounted(() => {
     />
     <div class="mt-4">
       <!-- 网格容器 -->
-      <div class="grid gap-6 lg:grid-cols-4">
+      <div class="grid items-stretch gap-6 lg:grid-cols-4">
         <a-card
           v-for="info in pluginInfo"
           :key="info.plugin.name"
-          class="flex flex-col [&>.ant-card-body]:flex-1"
+          class="flex h-full flex-col"
+          :styles="{
+            body: {
+              display: 'flex',
+              flex: 1,
+              flexDirection: 'column',
+              height: '100%',
+            },
+          }"
         >
           <template #title>
             {{ info.plugin.summary }}
@@ -144,7 +152,7 @@ onMounted(() => {
               <span class="text-gray-500">@{{ info.plugin.author }}</span>
             </span>
           </template>
-          <p>{{ info.plugin.description }}</p>
+          <p class="mb-0 flex-1">{{ info.plugin.description }}</p>
           <template #extra>
             <a-switch
               v-model:checked="info.plugin.enable"
