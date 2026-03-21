@@ -37,6 +37,8 @@ import {
 import { columnSchema, useColumnColumns } from './data';
 import ExtraModal from './preview.vue';
 
+const generateLoading = ref(false);
+
 const gridOptions: VxeTableGridOptions<CodeGenColumnResult[]> = {
   rowConfig: {
     keyField: 'id',
@@ -99,18 +101,25 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
   },
   async onOpened() {
-    await gridApi.query();
-    gridApi.setLoading(false);
+    try {
+      await gridApi.query();
+    } finally {
+      gridApi.setLoading(false);
+    }
   },
   onCancel: () => {
     previewModalApi.setData({ pk: drawerApi.getData().pk }).open();
   },
   onConfirm: async () => {
+    drawerApi.setState({ confirmLoading: true });
     try {
       const res = await downloadCodeApi(drawerApi.getData().pk);
       downloadFileFromBlob({ fileName: 'fba_generator', source: res });
+      message.success('代码包已开始下载');
     } catch (error) {
       console.error(error);
+    } finally {
+      drawerApi.setState({ confirmLoading: false });
     }
   },
 });
@@ -156,11 +165,14 @@ async function showGenerate() {
     confirmText: '不怂！就是干',
   })
     .then(async () => {
+      generateLoading.value = true;
       try {
         await generateCodeApi(drawerApi.getData().pk);
         message.success($t('ui.actionMessage.operationSuccess'));
       } catch (error) {
         console.error(error);
+      } finally {
+        generateLoading.value = false;
       }
     })
     .catch(() => {});
@@ -244,7 +256,9 @@ const [PreviewModal, previewModalApi] = useVbenModal({
       </VbenButton>
     </template>
     <template #center-footer>
-      <a-button type="primary" @click="showGenerate">生成</a-button>
+      <a-button :loading="generateLoading" type="primary" @click="showGenerate">
+        生成
+      </a-button>
     </template>
   </Drawer>
   <Modal :title="modalTile">

@@ -46,12 +46,16 @@ import {
  * 左侧
  */
 const treeData = ref<SysDeptTreeResult[]>([]);
+const treeLoading = ref(false);
 
 const fetchDeptTree = async (name: string | undefined) => {
+  treeLoading.value = true;
   try {
     treeData.value = await getSysDeptTreeApi({ name });
   } catch (error) {
     console.error(error);
+  } finally {
+    treeLoading.value = false;
   }
 };
 
@@ -112,16 +116,23 @@ function onRefresh() {
   gridApi.query();
 }
 
-function onActionClick({ code, row }: OnActionClickParams<SysUserResult>) {
+async function onActionClick({
+  code,
+  row,
+}: OnActionClickParams<SysUserResult>) {
   switch (code) {
     case 'delete': {
-      deleteSysUserApi(row.id).then(() => {
+      gridApi.setLoading(true);
+      try {
+        await deleteSysUserApi(row.id);
         message.success({
           content: $t('ui.actionMessage.deleteSuccess', [row.username]),
           key: 'action_process_msg',
         });
         onRefresh();
-      });
+      } finally {
+        gridApi.setLoading(false);
+      }
       break;
     }
     case 'edit': {
@@ -170,6 +181,7 @@ const [editModal, editModalApi] = useVbenModal({
       const data = await formApi.getValues<SysUpdateUserParams>();
       try {
         await updateSysUserApi(editUser.value, data);
+        message.success($t('ui.actionMessage.operationSuccess'));
         await editModalApi.close();
         onRefresh();
       } finally {
@@ -205,6 +217,7 @@ const [addModal, addModalApi] = useVbenModal({
       const data = await addFormApi.getValues<SysAddUserParams>();
       try {
         await createSysUserApi(data);
+        message.success($t('ui.actionMessage.operationSuccess'));
         await addModalApi.close();
         onRefresh();
       } finally {
@@ -275,36 +288,40 @@ onMounted(() => {
         <div class="mt-1 p-2">
           <a-input-search
             v-model:value="searchDeptValue"
+            :loading="treeLoading"
             :placeholder="$t('common.search')"
             size="small"
             enter-button
             @search="searchDept"
           />
         </div>
-        <div class="-mt-3 p-3">
-          <div class="mb-1">Xxx集团</div>
-          <a-tree
-            v-if="treeData.length > 0"
-            :show-line="{ showLeafIcon: false }"
-            :tree-data="treeData"
-            :field-names="{ title: 'name', key: 'id' }"
-            default-expand-all
-            @select="fetchSysUserListByDept"
-          >
-            <template #titleRender="{ name }">
-              <span v-if="name.includes(searchDeptValue)">
-                {{ name.substring(0, name.indexOf(searchDeptValue)) }}
-                <span style="color: #f50">{{ searchDeptValue }}</span>
-                {{
-                  name.substring(
-                    name.indexOf(searchDeptValue) + searchDeptValue?.length,
-                  )
-                }}
-              </span>
-              <span v-else>{{ name }}</span>
-            </template>
-          </a-tree>
-        </div>
+        <a-spin :spinning="treeLoading">
+          <div class="-mt-3 p-3">
+            <div class="mb-1">Xxx集团</div>
+            <a-tree
+              v-if="treeData.length > 0"
+              :show-line="{ showLeafIcon: false }"
+              :tree-data="treeData"
+              :field-names="{ title: 'name', key: 'id' }"
+              default-expand-all
+              @select="fetchSysUserListByDept"
+            >
+              <template #titleRender="{ name }">
+                <span v-if="searchDeptValue && name.includes(searchDeptValue)">
+                  {{ name.substring(0, name.indexOf(searchDeptValue)) }}
+                  <span style="color: #f50">{{ searchDeptValue }}</span>
+                  {{
+                    name.substring(
+                      name.indexOf(searchDeptValue) + searchDeptValue.length,
+                    )
+                  }}
+                </span>
+                <span v-else>{{ name }}</span>
+              </template>
+            </a-tree>
+            <a-empty v-else description="暂无部门数据" />
+          </div>
+        </a-spin>
       </div>
     </template>
     <Grid>

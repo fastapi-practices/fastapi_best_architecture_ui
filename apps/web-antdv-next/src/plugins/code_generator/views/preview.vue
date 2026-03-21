@@ -31,6 +31,7 @@ const codes = ref<null | Recordable<any>>(null);
 const language = ref<LanguageSupport>('python');
 const modalTitle = ref<string>('代码预览');
 const codeContent = ref<string>('点击左侧树节点查看代码');
+const previewLoading = ref(false);
 
 const [Modal, modalApi] = useVbenModal({
   destroyOnClose: true,
@@ -40,19 +41,26 @@ const [Modal, modalApi] = useVbenModal({
   contentClass: 'p-0',
   async onOpenChange(isOpen) {
     if (!isOpen) {
+      treeData.value = [];
       codes.value = null;
       language.value = 'python';
       modalTitle.value = '代码预览';
       codeContent.value = '点击左侧树节点查看代码';
+      previewLoading.value = false;
       return null;
     }
 
+    treeData.value = [];
+    codes.value = null;
+    previewLoading.value = true;
     try {
       const res = await previewCodeGenApi(modalApi.getData().pk);
       codes.value = res;
       treeData.value = convertToTree(Object.keys(res));
     } catch (error) {
       console.error(error);
+    } finally {
+      previewLoading.value = false;
     }
   },
 });
@@ -141,7 +149,8 @@ function copyCodeContent(code: string) {
 
 <template>
   <Modal :title="modalTitle">
-    <div v-if="codes">
+    <a-skeleton v-if="previewLoading" active />
+    <div v-else-if="codes">
       <ColPage
         auto-content-height
         :height-offset="-35"
@@ -181,7 +190,7 @@ function copyCodeContent(code: string) {
         </a-button>
       </ColPage>
     </div>
-    <a-skeleton v-else active />
+    <a-empty v-else description="暂无预览内容" />
   </Modal>
 </template>
 

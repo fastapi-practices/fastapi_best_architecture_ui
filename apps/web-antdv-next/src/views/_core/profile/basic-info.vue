@@ -10,6 +10,8 @@ import { useVbenModal } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'antdv-next';
+
 import { useVbenForm } from '#/adapter/form';
 import { updateSysUserAvatarApi, updateSysUserNicknameApi } from '#/api';
 import { useAuthStore } from '#/store';
@@ -34,6 +36,7 @@ const [avatarModal, avatarModalApi] = useVbenModal({
       const data = await avatarFormApi.getValues<SysUpdateUserAvatarParams>();
       try {
         await updateSysUserAvatarApi(data);
+        message.success('头像更新成功');
         await avatarModalApi.close();
         await authStore.fetchUserInfo();
       } finally {
@@ -68,6 +71,7 @@ const [nicknameModal, nicknameModalApi] = useVbenModal({
         await nicknameFormApi.getValues<SysUpdateUserNicknameParams>();
       try {
         await updateSysUserNicknameApi(data);
+        message.success('昵称更新成功');
         await nicknameModalApi.close();
         await authStore.fetchUserInfo();
       } finally {

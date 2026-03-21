@@ -36,6 +36,8 @@ import { createSchema, querySchema, useColumns } from './data';
 const wsStore = useWebSocketStore();
 
 const taskWorkerStatus = ref<any[]>([]);
+const executeLoadingMap = ref<Record<number, boolean>>({});
+const statusLoadingMap = ref<Record<number, boolean>>({});
 
 const periodLabelMap: Record<string, string> = {
   days: '天',
@@ -101,12 +103,15 @@ function onActionClick({
         icon: 'warning',
         content: '确认删除此任务计划吗？',
       }).then(async () => {
+        gridApi.setLoading(true);
         try {
           await deleteTaskSchedulerApi(row.id);
           message.success($t('ui.actionMessage.deleteSuccess'));
           onRefresh();
         } catch (error) {
           console.error(error);
+        } finally {
+          gridApi.setLoading(false);
         }
       });
       break;
@@ -224,7 +229,7 @@ const [Modal, modalApi] = useVbenModal({
           data.start_time = dayjs(data.start_time, 'YYYY-MM-DD HH:mm:ss');
         }
         if (data.expire_time) {
-          data.expire_time = dayjs(data.start_time, 'YYYY-MM-DD HH:mm:ss');
+          data.expire_time = dayjs(data.expire_time, 'YYYY-MM-DD HH:mm:ss');
         }
         formApi.setValues(data);
       }
@@ -233,11 +238,14 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 const executeTask = async (pk: number) => {
+  executeLoadingMap.value[pk] = true;
   try {
     await executeTaskSchedulerApi(pk);
     message.success('执行成功，任务已下发');
   } catch (error) {
     console.error(error);
+  } finally {
+    executeLoadingMap.value[pk] = false;
   }
 };
 
@@ -245,13 +253,19 @@ const searchLog = (task: string) => {
   router.push({ path: '/scheduler/record', query: { name: task } });
 };
 
-const handleStatusChange = async (row: TaskSchedulerResult) => {
+const handleStatusChange = async (
+  row: TaskSchedulerResult,
+  checked: boolean,
+) => {
+  statusLoadingMap.value[row.id] = true;
   try {
     await updateTaskSchedulerStatusApi(row.id);
+    row.enabled = checked;
     message.success($t('ui.actionMessage.operationSuccess'));
-    onRefresh();
   } catch (error) {
     console.error(error);
+  } finally {
+    statusLoadingMap.value[row.id] = false;
   }
 };
 
@@ -312,11 +326,13 @@ onUnmounted(() => {
       </template>
       <template #enabled="{ row }">
         <a-switch
-          v-model:checked="row.enabled"
+          :checked="row.enabled"
           :checked-value="true"
+          :un-checked-value="false"
           checked-children="启用"
           un-checked-children="禁用"
-          @click="handleStatusChange(row)"
+          :loading="!!statusLoadingMap[row.id]"
+          @change="(checked) => handleStatusChange(row, checked)"
         />
       </template>
       <template #total_run_count="{ row }">
@@ -329,7 +345,12 @@ onUnmounted(() => {
         >
           <a-button size="small" disabled>执行</a-button>
         </a-tooltip>
-        <a-button v-else size="small" @click="executeTask(row.id)">
+        <a-button
+          v-else
+          size="small"
+          :loading="!!executeLoadingMap[row.id]"
+          @click="executeTask(row.id)"
+        >
           执行
         </a-button>
       </template>
