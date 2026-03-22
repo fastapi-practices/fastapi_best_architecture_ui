@@ -119,11 +119,11 @@ onMounted(async () => {
 
 <template>
   <Page auto-content-height>
-    <div class="flex space-x-6">
-      <div class="flex-1">
+    <div class="grid gap-6 xl:grid-cols-2">
+      <div class="min-w-0">
         <a-card :loading="loading" :title="$t('page.monitor.server.cpu.title')">
-          <div class="flex space-x-6 px-6">
-            <div class="flex-1">
+          <div class="grid gap-6 px-6 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.cpu.usage')"
                 :value="cpuData.usage"
@@ -131,20 +131,20 @@ onMounted(async () => {
                 suffix=" %"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.cpu.current_freq')"
                 :value="cpuData.current_freq"
                 suffix=" MHz"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.cpu.logical_num')"
                 :value="cpuData.logical_num"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.cpu.physical_num')"
                 :value="cpuData.physical_num"
@@ -153,34 +153,34 @@ onMounted(async () => {
           </div>
         </a-card>
       </div>
-      <div class="flex-1">
+      <div class="min-w-0">
         <a-card
           :loading="loading"
           :title="$t('page.monitor.server.memory.title')"
         >
-          <div class="flex space-x-6 px-6">
-            <div class="flex-1">
+          <div class="grid gap-6 px-6 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.memory.total')"
                 :value="memData.total"
                 suffix=" GB"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.memory.used')"
                 :value="memData.used"
                 suffix=" GB"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.memory.free')"
                 :value="memData.free"
                 suffix=" GB"
               />
             </div>
-            <div class="flex-1">
+            <div class="min-w-0">
               <a-statistic
                 :title="$t('page.monitor.server.memory.usage')"
                 :value="memData.usage"
@@ -192,7 +192,7 @@ onMounted(async () => {
         </a-card>
       </div>
     </div>
-    <div class="mt-6 space-y-6">
+    <div class="mt-6 grid gap-6">
       <a-card
         :loading="loading"
         :title="$t('page.monitor.server.service.title')"

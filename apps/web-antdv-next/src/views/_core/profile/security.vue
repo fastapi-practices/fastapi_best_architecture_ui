@@ -10,6 +10,8 @@ import { computed } from 'vue';
 import { useVbenModal, VbenButton } from '@vben/common-ui';
 import { useUserStore } from '@vben/stores';
 
+import { message } from 'antdv-next';
+
 import { useVbenForm } from '#/adapter/form';
 import {
   updateSysUserEmailApi,
@@ -65,6 +67,7 @@ const [phoneModal, phoneModalApi] = useVbenModal({
       const data = await phoneFormApi.getValues<SysUpdateUserPhoneParams>();
       try {
         await updateSysUserPhoneApi(data);
+        message.success('手机号更新成功');
         await phoneModalApi.close();
         await authStore.fetchUserInfo();
       } finally {
@@ -98,6 +101,7 @@ const [emailModal, emailModalApi] = useVbenModal({
       const data = await emailFormApi.getValues<SysUpdateUserEmailParams>();
       try {
         await updateSysUserEmailApi(data);
+        message.success('邮箱更新成功');
         await emailModalApi.close();
         await authStore.fetchUserInfo();
       } finally {
@@ -131,6 +135,7 @@ const [passwordModal, passwordModalApi] = useVbenModal({
       const data = await passwordFormApi.getValues<SysUpdatePasswordParams>();
       try {
         await updateSysUserPasswordApi(data);
+        message.success('密码更新成功，请重新登录');
         await passwordModalApi.close();
         await authStore.logout(false);
       } finally {

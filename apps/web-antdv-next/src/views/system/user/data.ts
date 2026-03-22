@@ -1,9 +1,5 @@
 import type { VbenFormSchema } from '#/adapter/form';
-import type {
-  OnActionClickFn,
-  OnActionClickParams,
-  VxeGridProps,
-} from '#/adapter/vxe-table';
+import type { OnActionClickFn, VxeGridProps } from '#/adapter/vxe-table';
 import type { SysRoleResult, SysUserResult } from '#/api';
 
 import { $t } from '@vben/locales';
@@ -50,6 +46,20 @@ export const querySchema: VbenFormSchema[] = [
 export function useColumns(
   onActionClick?: OnActionClickFn<SysUserResult>,
 ): VxeGridProps['columns'] {
+  const createPermissionSwitch = (
+    type: string,
+    props?: Record<string, any>,
+  ) => ({
+    name: 'CellSwitch',
+    attrs: {
+      async beforeChange(_checked: any, row: SysUserResult) {
+        await updateSysUserPermissionApi(row.id, type);
+        message.success($t('ui.actionMessage.operationSuccess'));
+      },
+    },
+    props,
+  });
+
   return [
     {
       field: 'seq',
@@ -99,73 +109,34 @@ export function useColumns(
       field: 'status',
       title: '状态',
       width: 100,
-      cellRender: {
-        name: 'CellSwitch',
-        attrs: {
-          onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'status').then(
-              message.success($t('ui.actionMessage.operationSuccess')),
-            );
-          },
-        },
-      },
+      cellRender: createPermissionSwitch('status'),
     },
     {
       field: 'is_superuser',
       title: '超级管理员',
       width: 100,
-      cellRender: {
-        name: 'CellSwitch',
-        attrs: {
-          onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'superuser').then(
-              message.success($t('ui.actionMessage.operationSuccess')),
-            );
-          },
-        },
-        props: {
-          checkedValue: true,
-          unCheckedValue: false,
-        },
-      },
+      cellRender: createPermissionSwitch('superuser', {
+        checkedValue: true,
+        unCheckedValue: false,
+      }),
     },
     {
       field: 'is_staff',
       title: '后台登录',
       width: 100,
-      cellRender: {
-        name: 'CellSwitch',
-        attrs: {
-          onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'staff').then(
-              message.success($t('ui.actionMessage.operationSuccess')),
-            );
-          },
-        },
-        props: {
-          checkedValue: true,
-          unCheckedValue: false,
-        },
-      },
+      cellRender: createPermissionSwitch('staff', {
+        checkedValue: true,
+        unCheckedValue: false,
+      }),
     },
     {
       field: 'is_multi_login',
       title: '多端登录',
       width: 100,
-      cellRender: {
-        name: 'CellSwitch',
-        attrs: {
-          onChange: ({ row }: OnActionClickParams<SysUserResult>) => {
-            updateSysUserPermissionApi(row.id, 'multi_login').then(
-              message.success($t('ui.actionMessage.operationSuccess')),
-            );
-          },
-        },
-        props: {
-          checkedValue: true,
-          unCheckedValue: false,
-        },
-      },
+      cellRender: createPermissionSwitch('multi_login', {
+        checkedValue: true,
+        unCheckedValue: false,
+      }),
     },
     {
       field: 'join_time',
@@ -336,7 +307,7 @@ export const resetPwdSchema: VbenFormSchema[] = [
   {
     component: 'InputPassword',
     fieldName: 'password',
-    label: '密码',
+    label: '新密码',
     rules: z
       .string({ message: '请输入新密码' })
       .min(6, '密码长度不能少于 6 个字符')

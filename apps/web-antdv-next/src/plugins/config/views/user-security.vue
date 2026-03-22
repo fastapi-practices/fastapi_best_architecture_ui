@@ -17,9 +17,7 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
   schema: userSecuritySchema,
   commonConfig: {
-    componentProps: {
-      class: 'w-1/4',
-    },
+    controlClass: 'w-full max-w-80',
     disabled: true,
     labelClass: 'justify-start ml-2 self-start',
     labelWidth: 180,
@@ -30,6 +28,7 @@ const [Form, formApi] = useVbenForm({
 
 const editButtonShow = ref<boolean>(true);
 const loading = ref<boolean>(false);
+const saveLoading = ref<boolean>(false);
 
 const userSecurityData = ref<ConfigResult[]>([]);
 const fetchConfigList = async () => {
@@ -68,6 +67,7 @@ const saveUserSecurityConfig = async () => {
         config.value = data[config.key];
       }
     });
+    saveLoading.value = true;
     try {
       await updateConfigApi(userSecurityData.value);
       message.success($t('ui.actionMessage.operationSuccess'));
@@ -76,6 +76,8 @@ const saveUserSecurityConfig = async () => {
       await fetchConfigList();
     } catch (error) {
       console.error(error);
+    } finally {
+      saveLoading.value = false;
     }
   }
 };
@@ -105,6 +107,7 @@ defineExpose({
       <VbenButton
         v-show="!editButtonShow"
         class="ml-1.5 mt-3"
+        :loading="saveLoading"
         @click="saveUserSecurityConfig"
       >
         <MaterialSymbolsEdit class="mr-1" />
@@ -112,7 +115,8 @@ defineExpose({
       </VbenButton>
       <VbenButton
         v-show="!editButtonShow"
-        class="ml-5 mt-5"
+        class="ml-3 mt-3"
+        :disabled="saveLoading"
         variant="outline"
         @click="
           () => {
