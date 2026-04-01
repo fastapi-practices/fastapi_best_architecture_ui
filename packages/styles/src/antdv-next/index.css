@@ -42,6 +42,13 @@
   }
 }
 
+/* Tailwind v4 utilities payload before antd css-in-js width defaults */
+.ant-input-number.w-full,
+.ant-input-number-affix-wrapper.w-full,
+.ant-input-number-group-wrapper.w-full {
+  width: 100%;
+}
+
 .form-valid-error {
   /** select 选择器的样式 */
 
