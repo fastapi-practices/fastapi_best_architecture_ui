@@ -262,11 +262,11 @@ loadDefinition();
       <div class="flex justify-end">
         <a-space>
           <a-button @click="router.push('/plugins/workflow/start')">
-取消
-</a-button>
+            取消
+          </a-button>
           <a-button type="primary" :loading="submitting" @click="submit">
-提交申请
-</a-button>
+            提交申请
+          </a-button>
         </a-space>
       </div>
     </div>

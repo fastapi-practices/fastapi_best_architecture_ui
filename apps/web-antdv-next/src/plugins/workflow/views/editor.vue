@@ -172,7 +172,9 @@ async function saveDefinition() {
     flow_config: currentDefinition.value.flow_config,
     form_config: currentDefinition.value.form_config,
   };
-  await (definitionId.value ? updateWorkflowDefinitionApi(definitionId.value, payload) : createWorkflowDefinitionApi(payload));
+  await (definitionId.value
+    ? updateWorkflowDefinitionApi(definitionId.value, payload)
+    : createWorkflowDefinitionApi(payload));
   message.success('流程已保存');
   await router.push('/plugins/workflow/definition');
 }
@@ -265,20 +267,20 @@ loadDefinition();
               />
               <a-button block @click="goToFormEditor">进入表单设计器</a-button>
               <a-button block @click="goToDefinitionList">
-返回流程定义列表
-</a-button>
+                返回流程定义列表
+              </a-button>
             </a-space>
           </a-card>
           <a-card title="节点说明" size="small">
             <a-list size="small">
               <a-list-item>开始节点：流程入口</a-list-item>
               <a-list-item>
-审批节点：支持指定用户/角色/发起人相关来源
-</a-list-item>
+                审批节点：支持指定用户/角色/发起人相关来源
+              </a-list-item>
               <a-list-item>条件节点：根据表单值选择分支</a-list-item>
               <a-list-item>
-并行节点：可同时派发多个分支任务，待全部分支完成后再汇聚
-</a-list-item>
+                并行节点：可同时派发多个分支任务，待全部分支完成后再汇聚
+              </a-list-item>
               <a-list-item>触发器节点：自动跳过并进入下游</a-list-item>
               <a-list-item>抄送节点：发送消息通知</a-list-item>
               <a-list-item>结束节点：流程结束</a-list-item>

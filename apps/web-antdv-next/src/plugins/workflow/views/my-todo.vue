@@ -131,8 +131,8 @@ onActivated(refreshIfNeeded);
             审批
           </a-button>
           <a-button size="small" type="primary" @click="onApprove(row)">
-通过
-</a-button>
+            通过
+          </a-button>
           <a-button size="small" danger @click="onReject(row)">拒绝</a-button>
         </a-space>
       </template>

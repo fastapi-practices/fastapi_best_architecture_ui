@@ -14,10 +14,10 @@ const todoCount = ref(0);
 const applyTotal = ref(0);
 const todoTotal = ref(0);
 const recentApplyItems = ref<
-  Array<{ created_time: string; id: number; status: string; title: string; }>
+  Array<{ created_time: string; id: number; status: string; title: string }>
 >([]);
 const recentTodoItems = ref<
-  Array<{ created_time: string; id: number; status: string; title: string; }>
+  Array<{ created_time: string; id: number; status: string; title: string }>
 >([]);
 
 const completionRate = computed(() => {

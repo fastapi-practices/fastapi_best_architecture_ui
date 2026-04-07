@@ -247,8 +247,8 @@ onMounted(loadDetail);
           <div class="flex items-center gap-2">
             <a-button @click="goToBack">{{ backText }}</a-button>
             <a-button v-if="from" type="link" @click="goBackWithRefresh">
-返回并刷新
-</a-button>
+              返回并刷新
+            </a-button>
             <a-tag color="processing">{{ currentStatus }}</a-tag>
           </div>
         </div>
@@ -268,10 +268,8 @@ onMounted(loadDetail);
                 <div class="flex items-center gap-2">
                   <strong>{{ item.title }}</strong>
                   <a-tag>
-{{
-                    workflowMessageTypeLabel(item.message_type)
-                  }}
-</a-tag>
+                    {{ workflowMessageTypeLabel(item.message_type) }}
+                  </a-tag>
                 </div>
                 <div
                   class="mt-1 text-sm text-[var(--ant-color-text-secondary)]"
@@ -290,40 +288,26 @@ onMounted(loadDetail);
           <a-card title="申请信息">
             <a-descriptions :column="2" bordered>
               <a-descriptions-item label="标题">
-{{
-                instance?.title || '-'
-              }}
-</a-descriptions-item>
+                {{ instance?.title || '-' }}
+              </a-descriptions-item>
               <a-descriptions-item label="流程定义ID">
-{{
-                instance?.definition_id || '-'
-              }}
-</a-descriptions-item>
+                {{ instance?.definition_id || '-' }}
+              </a-descriptions-item>
               <a-descriptions-item label="发起人ID">
-{{
-                instance?.initiator_id || '-'
-              }}
-</a-descriptions-item>
+                {{ instance?.initiator_id || '-' }}
+              </a-descriptions-item>
               <a-descriptions-item label="当前任务ID">
-{{
-                instance?.current_task_id || '-'
-              }}
-</a-descriptions-item>
+                {{ instance?.current_task_id || '-' }}
+              </a-descriptions-item>
               <a-descriptions-item label="允许撤回">
-{{
-                instance?.allow_withdraw ? '是' : '否'
-              }}
-</a-descriptions-item>
+                {{ instance?.allow_withdraw ? '是' : '否' }}
+              </a-descriptions-item>
               <a-descriptions-item label="允许催办">
-{{
-                instance?.allow_urge ? '是' : '否'
-              }}
-</a-descriptions-item>
+                {{ instance?.allow_urge ? '是' : '否' }}
+              </a-descriptions-item>
               <a-descriptions-item label="备注" :span="2">
-{{
-                instance?.remark || '-'
-              }}
-</a-descriptions-item>
+                {{ instance?.remark || '-' }}
+              </a-descriptions-item>
             </a-descriptions>
           </a-card>
 
@@ -364,47 +348,47 @@ onMounted(loadDetail);
                     :loading="actionLoading"
                     :disabled="!showApprovalActions"
                     @click="approve"
-                    >
-通过
-</a-button>
+                  >
+                    通过
+                  </a-button>
                   <a-button
                     danger
                     :loading="actionLoading"
                     :disabled="!showApprovalActions"
                     @click="reject"
-                    >
-拒绝
-</a-button>
+                  >
+                    拒绝
+                  </a-button>
                   <a-button
                     :disabled="!showApprovalActions"
                     @click="showUnsupportedAction('转审')"
-                    >
-转审
-</a-button>
+                  >
+                    转审
+                  </a-button>
                   <a-button
                     :disabled="!showApprovalActions"
                     @click="showUnsupportedAction('加签')"
-                    >
-加签
-</a-button>
+                  >
+                    加签
+                  </a-button>
                 </template>
                 <template v-if="isMyApplyEntry">
                   <a-button
                     :loading="actionLoading"
                     :disabled="!canUrge"
                     @click="urge"
-                    >
-催办
-</a-button>
+                  >
+                    催办
+                  </a-button>
                   <a-button
                     danger
                     ghost
                     :loading="actionLoading"
                     :disabled="!canWithdraw"
                     @click="withdraw"
-                    >
-撤回
-</a-button>
+                  >
+                    撤回
+                  </a-button>
                 </template>
                 <a-button @click="goToBack">{{ backText }}</a-button>
               </a-space>
@@ -414,8 +398,8 @@ onMounted(loadDetail);
           <a-card title="流程消息">
             <template #extra>
               <a-button size="small" @click="goToMessageCenter">
-消息中心
-</a-button>
+                消息中心
+              </a-button>
             </template>
             <a-empty v-if="messages.length === 0" description="暂无流程消息" />
             <a-list v-else :data-source="messages" size="small">
@@ -425,10 +409,8 @@ onMounted(loadDetail);
                     <div class="flex items-center gap-2">
                       <strong>{{ item.title }}</strong>
                       <a-tag>
-{{
-                        workflowMessageTypeLabel(item.message_type)
-                      }}
-</a-tag>
+                        {{ workflowMessageTypeLabel(item.message_type) }}
+                      </a-tag>
                     </div>
                     <div class="mt-1 text-[var(--ant-color-text-secondary)]">
                       {{ item.content }}

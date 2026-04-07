@@ -1347,9 +1347,9 @@ onBeforeUnmount(() => {
                   size="small"
                   danger
                   @click="removeConditionRule(index)"
-                  >
-删除
-</a-button>
+                >
+                  删除
+                </a-button>
               </div>
               <a-form-item label="条件字段">
                 <a-select
@@ -1400,8 +1400,8 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <a-button block type="dashed" @click="addConditionRule">
-新增条件
-</a-button>
+            新增条件
+          </a-button>
         </template>
 
         <a-form-item v-if="selectedNode.type === 'CC'" label="抄送人列表">

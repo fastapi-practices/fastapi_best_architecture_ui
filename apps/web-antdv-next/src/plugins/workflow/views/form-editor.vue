@@ -194,12 +194,12 @@ loadDefinition();
         <a-card title="字段面板" size="small">
           <a-space direction="vertical" class="w-full">
             <a-button block type="dashed" @click="addFormField">
-新增输入框
-</a-button>
+              新增输入框
+            </a-button>
             <a-button block @click="addFormField">新增字段</a-button>
             <a-button block danger @click="removeSelectedField">
-删除当前字段
-</a-button>
+              删除当前字段
+            </a-button>
           </a-space>
         </a-card>
 
