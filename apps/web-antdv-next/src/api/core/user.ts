@@ -1,6 +1,7 @@
 import type { UserInfo } from '@vben/types';
 
 import type { SysDeptResult, SysRoleResult } from '#/api';
+import type { PaginationResult } from '#/types';
 
 import { requestClient } from '#/api/request';
 
@@ -91,7 +92,10 @@ export async function getUserInfoApi() {
 }
 
 export async function getSysUserListApi(params: SysUserParams) {
-  return requestClient.get<SysUserResult>('/api/v1/sys/users', { params });
+  return requestClient.get<PaginationResult<SysUserResult>>(
+    '/api/v1/sys/users',
+    { params },
+  );
 }
 
 export async function createSysUserApi(data: SysAddUserParams) {

@@ -1,0 +1,9 @@
+{
+  "menu": "Workflow",
+  "category": "Categories",
+  "definition": "Definitions",
+  "start": "Start Application",
+  "todo": "My Todo",
+  "apply": "My Apply",
+  "message": "Messages"
+}

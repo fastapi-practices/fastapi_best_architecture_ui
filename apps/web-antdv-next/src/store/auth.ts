@@ -20,7 +20,7 @@ import {
   logoutApi,
 } from '#/api';
 import { $t } from '#/locales';
-import { useDictStore, useWebSocketStore } from '#/store';
+import { useDictStore, useWebSocketStore, useWorkflowStore } from '#/store';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -85,6 +85,8 @@ export const useAuthStore = defineStore('auth', () => {
         // 初始化WebSocket连接
         const wsStore = useWebSocketStore();
         wsStore.connect();
+        const workflowStore = useWorkflowStore();
+        await workflowStore.init();
 
         if (userInfo?.nickname) {
           notification.success({
@@ -119,11 +121,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout(redirect: boolean = true) {
+    const workflowStore = useWorkflowStore();
     try {
       await logoutApi();
     } catch {
       // 不做任何处理
     }
+    workflowStore.reset();
     resetAllStores();
     accessStore.setLoginExpired(false);
 

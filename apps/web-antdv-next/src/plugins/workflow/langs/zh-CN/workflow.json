@@ -1,0 +1,9 @@
+{
+  "menu": "审批流",
+  "category": "流程分类",
+  "definition": "流程定义",
+  "start": "发起申请",
+  "todo": "待我审批",
+  "apply": "我的申请",
+  "message": "审批消息"
+}

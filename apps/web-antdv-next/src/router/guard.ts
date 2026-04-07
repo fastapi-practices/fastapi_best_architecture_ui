@@ -118,6 +118,12 @@ function setupAccessGuard(router: Router) {
     // 保存菜单信息和路由信息
     accessStore.setAccessMenus(accessibleMenus);
     accessStore.setAccessRoutes(accessibleRoutes);
+    for (const route of accessibleRoutes) {
+      const routeName = route.name as string | undefined;
+      if (routeName && !router.hasRoute(routeName)) {
+        router.addRoute(route);
+      }
+    }
     accessStore.setIsAccessChecked(true);
     const redirectPath = (from.query.redirect ??
       (to.path === preferences.app.defaultHomePath

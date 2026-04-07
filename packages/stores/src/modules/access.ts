@@ -90,6 +90,34 @@ export const useAccessStore = defineStore('core-access', {
     setAccessMenus(menus: MenuRecordRaw[]) {
       this.accessMenus = menus;
     },
+    setMenuBadgeByPath(
+      path: string,
+      badge?: string,
+      badgeType: 'dot' | 'normal' = 'normal',
+      badgeVariants = 'destructive',
+    ) {
+      function updateMenus(menus: MenuRecordRaw[]): MenuRecordRaw[] {
+        return menus.map((menu) => {
+          const nextChildren = menu.children
+            ? updateMenus(menu.children)
+            : undefined;
+          if (menu.path === path) {
+            return {
+              ...menu,
+              badge,
+              badgeType: badge ? badgeType : undefined,
+              badgeVariants: badge ? badgeVariants : undefined,
+              children: nextChildren,
+            };
+          }
+          return {
+            ...menu,
+            children: nextChildren,
+          };
+        });
+      }
+      this.accessMenus = updateMenus(this.accessMenus);
+    },
     setAccessRoutes(routes: RouteRecordRaw[]) {
       this.accessRoutes = routes;
     },
