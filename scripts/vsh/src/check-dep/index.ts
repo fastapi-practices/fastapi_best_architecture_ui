@@ -26,6 +26,7 @@ const DEFAULT_CONFIG = {
     '@vben/oxfmt-config',
     '@vben/oxlint-config',
     '@vben/stylelint-config',
+    '@vben/tailwind-config',
     '@vben/tsconfig',
     '@vben/vite-config',
     '@vben/vsh',

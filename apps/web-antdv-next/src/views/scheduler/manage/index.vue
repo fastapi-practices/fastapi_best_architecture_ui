@@ -269,6 +269,10 @@ const handleStatusChange = async (
   }
 };
 
+function onEnabledChange(row: TaskSchedulerResult, checked: boolean) {
+  handleStatusChange(row, checked);
+}
+
 let cleanupWS: (() => void) | null = null;
 const intervalId = ref<any>(null);
 const emitWS = () => {
@@ -332,7 +336,7 @@ onUnmounted(() => {
           checked-children="启用"
           un-checked-children="禁用"
           :loading="!!statusLoadingMap[row.id]"
-          @change="(checked) => handleStatusChange(row, checked)"
+          @change="onEnabledChange(row, $event)"
         />
       </template>
       <template #total_run_count="{ row }">

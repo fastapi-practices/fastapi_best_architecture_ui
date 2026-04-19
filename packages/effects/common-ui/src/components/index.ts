@@ -1,5 +1,6 @@
 export * from './api-component';
 export * from './captcha';
+export * from './code-mirror';
 export * from './col-page';
 export * from './count-to';
 export * from './cropper';
@@ -7,6 +8,7 @@ export * from './ellipsis-text';
 export * from './icon-picker';
 export * from './json-viewer';
 export * from './loading';
+export * from './markdown';
 export * from './page';
 export * from './resize';
 export * from './tippy';

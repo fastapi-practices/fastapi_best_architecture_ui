@@ -3,6 +3,13 @@ import type { Linter } from 'eslint';
 const restrictedImportIgnores = ['**/vite.config.mts'];
 
 const customConfig: Linter.Config[] = [
+  {
+    files: ['apps/web-antdv-next/src/types/antd.d.ts'],
+    rules: {
+      'spaced-comment': 'off',
+      'unicorn/no-empty-file': 'off',
+    },
+  },
   // shadcn-ui 内部组件是自动生成的，不做太多限制
   {
     files: ['packages/@core/ui-kit/shadcn-ui/**/**'],

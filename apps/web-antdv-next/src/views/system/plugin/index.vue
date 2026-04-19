@@ -130,6 +130,10 @@ const editPluginStatus = async (
   }
 };
 
+function onPluginStatusChange(info: PluginResult, checked: PluginSwitchValue) {
+  editPluginStatus(info, checked);
+}
+
 const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     try {
@@ -202,7 +206,7 @@ onMounted(() => {
                 checked-children="启用"
                 un-checked-children="禁用"
                 :loading="switchingPlugin === info.plugin.name"
-                @change="(checked) => editPluginStatus(info, checked)"
+                @change="onPluginStatusChange(info, $event)"
               />
             </template>
             <template #actions>
