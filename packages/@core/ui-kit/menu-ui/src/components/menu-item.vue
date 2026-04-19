@@ -5,6 +5,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, useSlots } from 'vue';
 
 import { useNamespace } from '@vben-core/composables';
 import { VbenIcon, VbenTooltip } from '@vben-core/shadcn-ui';
+import { isHttpUrl } from '@vben-core/shared/utils';
 
 import qs from 'qs';
 
@@ -32,6 +33,8 @@ const active = computed(() => props.path === rootMenu?.activePath);
 const menuIcon = computed(() =>
   active.value ? props.activeIcon || props.icon : props.icon,
 );
+
+const isHttp = computed(() => isHttpUrl(item.parentPaths.at(-1)));
 
 const isTopLevelMenuItem = computed(
   () => parentMenu.value?.type.name === 'Menu',
@@ -84,14 +87,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <a
-    :href="
+  <router-link
+    v-slot="{ href }"
+    custom
+    :to="
       (item.parentPaths.at(-1) ?? '') +
       (item?.query ? `?${qs.stringify(item?.query)}` : '')
     "
-    @click.prevent.stop="handleClick"
   >
-    <li
+    <a
+      :href="isHttp ? item.parentPaths.at(-1) : href"
       :class="[
         rootMenu.theme,
         b(),
@@ -100,8 +105,8 @@ onBeforeUnmount(() => {
         is('collapse-show-title', collapseShowTitle),
       ]"
       role="menuitem"
+      @click.prevent.stop="handleClick"
     >
-      <!-- -->
       <VbenTooltip
         v-if="showTooltip"
         :content-class="[rootMenu.theme]"
@@ -128,6 +133,6 @@ onBeforeUnmount(() => {
         <slot></slot>
         <slot name="title"></slot>
       </div>
-    </li>
-  </a>
+    </a>
+  </router-link>
 </template>

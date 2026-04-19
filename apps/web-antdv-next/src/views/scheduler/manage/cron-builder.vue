@@ -32,6 +32,10 @@ interface CronField {
   values: number[];
 }
 
+const CRON_FIELD_KEYS = ['minute', 'hour', 'day', 'month', 'weekday'] as const;
+
+type CronFieldKey = (typeof CRON_FIELD_KEYS)[number];
+
 const activeTab = ref('minute');
 
 const segmentOptions = [
@@ -57,7 +61,7 @@ const cronBuilder = reactive<{
 });
 
 function resetCronBuilder() {
-  for (const key of ['minute', 'hour', 'day', 'month', 'weekday'] as const) {
+  for (const key of CRON_FIELD_KEYS) {
     cronBuilder[key].mode = 'all';
     cronBuilder[key].step = 1;
     cronBuilder[key].values = [];
@@ -94,10 +98,7 @@ function expandCronPart(part: string): number[] {
   return values;
 }
 
-function parseCronPart(
-  key: 'day' | 'hour' | 'minute' | 'month' | 'weekday',
-  part: string,
-) {
+function parseCronPart(key: CronFieldKey, part: string) {
   if (part === '*') {
     cronBuilder[key].mode = 'all';
   } else if (part.startsWith('*/')) {
@@ -146,8 +147,7 @@ function parseCronExpression(expr: string) {
   const parts = expr.split(/\s+/);
   if (parts.length !== 5) return;
 
-  const fields = ['minute', 'hour', 'day', 'month', 'weekday'] as const;
-  fields.forEach((key, i) => {
+  CRON_FIELD_KEYS.forEach((key, i) => {
     parseCronPart(key, parts[i] || '*');
   });
 }
@@ -156,10 +156,7 @@ function applyPreset(expr: string) {
   parseCronExpression(expr);
 }
 
-function parseFieldString(
-  key: 'day' | 'hour' | 'minute' | 'month' | 'weekday',
-  val: string,
-) {
+function parseFieldString(key: CronFieldKey, val: string) {
   parseCronPart(key, val.trim() || '*');
 }
 
@@ -170,6 +167,14 @@ function toggleCronValue(field: CronField, val: number) {
   } else {
     field.values.splice(idx, 1);
   }
+}
+
+function getOptionColor(selected: boolean) {
+  return selected ? 'blue' : 'default';
+}
+
+function isPresetActive(expr: string) {
+  return cronExpression.value === normalizeCronExpression(expr);
 }
 
 function handleConfirm() {
@@ -200,7 +205,6 @@ watch(
     :open="open"
     title="Crontab 可视化配置"
     width="720px"
-    style="top: 50px"
     :styles="{
       container: { background: 'hsl(var(--background))' },
     }"
@@ -208,20 +212,21 @@ watch(
     @cancel="handleCancel"
   >
     <div class="flex flex-col gap-3">
-      <div class="flex flex-wrap gap-1.5 border-border pt-1">
-        <a-tag
-          v-for="preset in CRONTAB_PRESETS"
-          :key="preset.value"
-          :color="
-            cronExpression === normalizeCronExpression(preset.value)
-              ? 'blue'
-              : 'default'
-          "
-          class="cursor-pointer select-none transition-all hover:opacity-80"
-          @click="applyPreset(preset.value)"
-        >
-          {{ preset.label }}
-        </a-tag>
+      <div class="rounded-lg border border-border bg-accent/20 p-3">
+        <div class="mb-2 text-sm">快捷预设</div>
+        <div class="flex flex-wrap gap-2">
+          <a-button
+            v-for="preset in CRONTAB_PRESETS"
+            :key="preset.value"
+            size="small"
+            variant="dashed"
+            :color="isPresetActive(preset.value) ? 'primary' : 'default'"
+            class="rounded-md"
+            @click="applyPreset(preset.value)"
+          >
+            {{ preset.label }}
+          </a-button>
+        </div>
       </div>
 
       <a-segmented v-model:value="activeTab" block :options="segmentOptions" />
@@ -268,9 +273,7 @@ watch(
             <a-tag
               v-for="v in 60"
               :key="v - 1"
-              :color="
-                cronBuilder.minute.values.includes(v - 1) ? 'blue' : 'default'
-              "
+              :color="getOptionColor(cronBuilder.minute.values.includes(v - 1))"
               class="cursor-pointer select-none text-center transition-all hover:opacity-80"
               @click.stop="
                 cronBuilder.minute.mode = 'specific';
@@ -325,9 +328,7 @@ watch(
             <a-tag
               v-for="v in 24"
               :key="v - 1"
-              :color="
-                cronBuilder.hour.values.includes(v - 1) ? 'blue' : 'default'
-              "
+              :color="getOptionColor(cronBuilder.hour.values.includes(v - 1))"
               class="cursor-pointer select-none text-center transition-all hover:opacity-80"
               @click.stop="
                 cronBuilder.hour.mode = 'specific';
@@ -382,7 +383,7 @@ watch(
             <a-tag
               v-for="v in 31"
               :key="v"
-              :color="cronBuilder.day.values.includes(v) ? 'blue' : 'default'"
+              :color="getOptionColor(cronBuilder.day.values.includes(v))"
               class="cursor-pointer select-none text-center transition-all hover:opacity-80"
               @click.stop="
                 cronBuilder.day.mode = 'specific';
@@ -420,7 +421,7 @@ watch(
             <a-tag
               v-for="v in 12"
               :key="v"
-              :color="cronBuilder.month.values.includes(v) ? 'blue' : 'default'"
+              :color="getOptionColor(cronBuilder.month.values.includes(v))"
               class="cursor-pointer select-none text-center transition-all hover:opacity-80"
               @click.stop="
                 cronBuilder.month.mode = 'specific';
@@ -459,7 +460,7 @@ watch(
               v-for="v in 7"
               :key="v - 1"
               :color="
-                cronBuilder.weekday.values.includes(v - 1) ? 'blue' : 'default'
+                getOptionColor(cronBuilder.weekday.values.includes(v - 1))
               "
               class="cursor-pointer select-none px-4 py-1 transition-all hover:opacity-80"
               @click.stop="

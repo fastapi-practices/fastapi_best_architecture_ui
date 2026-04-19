@@ -14,7 +14,6 @@ import { MaterialSymbolsAdd } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { message } from 'antdv-next';
-import { Cron } from 'croner';
 import dayjs from 'dayjs';
 
 import { useVbenForm } from '#/adapter/form';
@@ -32,57 +31,13 @@ import { useWebSocketStore } from '#/store';
 import CronBuilder from '#/views/scheduler/manage/cron-builder.vue';
 
 import { createSchema, querySchema, useColumns } from './data';
+import { getNextRuns, getScheduleLabel } from './schedule';
 
 const wsStore = useWebSocketStore();
 
 const taskWorkerStatus = ref<any[]>([]);
 const executeLoadingMap = ref<Record<number, boolean>>({});
 const statusLoadingMap = ref<Record<number, boolean>>({});
-
-const periodLabelMap: Record<string, string> = {
-  days: '天',
-  hours: '小时',
-  minutes: '分钟',
-  seconds: '秒',
-};
-
-const periodToSeconds: Record<string, number> = {
-  days: 86_400,
-  hours: 3600,
-  minutes: 60,
-  seconds: 1,
-};
-
-function getScheduleLabel(row: TaskSchedulerResult): string {
-  if (row.type === 0) {
-    const label =
-      periodLabelMap[row.interval_period || 'seconds'] || row.interval_period;
-    return `每 ${row.interval_every || '?'} ${label}`;
-  }
-  return row.crontab || '';
-}
-
-function getNextRuns(row: TaskSchedulerResult): Date[] {
-  try {
-    if (row.type === 0) {
-      const every = row.interval_every;
-      const period = row.interval_period || 'seconds';
-      if (!every || every <= 0) return [];
-      const intervalMs = every * (periodToSeconds[period] || 1) * 1000;
-      const baseTime = row.last_run_time
-        ? new Date(row.last_run_time)
-        : new Date();
-      return Array.from(
-        { length: 5 },
-        (_, i) => new Date(baseTime.getTime() + intervalMs * (i + 1)),
-      );
-    }
-    if (!row.crontab) return [];
-    return new Cron(row.crontab).nextRuns(5);
-  } catch {
-    return [];
-  }
-}
 
 const formOptions: VbenFormProps = {
   collapsed: true,
@@ -269,6 +224,10 @@ const handleStatusChange = async (
   }
 };
 
+function onEnabledChange(row: TaskSchedulerResult, checked: boolean) {
+  handleStatusChange(row, checked);
+}
+
 let cleanupWS: (() => void) | null = null;
 const intervalId = ref<any>(null);
 const emitWS = () => {
@@ -332,7 +291,7 @@ onUnmounted(() => {
           checked-children="启用"
           un-checked-children="禁用"
           :loading="!!statusLoadingMap[row.id]"
-          @change="(checked) => handleStatusChange(row, checked)"
+          @change="onEnabledChange(row, $event)"
         />
       </template>
       <template #total_run_count="{ row }">

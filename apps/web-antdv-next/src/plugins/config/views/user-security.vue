@@ -21,7 +21,6 @@ const [Form, formApi] = useVbenForm({
     disabled: true,
     labelClass: 'justify-start ml-2 self-start',
     labelWidth: 180,
-    wrapperClass: 'flex-col items-start',
     hideRequiredMark: true,
   },
 });

@@ -18,6 +18,7 @@ export default defineConfig({
     '.output',
     '**/*.svg',
     '**/*.sh',
+    'apps/web-antdv-next/src/types/antd.d.ts',
     'public',
     '.npmrc',
     '*-lock.yaml',

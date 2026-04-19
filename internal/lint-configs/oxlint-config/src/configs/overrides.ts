@@ -10,6 +10,12 @@ const overrides: OxlintConfig = {
       },
     },
     {
+      files: ['apps/web-antdv-next/src/types/antd.d.ts'],
+      rules: {
+        'unicorn/no-empty-file': 'off',
+      },
+    },
+    {
       files: [
         '**/__tests__/**/*.js',
         '**/__tests__/**/*.cjs',

@@ -8,6 +8,7 @@ import type {
 import { computed } from 'vue';
 
 import { useVbenModal, VbenButton } from '@vben/common-ui';
+import { createIconifyIcon } from '@vben/icons';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'antdv-next';
@@ -24,10 +25,13 @@ import { emailSchema, passwordSchema, phoneSchema } from './data';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const PhoneIcon = createIconifyIcon('fluent:phone-48-regular');
+const EmailIcon = createIconifyIcon('ic:outline-email');
+const PasswordIcon = createIconifyIcon('mdi:password-outline');
 
 const securityOptions = computed(() => [
   {
-    class: 'icon-[fluent--phone-48-regular] mt-1.5',
+    icon: PhoneIcon,
     title: '安全手机',
     description: '手机号可用于登录、身份验证、密码找回、通知接收',
     type: 'phone',
@@ -35,7 +39,7 @@ const securityOptions = computed(() => [
     statusString: userStore.userInfo?.phone ? '已绑定' : '未绑定',
   },
   {
-    class: 'icon-[ic--outline-email] mt-1.5',
+    icon: EmailIcon,
     title: '安全邮箱',
     description: '邮箱可用于登录、身份验证、密码找回、通知接收',
     type: 'email',
@@ -43,7 +47,7 @@ const securityOptions = computed(() => [
     statusString: userStore.userInfo?.email ? '已绑定' : '未绑定',
   },
   {
-    class: 'icon-[mdi--password-outline] mt-1.5',
+    icon: PasswordIcon,
     title: '登录密码',
     description: '为了您的账号安全，建议定期修改密码',
     type: 'password',
@@ -177,7 +181,7 @@ const openModal = (type: string) => {
       <div class="flex items-center gap-4">
         <a-avatar size="large">
           <template #icon>
-            <span :class="item.class"></span>
+            <component :is="item.icon" class="size-5" />
           </template>
         </a-avatar>
         <div>

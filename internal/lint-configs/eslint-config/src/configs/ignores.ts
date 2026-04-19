@@ -41,6 +41,7 @@ export async function ignores(): Promise<Linter.Config[]> {
         '**/fixtures/**',
         '**/.vitepress/cache/**',
         '**/auto-import?(s).d.ts',
+        'apps/web-antdv-next/src/types/antd.d.ts',
         '**/components.d.ts',
         '**/vite.config.mts.*',
         '**/*.sh',
