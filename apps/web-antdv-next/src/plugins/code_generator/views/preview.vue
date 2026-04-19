@@ -182,12 +182,9 @@ function copyCodeContent(code: string) {
           v-model="codeContent"
           :language="language"
         />
-        <a-button
-          class="fixed right-12 top-24"
-          @click="copyCodeContent(codeContent)"
-        >
-          复制
-        </a-button>
+        <div class="fixed right-12 top-20">
+          <a-button @click="copyCodeContent(codeContent)">复制</a-button>
+        </div>
       </ColPage>
     </div>
     <a-empty v-else description="暂无预览内容" />
