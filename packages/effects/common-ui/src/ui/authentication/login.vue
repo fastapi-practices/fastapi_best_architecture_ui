@@ -132,6 +132,15 @@ defineExpose({
         {{ $t('authentication.forgetPassword') }}
       </span>
     </div>
+    <p class="mb-3 text-gray-500">
+      点击继续，即表示我同意 fba 的条款、
+      <a
+        href="https://fastapi-practices.github.io/fastapi_best_architecture_docs/privacy-policy.html"
+      >
+        隐私政策
+      </a>
+      和 cookie 政策
+    </p>
     <VbenButton
       :class="{
         'cursor-wait': loading,

@@ -20,9 +20,17 @@ interface AccessState {
    */
   accessRoutes: RouteRecordRaw[];
   /**
+   * 登录 session_uuid
+   */
+  accessSessionUuid: AccessToken;
+  /**
    * 登录 accessToken
    */
   accessToken: AccessToken;
+  /**
+   * 验证码 uuid
+   */
+  captchaUuid: null | string;
   /**
    * 是否已经检查过权限
    */
@@ -73,6 +81,9 @@ export const useAccessStore = defineStore('core-access', {
       this.isLockScreen = true;
       this.lockScreenPassword = password;
     },
+    setCaptchaUuid(uuid: string) {
+      this.captchaUuid = uuid;
+    },
     setAccessCodes(codes: string[]) {
       this.accessCodes = codes;
     },
@@ -81,6 +92,9 @@ export const useAccessStore = defineStore('core-access', {
     },
     setAccessRoutes(routes: RouteRecordRaw[]) {
       this.accessRoutes = routes;
+    },
+    setAccessSessionUuid(uuid: AccessToken) {
+      this.accessSessionUuid = uuid;
     },
     setAccessToken(token: AccessToken) {
       this.accessToken = token;
@@ -102,6 +116,7 @@ export const useAccessStore = defineStore('core-access', {
   persist: {
     // 持久化
     pick: [
+      'accessSessionUuid',
       'accessToken',
       'refreshToken',
       'accessCodes',
@@ -113,7 +128,9 @@ export const useAccessStore = defineStore('core-access', {
     accessCodes: [],
     accessMenus: [],
     accessRoutes: [],
+    accessSessionUuid: null,
     accessToken: null,
+    captchaUuid: null,
     isAccessChecked: false,
     isLockScreen: false,
     lockScreenPassword: undefined,
