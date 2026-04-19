@@ -1,7 +1,5 @@
 import type { VbenFormSchema } from '#/adapter/form';
 
-import { h } from 'vue';
-
 import { z } from '#/adapter/form';
 import { DictEnum, getDictOptions } from '#/utils/dict';
 
@@ -26,12 +24,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_LOCK_THRESHOLD',
     label: '密码错误锁定阈值',
-    description: () =>
-      h(
-        'div',
-        { class: 'text-xs' },
-        '用户连续登录失败达到此次数后将被锁定，0 表示禁用锁定',
-      ),
+    description: '用户连续登录失败达到此次数后将被锁定，0 表示禁用锁定',
     renderComponentContent: () => ({
       suffix: () => '次',
     }),
@@ -41,8 +34,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_LOCK_SECONDS',
     label: '密码错误锁定时长（秒）',
-    description: () =>
-      h('div', { class: 'text-xs' }, '用户被锁定后自动解锁的时间'),
+    description: '用户被锁定后自动解锁的时间',
     renderComponentContent: () => ({
       suffix: () => '秒',
     }),
@@ -52,8 +44,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_PASSWORD_EXPIRY_DAYS',
     label: '密码有效期（天）',
-    description: () =>
-      h('div', { class: 'text-xs' }, '密码强制修改周期，0 表示永不过期'),
+    description:  '密码强制修改周期，0 表示永不过期',
     renderComponentContent: () => ({
       suffix: () => '天',
     }),
@@ -63,12 +54,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_PASSWORD_REMINDER_DAYS',
     label: '密码到期提醒（天）',
-    description: () =>
-      h(
-        'div',
-        { class: 'text-xs' },
-        '密码到期前多少天提醒用户修改密码，0 表示不提醒',
-      ),
+    description: '密码到期前多少天提醒用户修改密码，0 表示不提醒',
     renderComponentContent: () => ({
       suffix: () => '天',
     }),
@@ -78,8 +64,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_PASSWORD_HISTORY_CHECK_COUNT',
     label: '密码历史检查次数',
-    description: () =>
-      h('div', { class: 'text-xs' }, '新密码不能与最近 N 次使用的密码相同'),
+    description: '新密码不能与最近 N 次使用的密码相同',
     renderComponentContent: () => ({
       suffix: () => '次',
     }),
@@ -145,7 +130,7 @@ export const loginSchema: VbenFormSchema[] = [
     defaultValue: 'true',
     fieldName: 'LOGIN_CAPTCHA_ENABLED',
     label: '验证码开关',
-    description: () => h('div', { class: 'text-xs' }, '是否启用登录验证码'),
+    description: '是否启用登录验证码',
     labelClass: 'float-left',
     rules: 'required',
   },

@@ -193,27 +193,17 @@ export const dictDataSchema: VbenFormSchema[] = [
     componentProps: {
       class: 'w-full',
       options: COLOR_OPTIONS,
-    },
-    renderComponentContent: () => ({
-      option: ({ value }: { value: any }) => {
-        const option = COLOR_OPTIONS.find((opt) => opt.value === value);
-        return option
-          ? h(
-              Tag,
-              {
-                color: value,
-              },
-              { default: () => option.label },
-            )
-          : h(
-              Tag,
-              {
-                color: value,
-              },
-              { default: () => value },
-            );
+      optionRender: ({
+        option,
+      }: {
+        option: { data?: { label?: string; value?: string } };
+      }) => {
+        const optionData = option?.data;
+        const color = optionData?.value || 'default';
+        const label = optionData?.label || color;
+        return h(Tag, { color }, { default: () => label });
       },
-    }),
+    },
     fieldName: 'color',
     label: '标签样式',
   },

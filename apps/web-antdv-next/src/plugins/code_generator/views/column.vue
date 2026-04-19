@@ -239,7 +239,7 @@ const [PreviewModal, previewModalApi] = useVbenModal({
   <Drawer title="业务模型列">
     <Grid />
     <template #extra>
-      <a-alert :show-icon="false" class="mr-3">
+      <a-alert :show-icon="false">
         <template #title>
           主键 ID 列状态：<a-tag color="success">自动生成</a-tag>
           默认时间列状态：
@@ -250,7 +250,7 @@ const [PreviewModal, previewModalApi] = useVbenModal({
           </a-tag>
         </template>
       </a-alert>
-      <VbenButton @click="modalApi.setData(null).open()">
+      <VbenButton @click="modalApi.setData(null).open()" class="ml-3">
         <MaterialSymbolsAdd class="size-5" />
         新增模型列
       </VbenButton>

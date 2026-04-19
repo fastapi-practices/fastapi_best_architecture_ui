@@ -36,7 +36,6 @@ const tabItems = [
 const clickRow = ref<number>(0);
 const defaultCheckedRoleMenuKeys = ref<number[]>([]);
 const checkStrictly = ref<boolean>(true);
-const defaultCheckedDataScopesKeys = ref<number[]>([]);
 
 const [Drawer, drawerApi] = useVbenDrawer({
   destroyOnClose: true,
@@ -180,7 +179,6 @@ const dataScopeGridOptions: VxeTableGridOptions<SysMenuTreeResult> = {
           getSysDataScopesApi(),
           getSysRoleDataScopesApi(clickRow.value),
         ]);
-        defaultCheckedDataScopesKeys.value = checkedKeys;
         dataScopeGridApi.setGridOptions({
           checkboxConfig: {
             checkRowKeys: checkedKeys,
@@ -237,17 +235,6 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
                 <a-radio-button :value="true">父子独立</a-radio-button>
                 <a-radio-button :value="false">父子联动</a-radio-button>
               </a-radio-group>
-              <a-alert class="mx-2 h-8" type="info">
-                <template #title>
-                  <div>
-                    已关联
-                    <span class="mx-1 font-semibold text-primary">
-                      {{ defaultCheckedRoleMenuKeys.length }}
-                    </span>
-                    个节点（非实时）
-                  </div>
-                </template>
-              </a-alert>
             </template>
             <template #toolbar-tools>
               <a-button class="mr-2" type="primary" @click="expandAll">
@@ -259,21 +246,7 @@ const [DataRuleDrawer, dataRuleDrawerApi] = useVbenDrawer({
         </template>
         <template v-else-if="item.key === '1'">
           <div class="h-[775px]">
-            <DataScopeGrid>
-              <template #toolbar-actions>
-                <a-alert class="h-8" type="info">
-                  <template #title>
-                    <div>
-                      已关联
-                      <span class="mx-1 font-semibold text-primary">
-                        {{ defaultCheckedDataScopesKeys.length }}
-                      </span>
-                      个数据范围节点（非实时）
-                    </div>
-                  </template>
-                </a-alert>
-              </template>
-            </DataScopeGrid>
+            <DataScopeGrid />
           </div>
         </template>
       </template>
