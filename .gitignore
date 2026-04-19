@@ -22,7 +22,7 @@ yarn.lock
 package-lock.json
 .VSCodeCounter
 **/backend-mock/data
-
+.omx
 # local env files
 .env.local
 .env.*.local
@@ -59,10 +59,10 @@ vite.config.ts.*
 skills-lock.json
 
 # 升级 vben 时需要删除的文件(夹)
+.changeset
 .github
 .vscode
-.changeset
-backend-mock
+apps/backend-mock
 apps/web-antd
 apps/web-ele
 apps/web-naive
