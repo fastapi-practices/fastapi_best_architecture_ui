@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { computed, reactive, ref, watch } from 'vue';
 
 import { Cron } from 'croner';
@@ -33,13 +32,7 @@ interface CronField {
   values: number[];
 }
 
-const CRON_FIELD_KEYS = [
-  'minute',
-  'hour',
-  'day',
-  'month',
-  'weekday',
-] as const;
+const CRON_FIELD_KEYS = ['minute', 'hour', 'day', 'month', 'weekday'] as const;
 
 type CronFieldKey = (typeof CRON_FIELD_KEYS)[number];
 
@@ -105,10 +98,7 @@ function expandCronPart(part: string): number[] {
   return values;
 }
 
-function parseCronPart(
-  key: CronFieldKey,
-  part: string,
-) {
+function parseCronPart(key: CronFieldKey, part: string) {
   if (part === '*') {
     cronBuilder[key].mode = 'all';
   } else if (part.startsWith('*/')) {
@@ -166,10 +156,7 @@ function applyPreset(expr: string) {
   parseCronExpression(expr);
 }
 
-function parseFieldString(
-  key: CronFieldKey,
-  val: string,
-) {
+function parseFieldString(key: CronFieldKey, val: string) {
   parseCronPart(key, val.trim() || '*');
 }
 

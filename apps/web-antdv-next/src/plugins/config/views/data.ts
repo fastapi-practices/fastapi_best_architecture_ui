@@ -44,7 +44,7 @@ export const userSecuritySchema: VbenFormSchema[] = [
     component: 'Input',
     fieldName: 'USER_PASSWORD_EXPIRY_DAYS',
     label: '密码有效期（天）',
-    description:  '密码强制修改周期，0 表示永不过期',
+    description: '密码强制修改周期，0 表示永不过期',
     renderComponentContent: () => ({
       suffix: () => '天',
     }),
