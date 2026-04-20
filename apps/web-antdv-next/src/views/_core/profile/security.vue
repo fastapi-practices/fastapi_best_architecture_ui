@@ -8,7 +8,6 @@ import type {
 import { computed } from 'vue';
 
 import { useVbenModal, VbenButton } from '@vben/common-ui';
-import { createIconifyIcon } from '@vben/icons';
 import { useUserStore } from '@vben/stores';
 
 import { message } from 'antdv-next';
