@@ -42,5 +42,8 @@
         "default": "./dist/index.mjs"
       }
     }
+  },
+  "dependencies": {
+    "@iconify/json": "catalog:"
   }
 }
