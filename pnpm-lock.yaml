@@ -39,6 +39,9 @@ catalogs:
     '@eslint/js':
       specifier: ^10.0.1
       version: 10.0.1
+    '@iconify/json':
+      specifier: ^2.2.460
+      version: 2.2.464
     '@iconify/tailwind4':
       specifier: ^1.2.3
       version: 1.2.3
@@ -173,7 +176,7 @@ catalogs:
       version: 7.0.1
     axios:
       specifier: ^1.15.0
-      version: 1.15.0
+      version: 1.15.1
     axios-mock-adapter:
       specifier: ^2.1.0
       version: 2.1.0
@@ -473,7 +476,7 @@ catalogs:
       version: 6.7.1
     vue-tsc:
       specifier: ^3.2.6
-      version: 3.2.6
+      version: 3.2.7
     vxe-pc-ui:
       specifier: ^4.13.21
       version: 4.13.24
@@ -587,7 +590,7 @@ importers:
         version: 4.2.2
       tsdown:
         specifier: 'catalog:'
-        version: 0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.6(typescript@6.0.3))
+        version: 0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.7(typescript@6.0.3))
       turbo:
         specifier: 'catalog:'
         version: 2.9.6
@@ -605,7 +608,7 @@ importers:
         version: 3.5.32(typescript@6.0.3)
       vue-tsc:
         specifier: 'catalog:'
-        version: 3.2.6(typescript@6.0.3)
+        version: 3.2.7(typescript@6.0.3)
 
   apps/web-antdv-next:
     dependencies:
@@ -954,7 +957,11 @@ importers:
         specifier: 'catalog:'
         version: 1.0.7
 
-  packages/@core/base/design: {}
+  packages/@core/base/design:
+    dependencies:
+      '@iconify/json':
+        specifier: 'catalog:'
+        version: 2.2.464
 
   packages/@core/base/icons:
     dependencies:
@@ -1327,7 +1334,7 @@ importers:
         version: 14.2.1(vue@3.5.32(typescript@6.0.3))
       '@vueuse/integrations':
         specifier: 'catalog:'
-        version: 14.2.1(axios@1.15.0)(change-case@5.4.4)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.7)(vue@3.5.32(typescript@6.0.3))
+        version: 14.2.1(axios@1.15.1)(change-case@5.4.4)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.7)(vue@3.5.32(typescript@6.0.3))
       json-bigint:
         specifier: 'catalog:'
         version: 1.0.0
@@ -1556,7 +1563,7 @@ importers:
         version: link:../../utils
       axios:
         specifier: 'catalog:'
-        version: 1.15.0
+        version: 1.15.1
       qs:
         specifier: 'catalog:'
         version: 6.15.1
@@ -1566,7 +1573,7 @@ importers:
         version: 6.15.0
       axios-mock-adapter:
         specifier: 'catalog:'
-        version: 2.1.0(axios@1.15.0)
+        version: 2.1.0(axios@1.15.1)
 
   packages/icons:
     dependencies:
@@ -3300,6 +3307,9 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
+  '@iconify/json@2.2.464':
+    resolution: {integrity: sha512-VSU7hPHuqqEwQk8Hmy+88iGmsL6KE2JAv1ZwxE0z50+JpymIzhZMHcuSrL2MOFtTDZQ4eJ7Ao9Hdm+TCctDwCQ==}
+
   '@iconify/tailwind4@1.2.3':
     resolution: {integrity: sha512-z8SKiMHRASJKF/IY//87MF88lcB7ulxh8vlhQXXLWsBkNtOh6ese9R41MyGpQeqXdRvQVt+/fX2glQtHFjQ+MA==}
     peerDependencies:
@@ -4999,8 +5009,8 @@ packages:
     peerDependencies:
       vue: ^3.5.32
 
-  '@v-c/drawer@1.0.5':
-    resolution: {integrity: sha512-CqOQIm0RTtbQX6rqS2RN9O197URtyyBKo5WitVL2Ta9GdTp/IhmD9INfjrgbTN9UO1fJjGK6jHoBNRXXLtYI4g==}
+  '@v-c/drawer@1.0.6':
+    resolution: {integrity: sha512-nW8rCsf7viUsTo+8SAfqcNDO4B0GC4n2VidHV4kJzbERrMvMsHVpDz1LO+UFgLs8Mn9EjpQm40JtF6d/BNkW0g==}
     peerDependencies:
       vue: ^3.5.32
 
@@ -5009,8 +5019,8 @@ packages:
     peerDependencies:
       vue: ^3.5.32
 
-  '@v-c/image@1.0.10':
-    resolution: {integrity: sha512-rcFtfsmoZJrQoax+Y2rTxp60HcClNfPFrtwQCF8MAlCtkt+Z4wnavLikixW4H1QwJ1V8GOb4tPRjSUZslaU2xg==}
+  '@v-c/image@1.0.11':
+    resolution: {integrity: sha512-BkvIkEcP2M25fvNCEMcWX7hk+gFtk6Vg6V08wtoQZmvt/0shl3uS5q+4/NxJFOOjtMzWAkmGreRcqzfsOE/ptw==}
     peerDependencies:
       vue: ^3.5.32
 
@@ -5160,8 +5170,8 @@ packages:
     peerDependencies:
       vue: ^3.5.32
 
-  '@v-c/tree@1.0.5':
-    resolution: {integrity: sha512-u6tja/kV9mupXWhFT+RtLUVqhCvNtb7LHuKkh4pka8sy5goQ7MjIODciuXn8mizIlEw3rGopq7C7auC9Sg1K8w==}
+  '@v-c/tree@1.0.6':
+    resolution: {integrity: sha512-NrFtKD4DmUM/4GyBWYQuAJkgDfOhlBUV6Z4slleGj4yxmwU3fRBvoDYVNtrqfP8GmNRY/9IHA8c2FfidvKys8g==}
     peerDependencies:
       vue: ^3.5.32
 
@@ -5337,8 +5347,8 @@ packages:
   '@vue/devtools-shared@8.1.1':
     resolution: {integrity: sha512-+h4ttmJYl/txpxHKaoZcaKpC+pvckgLzIDiSQlaQ7kKthKh8KuwoLW2D8hPJEnqKzXOvu15UHEoGyngAXCz0EQ==}
 
-  '@vue/language-core@3.2.6':
-    resolution: {integrity: sha512-xYYYX3/aVup576tP/23sEUpgiEnujrENaoNRbaozC1/MA9I6EGFQRJb4xrt/MmUCAGlxTKL2RmT8JLTPqagCkg==}
+  '@vue/language-core@3.2.7':
+    resolution: {integrity: sha512-Gn4q/tRxbpVGLEuARQ43p3YELlNAFgRUVCgW9U5Cr+5q4vfD2bWDWpl3ABbJMXUt5xlE1dF8dkigg2aUq7JYYw==}
 
   '@vue/reactivity@3.5.32':
     resolution: {integrity: sha512-/ORasxSGvZ6MN5gc+uE364SxFdJ0+WqVG0CENXaGW58TOCdrAW76WWaplDtECeS1qphvtBZtR+3/o1g1zL4xPQ==}
@@ -5609,8 +5619,8 @@ packages:
     peerDependencies:
       axios: '>= 0.17.0'
 
-  axios@1.15.0:
-    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
+  axios@1.15.1:
+    resolution: {integrity: sha512-WOG+Jj8ZOvR0a3rAn+Tuf1UQJRxw5venr6DgdbJzngJE3qG7X0kL83CZGpdHMxEm+ZK3seAbvFsw4FfOfP9vxg==}
 
   b4a@1.8.0:
     resolution: {integrity: sha512-qRuSmNSkGQaHwNbM7J78Wwy+ghLEYF1zNrSeMxj4Kgw6y33O3mXcQ6Ie9fRvfU/YnxWkOchPXbaLb73TkIsfdg==}
@@ -9306,8 +9316,8 @@ packages:
     engines: {node: '>=20.19.0'}
     hasBin: true
 
-  stylis@4.3.6:
-    resolution: {integrity: sha512-yQ3rwFWRfwNUY7H5vpU0wfdkNSnvnJinhF9830Swlaxl03zsOjCfmX0ugac+3LtK0lYSgwL/KXc8oYL3mG4YFQ==}
+  stylis@4.4.0:
+    resolution: {integrity: sha512-5Z9ZpRzfuH6l/UAvCPAPUo3665Nk2wLaZU3x+TLHKVzIz33+sbJqbtrYoC3KD4/uVOr2Zp+L0LySezP9OHV9yA==}
 
   superjson@2.2.6:
     resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
@@ -10025,8 +10035,8 @@ packages:
     peerDependencies:
       vue: ^3.5.32
 
-  vue-tsc@3.2.6:
-    resolution: {integrity: sha512-gYW/kWI0XrwGzd0PKc7tVB/qpdeAkIZLNZb10/InizkQjHjnT8weZ/vBarZoj4kHKbUTZT/bAVgoOr8x4NsQ/Q==}
+  vue-tsc@3.2.7:
+    resolution: {integrity: sha512-zc1tL3HoQni1zGTGrwBVRQb7rGP5SWdu/m4rGB6JcnAC5MT5LFZIxF7Y+EJEnt4hGF23d60rXH7gRjHGb5KQQQ==}
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
@@ -10379,7 +10389,7 @@ snapshots:
       '@emotion/unitless': 0.7.5
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       csstype: 3.2.3
-      stylis: 4.3.6
+      stylis: 4.4.0
       vue: 3.5.32(typescript@6.0.3)
 
   '@antdv-next/icons@1.0.6(vue@3.5.32(typescript@6.0.3))':
@@ -12260,6 +12270,11 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
+  '@iconify/json@2.2.464':
+    dependencies:
+      '@iconify/types': 2.0.0
+      pathe: 2.0.3
+
   '@iconify/tailwind4@1.2.3(tailwindcss@4.2.2)':
     dependencies:
       '@iconify/tools': 5.0.11
@@ -13494,7 +13509,7 @@ snapshots:
       lightningcss: 1.32.0
       postcss-load-config: 6.0.1(jiti@2.6.1)(postcss@8.5.10)(yaml@2.8.3)
       rolldown: 1.0.0-rc.16
-      tsdown: 0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.6(typescript@6.0.3))
+      tsdown: 0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.7(typescript@6.0.3))
     optionalDependencies:
       postcss: 8.5.10
       sass: 1.99.0
@@ -13713,7 +13728,7 @@ snapshots:
   '@v-c/cascader@1.0.3(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@v-c/select': 1.0.20(vue@3.5.32(typescript@6.0.3))
-      '@v-c/tree': 1.0.5(vue@3.5.32(typescript@6.0.3))
+      '@v-c/tree': 1.0.6(vue@3.5.32(typescript@6.0.3))
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
 
@@ -13739,7 +13754,7 @@ snapshots:
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
 
-  '@v-c/drawer@1.0.5(vue@3.5.32(typescript@6.0.3))':
+  '@v-c/drawer@1.0.6(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@v-c/portal': 1.0.8(vue@3.5.32(typescript@6.0.3))
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
@@ -13751,7 +13766,7 @@ snapshots:
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
 
-  '@v-c/image@1.0.10(vue@3.5.32(typescript@6.0.3))':
+  '@v-c/image@1.0.11(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@v-c/portal': 1.0.8(vue@3.5.32(typescript@6.0.3))
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
@@ -13918,11 +13933,11 @@ snapshots:
   '@v-c/tree-select@1.0.3(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@v-c/select': 1.0.20(vue@3.5.32(typescript@6.0.3))
-      '@v-c/tree': 1.0.5(vue@3.5.32(typescript@6.0.3))
+      '@v-c/tree': 1.0.6(vue@3.5.32(typescript@6.0.3))
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
 
-  '@v-c/tree@1.0.5(vue@3.5.32(typescript@6.0.3))':
+  '@v-c/tree@1.0.6(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@v-c/util': 1.0.19(vue@3.5.32(typescript@6.0.3))
       '@v-c/virtual-list': 1.0.7(vue@3.5.32(typescript@6.0.3))
@@ -14193,7 +14208,7 @@ snapshots:
 
   '@vue/devtools-shared@8.1.1': {}
 
-  '@vue/language-core@3.2.6':
+  '@vue/language-core@3.2.7':
     dependencies:
       '@volar/language-core': 2.4.28
       '@vue/compiler-dom': 3.5.32
@@ -14246,13 +14261,13 @@ snapshots:
       '@vueuse/shared': 14.2.1(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
 
-  '@vueuse/integrations@14.2.1(axios@1.15.0)(change-case@5.4.4)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.7)(vue@3.5.32(typescript@6.0.3))':
+  '@vueuse/integrations@14.2.1(axios@1.15.1)(change-case@5.4.4)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.7)(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@vueuse/core': 14.2.1(vue@3.5.32(typescript@6.0.3))
       '@vueuse/shared': 14.2.1(vue@3.5.32(typescript@6.0.3))
       vue: 3.5.32(typescript@6.0.3)
     optionalDependencies:
-      axios: 1.15.0
+      axios: 1.15.1
       change-case: 5.4.4
       nprogress: 0.2.0
       qrcode: 1.5.4
@@ -14360,9 +14375,9 @@ snapshots:
       '@v-c/collapse': 1.0.0(vue@3.5.32(typescript@6.0.3))
       '@v-c/color-picker': 1.0.6(vue@3.5.32(typescript@6.0.3))
       '@v-c/dialog': 1.0.3(vue@3.5.32(typescript@6.0.3))
-      '@v-c/drawer': 1.0.5(vue@3.5.32(typescript@6.0.3))
+      '@v-c/drawer': 1.0.6(vue@3.5.32(typescript@6.0.3))
       '@v-c/dropdown': 1.0.2(vue@3.5.32(typescript@6.0.3))
-      '@v-c/image': 1.0.10(vue@3.5.32(typescript@6.0.3))
+      '@v-c/image': 1.0.11(vue@3.5.32(typescript@6.0.3))
       '@v-c/input': 1.0.3(vue@3.5.32(typescript@6.0.3))
       '@v-c/input-number': 1.0.5(vue@3.5.32(typescript@6.0.3))
       '@v-c/mentions': 1.0.0(vue@3.5.32(typescript@6.0.3))
@@ -14386,7 +14401,7 @@ snapshots:
       '@v-c/textarea': 1.0.4(vue@3.5.32(typescript@6.0.3))
       '@v-c/tooltip': 1.0.3(vue@3.5.32(typescript@6.0.3))
       '@v-c/tour': 1.0.3(vue@3.5.32(typescript@6.0.3))
-      '@v-c/tree': 1.0.5(vue@3.5.32(typescript@6.0.3))
+      '@v-c/tree': 1.0.6(vue@3.5.32(typescript@6.0.3))
       '@v-c/tree-select': 1.0.3(vue@3.5.32(typescript@6.0.3))
       '@v-c/trigger': 1.0.14(vue@3.5.32(typescript@6.0.3))
       '@v-c/upload': 1.0.0(vue@3.5.32(typescript@6.0.3))
@@ -14506,13 +14521,13 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios-mock-adapter@2.1.0(axios@1.15.0):
+  axios-mock-adapter@2.1.0(axios@1.15.1):
     dependencies:
-      axios: 1.15.0
+      axios: 1.15.1
       fast-deep-equal: 3.1.3
       is-buffer: 2.0.5
 
-  axios@1.15.0:
+  axios@1.15.1:
     dependencies:
       follow-redirects: 1.16.0
       form-data: 4.0.5
@@ -17914,7 +17929,7 @@ snapshots:
       glob: 13.0.6
       package-json-from-dist: 1.0.1
 
-  rolldown-plugin-dts@0.23.2(rolldown@1.0.0-rc.16)(typescript@6.0.3)(vue-tsc@3.2.6(typescript@6.0.3)):
+  rolldown-plugin-dts@0.23.2(rolldown@1.0.0-rc.16)(typescript@6.0.3)(vue-tsc@3.2.7(typescript@6.0.3)):
     dependencies:
       '@babel/generator': 8.0.0-rc.3
       '@babel/helper-validator-identifier': 8.0.0-rc.3
@@ -17929,7 +17944,7 @@ snapshots:
       rolldown: 1.0.0-rc.16
     optionalDependencies:
       typescript: 6.0.3
-      vue-tsc: 3.2.6(typescript@6.0.3)
+      vue-tsc: 3.2.7(typescript@6.0.3)
     transitivePeerDependencies:
       - oxc-resolver
 
@@ -18593,7 +18608,7 @@ snapshots:
       - supports-color
       - typescript
 
-  stylis@4.3.6: {}
+  stylis@4.4.0: {}
 
   superjson@2.2.6:
     dependencies:
@@ -18771,7 +18786,7 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tsdown@0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.6(typescript@6.0.3)):
+  tsdown@0.21.9(@tsdown/css@0.21.9)(publint@0.3.18)(synckit@0.11.12)(typescript@6.0.3)(vue-tsc@3.2.7(typescript@6.0.3)):
     dependencies:
       ansis: 4.2.0
       cac: 7.0.0
@@ -18782,7 +18797,7 @@ snapshots:
       obug: 2.1.1
       picomatch: 4.0.4
       rolldown: 1.0.0-rc.16
-      rolldown-plugin-dts: 0.23.2(rolldown@1.0.0-rc.16)(typescript@6.0.3)(vue-tsc@3.2.6(typescript@6.0.3))
+      rolldown-plugin-dts: 0.23.2(rolldown@1.0.0-rc.16)(typescript@6.0.3)(vue-tsc@3.2.7(typescript@6.0.3))
       semver: 7.7.4
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
@@ -19291,10 +19306,10 @@ snapshots:
       tippy.js: 6.3.7
       vue: 3.5.32(typescript@6.0.3)
 
-  vue-tsc@3.2.6(typescript@6.0.3):
+  vue-tsc@3.2.7(typescript@6.0.3):
     dependencies:
       '@volar/typescript': 2.4.28
-      '@vue/language-core': 3.2.6
+      '@vue/language-core': 3.2.7
       typescript: 6.0.3
 
   vue@3.5.32(typescript@6.0.3):
